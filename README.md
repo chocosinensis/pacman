@@ -1,14 +1,19 @@
 # pacman
 
-POOKIEEEEE~ 😭😭😭
-
 Implementation of Pacman using raylib for level 1 term 1.
 
 Authors: Alvee - 2505091, Supro - 2505098
+POOKIEEEEE~ 😭😭😭
 
 ### Code instructions
 
 **Only write code within the `src/` directory.**
+
+```
+Constants : src/constants.h
+Core game logic : src/game.h
+```
+
 All the other directories are for maintenance.
 
 ### Git instructions
