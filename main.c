@@ -1,8 +1,7 @@
-#include "raylib.h"
 #include "./src/imports.h"
 
 int main(void) {
-  InitWindow(800, 600, "Game");
+  InitWindow(WIDTH, HEIGHT, TITLE);
   SetTargetFPS(60);
 
   while (!WindowShouldClose()) {
