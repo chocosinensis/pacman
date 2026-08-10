@@ -1,0 +1,68 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "Build Raylib App",
+      "command": "gcc",
+      "args": [
+        "-g",
+        "${file}",
+        "-I${workspaceFolder}/raylib/raylib-6.0_linux_amd64/include",
+        "${workspaceFolder}/raylib/raylib-6.0_linux_amd64/lib/libraylib.a",
+        "-lGL",
+        "-lm",
+        "-lpthread",
+        "-ldl",
+        "-lrt",
+        "-lX11",
+        "-o",
+        "${workspaceFolder}/${fileBasenameNoExtension}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "windows": {
+        "args": [
+          "-g",
+          "${file}",
+          "-I${workspaceFolder}/raylib/raylib-6.0_win64_mingw-w64/include",
+          "${workspaceFolder}/raylib/raylib-6.0_win64_mingw-w64/lib/libraylib.a",
+          "-lopengl32",
+          "-lgdi32",
+          "-lwinmm",
+          "-Wl,--defsym,stat64i32=_stat64",
+          "-o",
+          "${workspaceFolder}/${fileBasenameNoExtension}.exe"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder}",
+          "shell": {
+            "executable": "cmd.exe",
+            "args": ["/d", "/c"]
+          }
+        }
+      },
+      "osx": {
+        "args": [
+          "-g",
+          "${file}",
+          "-I${workspaceFolder}/raylib/raylib-6.0_macos/include",
+          "${workspaceFolder}/raylib/raylib-6.0_macos/lib/libraylib.a",
+          "-framework", "OpenGL",
+          "-framework", "Cocoa",
+          "-framework", "IOKit",
+          "-framework", "CoreAudio",
+          "-framework", "CoreVideo",
+          "-o",
+          "${workspaceFolder}/${fileBasenameNoExtension}"
+        ]
+      },
+      "problemMatcher": ["$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

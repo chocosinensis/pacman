@@ -1,0 +1,34 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Raylib App",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/${fileBasenameNoExtension}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "windows": {
+        "program": "${workspaceFolder}/${fileBasenameNoExtension}.exe",
+        "miDebuggerPath": "gdb.exe"
+      },
+      "osx": {
+        "MIMode": "lldb",
+        "miDebuggerPath": "lldb-mi"
+      },
+      "preLaunchTask": "Build Raylib App"
+    }
+  ]
+}

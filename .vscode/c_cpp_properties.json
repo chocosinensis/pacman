@@ -1,0 +1,46 @@
+{
+  "configurations": [
+    {
+      "name": "Win32",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/raylib/raylib-6.0_win64_mingw-w64/include"
+      ],
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "compilerPath": "gcc",
+      "cStandard": "c11",
+      "intelliSenseMode": "windows-gcc-x64"
+    },
+    {
+      "name": "Linux",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/raylib/raylib-6.0_linux_amd64/include"
+      ],
+      "defines": [
+        "_DEBUG"
+      ],
+      "compilerPath": "gcc",
+      "cStandard": "c11",
+      "intelliSenseMode": "linux-gcc-x64"
+    },
+    {
+      "name": "Mac",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/raylib/raylib-6.0_macos/include"
+      ],
+      "defines": [
+        "_DEBUG"
+      ],
+      "compilerPath": "gcc",
+      "cStandard": "c11",
+      "intelliSenseMode": "macos-clang-x64"
+    }
+  ],
+  "version": 4
+}
