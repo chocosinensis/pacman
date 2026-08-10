@@ -13,8 +13,6 @@ All the other directories are for maintenance.
 
 Using github, pull (download) the repository
 ```sh
-```
-```
 git pull origin main
 ```
 
