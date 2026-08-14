@@ -8,6 +8,9 @@
 #define AUDIO_EXTRAPAC 5
 #define AUDIO_INTERMISSION 6
 
+// TODO: Divide spritesheet into segments
+// AND the maze into regions
+
 Texture2D characters;
 Texture2D emptyMaze;
 Texture2D filledMaze;

@@ -10,9 +10,10 @@ void CoreLogic() {
       Vector2Zero(), 0, WHITE
     );
 
-    if (!gameStarted && !beginningAudioPlayed) {
+    // if (!gameStarted) DrawText("READY!", 190, 200, 20, YELLOW);
+    if (!gameStarted && !beginning) {
       PlaySound(audios[AUDIO_BEGINNING]);
-      beginningAudioPlayed = true;
+      beginning = true;
     }
 
     EndDrawing();

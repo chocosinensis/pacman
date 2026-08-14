@@ -1,3 +1,3 @@
 bool gameStarted = false;
-bool beginningAudioPlayed = false;
+bool beginning = false;
 
