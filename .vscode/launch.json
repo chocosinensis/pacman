@@ -29,6 +29,14 @@
         "miDebuggerPath": "lldb-mi"
       },
       "preLaunchTask": "Build Raylib App"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/dirayatahmedsupro/pacman/src",
+      "program": "/Users/dirayatahmedsupro/pacman/src/build/Debug/outDebug"
     }
   ]
 }

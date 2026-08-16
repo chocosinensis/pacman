@@ -1,19 +1,19 @@
 {
   "configurations": [
     {
-      "name": "Win32",
+      "name": "macos-clang-arm64",
       "includePath": [
-        "${workspaceFolder}/**",
-        "${workspaceFolder}/raylib/raylib-6.0_win64_mingw-w64/include"
+        "${workspaceFolder}/**"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "gcc",
-      "cStandard": "c11",
-      "intelliSenseMode": "windows-gcc-x64"
+      "compilerPath": "/usr/bin/clang",
+      "cStandard": "${default}",
+      "intelliSenseMode": "macos-clang-arm64",
+      "cppStandard": "${default}"
     },
     {
       "name": "Linux",

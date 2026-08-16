@@ -46,16 +46,17 @@
       "osx": {
         "args": [
           "-g",
-          "${file}",
-          "-I${workspaceFolder}/raylib/raylib-6.0_macos/include",
-          "${workspaceFolder}/raylib/raylib-6.0_macos/lib/libraylib.a",
+          "${workspaceFolder}/main.c",
+          "-I/opt/homebrew/include",
+          "-L/opt/homebrew/lib",
+          "-lraylib",
           "-framework", "OpenGL",
           "-framework", "Cocoa",
           "-framework", "IOKit",
           "-framework", "CoreAudio",
           "-framework", "CoreVideo",
           "-o",
-          "${workspaceFolder}/${fileBasenameNoExtension}"
+          "${workspaceFolder}/main"
         ]
       },
       "problemMatcher": ["$gcc"],
