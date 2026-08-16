@@ -2,6 +2,7 @@
 build/*
 build/app
 !build/.gitkeep
+main
 
 # Prerequisites
 *.d
