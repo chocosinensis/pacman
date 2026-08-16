@@ -1,5 +1,6 @@
 bool gameStarted = false;
 bool beginning = false;
+bool gamePaused = true;
 
 int direction = S_LEFT;
 
