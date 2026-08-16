@@ -17,7 +17,7 @@ void CoreLogic() {
     if (GetKeyPressed() != 0) gameStarted = 1;
     if (!gameStarted) DrawText("READY!", GRID_LENGTH * 12.1, GRID_LENGTH * 20, 30, YELLOW);
     if (!gameStarted && !beginning) {
-      // PlaySound(audios[AUDIO_BEGINNING]);
+      PlaySound(audios[AUDIO_BEGINNING]);
       beginning = true;
     }
 

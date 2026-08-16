@@ -5,7 +5,6 @@ int direction = S_LEFT;
 
 void DrawPacman(int x, int y, int direction, int index) {
   Vector2 pc = getSpriteDirection(pacman, direction);
-  printf("%d\n", index);
   DrawTexturePro(
     characters,
     (Rectangle) { pc.x + (index * UNIT_SPRITE_LENGTH), pc.y, UNIT_SPRITE_LENGTH, UNIT_SPRITE_LENGTH },
