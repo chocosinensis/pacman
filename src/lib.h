@@ -23,6 +23,9 @@ void InitAudios();
 void UnloadTextures();
 void UnloadAudios();
 
+// gridwall.h
+bool IsWall(float x, float y);
+
 // util.h
 int setDirection(int *p_direction);
 Vector2 makeSprite(int x, int y);

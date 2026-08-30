@@ -1,20 +1,21 @@
 void CoreLogic() {
   int pacmanIndex = 2;
-  Vector2 pacmanPosition = { (float)GRID_LENGTH * 13.5, (float)GRID_LENGTH * 26.0 };
+  Vector2 pacmanPosition = { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
+
   while (!WindowShouldClose()) {
     float dt = GetFrameTime();
 
     BeginDrawing();
     ClearBackground(BLACK);
 
-    int inputDirection = setDirection(&direction);
+    int inputDirection = direction;
 
     DrawTexturePro(
-    emptyMaze,
-    (Rectangle) { 0, 0, emptyMaze.width, emptyMaze.height },
-    (Rectangle) { 0, GRID_LENGTH * 3, WIDTH, GRID_LENGTH * 31 },
-    Vector2Zero(), 0, WHITE
-);
+      emptyMaze,
+      (Rectangle) { 0, 0, emptyMaze.width, emptyMaze.height },
+      (Rectangle) { 0, GRID_LENGTH * 3, WIDTH, GRID_LENGTH * 31 },
+      Vector2Zero(), 0, WHITE
+    );
 
     if (GetKeyPressed() != 0) {
       gameStarted = true;
@@ -43,19 +44,21 @@ void CoreLogic() {
       if (inputDirection == S_UP) nextPos.y -= SPEED * dt;
       if (inputDirection == S_DOWN) nextPos.y += SPEED * dt;
 
-      //Corner check
-      float margin = 4.0;
-      float size = (float)GRID_LENGTH - margin;
+      // Corner check
+      float margin = 3.0;
+      float size = (float) GRID_LENGTH - margin;
 
-      bool hitWall = 
-          IsWall(nextPos.x + margin, nextPos.y + margin) ||
-          IsWall(nextPos.x + size,   nextPos.y + margin) ||
-          IsWall(nextPos.x + margin, nextPos.y + size)   ||
-          IsWall(nextPos.x + size,   nextPos.y + size);
+      bool hitWall =
+        IsWall(nextPos.x + margin, nextPos.y + margin) ||
+        IsWall(nextPos.x + size,   nextPos.y + margin) ||
+        IsWall(nextPos.x + margin, nextPos.y + size)   ||
+        IsWall(nextPos.x + size,   nextPos.y + size);
 
       if (!hitWall) {
-          pacmanPosition = nextPos;
-      }
+        pacmanPosition = nextPos;
+      } // else 
+        // TODO: Implement wall collision perfectly
+        inputDirection = setDirection(&direction);
 
       pacmanIndex = (int) (GetTime() / 0.075) % pacman.sprites;
     } else pacmanIndex = 2;
@@ -64,10 +67,6 @@ void CoreLogic() {
     // PACMAN BARE COLLISION
     if (pacmanPosition.x < -GRID_LENGTH) pacmanPosition.x = WIDTH;
     if (pacmanPosition.x > WIDTH) pacmanPosition.x = -GRID_LENGTH;
-    int upperwall = 4;
-    int lowerwall = 3 + 29;
-    if (pacmanPosition.y < GRID_LENGTH * upperwall) pacmanPosition.y = GRID_LENGTH * upperwall;
-    if (pacmanPosition.y > GRID_LENGTH * lowerwall) pacmanPosition.y = GRID_LENGTH * lowerwall;
 
     DrawPacman(pacmanPosition.x, pacmanPosition.y, inputDirection, pacmanIndex);
 
