@@ -2,6 +2,7 @@ void CoreLogic() {
   int pacmanIndex = 2;
   Vector2 pacmanPosition = { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
 
+  InitGameState();
   while (!WindowShouldClose()) {
     float dt = GetFrameTime();
 
@@ -16,6 +17,19 @@ void CoreLogic() {
       (Rectangle) { 0, GRID_LENGTH * 3, WIDTH, GRID_LENGTH * 31 },
       Vector2Zero(), 0, WHITE
     );
+
+    //Score at top
+    DrawText(TextFormat("1UP  %04d", currentScore), GRID_LENGTH * 3, GRID_LENGTH * 1, 20, WHITE);
+    DrawText(TextFormat("HIGH %04d", highScore), GRID_LENGTH * 19.5, GRID_LENGTH * 1, 20, WHITE);
+
+    //Hearts at bottom(ironic)
+    for (int i = 0; i < lives; i++) {
+    float lifeX = (GRID_LENGTH * 2) + (i * GRID_LENGTH * 1.5f);
+    float lifeY = GRID_LENGTH * 34.5;
+
+
+    DrawPacman(lifeX, lifeY, S_LEFT, 0);
+    }
 
     if (GetKeyPressed() != 0) {
       gameStarted = true;
@@ -36,6 +50,17 @@ void CoreLogic() {
     if (PAUSE) gamePaused = !gamePaused;
     if (gameStarted && !gamePaused) {
       if (!IsSoundPlaying(audios[AUDIO_CHOMP])) PlaySound(audios[AUDIO_CHOMP]);
+
+      // Red square debug,  DELETE KORTE HOBEEE PORE
+for (int y = 0; y < GRID_HEIGHT; y++) {
+    for (int x = 0; x < GRID_WIDTH; x++) {
+        // Render world position taking into account the 3-tile top offset
+        float worldY = (y * GRID_LENGTH); 
+        if (IsWall(x * GRID_LENGTH + 2, worldY + 2)) {
+            DrawRectangleLines(x * GRID_LENGTH, worldY, GRID_LENGTH, GRID_LENGTH, RED);
+        }
+    }
+}
 
       // PACMAN MOVEMENT
       Vector2 nextPos = pacmanPosition;

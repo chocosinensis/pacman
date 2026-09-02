@@ -4,6 +4,28 @@ bool gamePaused = true;
 
 int direction = S_LEFT;
 
+int currentScore = 0;
+int highScore = 0;
+int lives = MAX_LIVES;
+
+void InitGameState(void) {
+    currentScore = 0;
+    lives = MAX_LIVES;
+}
+
+void AddScore(int points) {
+    currentScore += points;
+    if (currentScore > highScore) {
+        highScore = currentScore;
+    }
+}
+
+void LoseLife(void) {
+    if (lives > 0) {
+        lives--;
+    }
+}
+
 void DrawPacman(int x, int y, int direction, int index) {
   Vector2 pc = getSpriteDirection(pacman, direction);
   DrawTexturePro(
