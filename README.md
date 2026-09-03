@@ -5,6 +5,8 @@ Implementation of Pacman using raylib for level 1 term 1.
 Authors: Alvee - 2505091, Supro - 2505098
 POOKIEEEEE~ 😭😭😭
 
+ALWAYS SAY `pull nga` ~ supro
+
 ### Code instructions
 
 **Only write code within the `src/` directory.**
