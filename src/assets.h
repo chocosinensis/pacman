@@ -1,4 +1,4 @@
-#define AUDIO_LENGTH 7
+#define AUDIO_LENGTH 8
 
 #define AUDIO_START 0
 #define AUDIO_SIREN 1
@@ -6,7 +6,8 @@
 #define AUDIO_FRIGHT 3
 #define AUDIO_EYES 4
 #define AUDIO_EATGHOST 5
-#define AUDIO_DEATH 6
+#define AUDIO_EATFRUIT 6
+#define AUDIO_DEATH 7
 
 #define SPRITE_X 14
 #define SPRITE_Y 13
