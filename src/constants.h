@@ -3,7 +3,7 @@
 #define GRID_WIDTH 28
 #define GRID_HEIGHT 36
 
-#define SPEED 300
+#define SPEED (300 * GRID_LENGTH / 25)
 
 #define WIDTH (GRID_WIDTH * GRID_LENGTH)
 #define HEIGHT (GRID_HEIGHT * GRID_LENGTH)
@@ -18,7 +18,7 @@
 #define DOWN (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S))
 #define UP (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
 #define RIGHT (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))
-#define PAUSE IsKeyPressed(KEY_SPACE)
+#define PAUSE (IsKeyPressed(KEY_SPACE))
 
 #define LENGTH(arr) (sizeof(arr) / sizeof(arr[0]))
 

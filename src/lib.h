@@ -20,11 +20,16 @@ void Game();
 void InitTextures();
 Sound InitAudio(int idx);
 void InitAudios();
+void DrawOrbs();
+void DrawBlorbs();
 void UnloadTextures();
 void UnloadAudios();
 
 // gridwall.h
+bool IsCollidable(float x, float y, int object);
 bool IsWall(float x, float y);
+bool IsOrb(float x, float y);
+bool IsBlorb(float x, float y);
 
 // util.h
 int setDirection(int *p_direction);
@@ -39,5 +44,11 @@ Character newCharacter(
 );
 
 // game_state.h
+void InitGameState();
+void AddScore(int points);
+void LoseLife();
+
+// player.h
 void DrawPacman(int x, int y, int direction, int index);
+void EatPellet(float x, float y, int *score);
 

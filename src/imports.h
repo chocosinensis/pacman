@@ -1,8 +1,10 @@
 #include "./lib.h"
+#include "./debug.h"
 #include "./constants.h"
 #include "./gridwall.h"
 #include "./assets.h"
 #include "./util.h"
 #include "./game_state.h"
+#include "./player.h"
 #include "./game.h"
 

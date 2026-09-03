@@ -1,16 +1,18 @@
 #define AUDIO_LENGTH 7
 
-#define AUDIO_BEGINNING 0
-#define AUDIO_CHOMP 1
-#define AUDIO_DEATH 2
-#define AUDIO_EATFRUIT 3
-#define AUDIO_EATGHOST 4
-#define AUDIO_EXTRAPAC 5
-#define AUDIO_INTERMISSION 6
+#define AUDIO_START 0
+#define AUDIO_SIREN 1
+#define AUDIO_EATDOT 2
+#define AUDIO_FRIGHT 3
+#define AUDIO_EYES 4
+#define AUDIO_EATGHOST 5
+#define AUDIO_DEATH 6
 
 #define SPRITE_X 14
 #define SPRITE_Y 13
 #define UNIT_SPRITE_LENGTH 56
+
+#define PELLET_COLOR 0xffb6adff
 
 #define S_RIGHT 0
 #define S_LEFT 1
@@ -28,7 +30,7 @@ Character inky;
 Character clyde;
 Vector2 fruit;
 
-const char *audio_names[] = { "beginning", "chomp", "death", "eatfruit", "eatghost", "extrapac", "intermission" };
+const char *audio_names[] = { "start", "siren", "eatdot", "fright", "eyes", "eat_ghost", "eat_fruit", "death" };
 Sound audios[AUDIO_LENGTH];
 
 void InitTextures() {
@@ -45,12 +47,41 @@ void InitTextures() {
 }
 Sound InitAudio(int idx) {
   char path[50];
-  sprintf(path, "assets/audio/pacman_%s.wav", audio_names[idx]);
+  sprintf(path, "assets/audio/%02d_%s.wav", idx, audio_names[idx]);
   return LoadSound(path);
 }
 void InitAudios() {
   for (int i = 0; i < LENGTH(audios); i++)
     audios[i] = InitAudio(i);
+}
+
+void DrawOrbs() {
+  int l = GRID_LENGTH / 5;
+  int offset = (GRID_LENGTH - l) / 2;
+  for (int i = 0; i < GRID_HEIGHT; i++) {
+    for (int j = 0; j < GRID_WIDTH; j++) {
+      if (MAP[i][j] != ORB) continue;
+
+      DrawRectangle(
+        j * GRID_LENGTH + offset, i * GRID_LENGTH + offset,
+        l, l, GetColor(PELLET_COLOR)
+      );
+    }
+  }
+}
+void DrawBlorbs() {
+  int r = GRID_LENGTH / 3;
+  int offset = GRID_LENGTH / 2;
+  for (int i = 0; i < GRID_HEIGHT; i++) {
+    for (int j = 0; j < GRID_WIDTH; j++) {
+      if (MAP[i][j] != BLORB) continue;
+
+      DrawCircle(
+        j * GRID_LENGTH + offset, i * GRID_LENGTH + offset,
+        r, GetColor(PELLET_COLOR)
+      );
+    }
+  }
 }
 
 void UnloadTextures() {
