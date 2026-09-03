@@ -1,9 +1,16 @@
-int setDirection(int *p_direction) {
-  if (LEFT) *p_direction = S_LEFT;
-  if (DOWN) *p_direction = S_DOWN;
-  if (UP) *p_direction = S_UP;
-  if (RIGHT) *p_direction = S_RIGHT;
-  return *p_direction;
+int setDirection(int *direction) {
+  if (!changeDirection) {
+    if (LEFT && *direction == S_RIGHT) *direction = S_LEFT;
+    if (DOWN && *direction == S_UP) *direction = S_DOWN;
+    if (UP && *direction == S_DOWN) *direction = S_UP;
+    if (RIGHT && *direction == S_LEFT) *direction = S_RIGHT;
+  } else {
+    if (LEFT) *direction = S_LEFT;
+    if (DOWN) *direction = S_DOWN;
+    if (UP) *direction = S_UP;
+    if (RIGHT) *direction = S_RIGHT;
+  }
+  return *direction;
 }
 
 Vector2 makeSprite(int x, int y) {

@@ -8,7 +8,7 @@ void CoreLogic() {
     BeginDrawing();
     ClearBackground(BLACK);
 
-    int inputDirection = direction;
+    int inputDirection = setDirection(&direction);
 
     DrawTexturePro(
       emptyMaze,
@@ -90,15 +90,36 @@ void CoreLogic() {
 
       bool hitWall =
         IsWall(nextPos.x + margin, nextPos.y + margin) ||
-        IsWall(nextPos.x + size,   nextPos.y + margin) ||
-        IsWall(nextPos.x + margin, nextPos.y + size)   ||
-        IsWall(nextPos.x + size,   nextPos.y + size);
+        IsWall(nextPos.x + size, nextPos.y + margin) ||
+        IsWall(nextPos.x + margin, nextPos.y + size) ||
+        IsWall(nextPos.x + size, nextPos.y + size);
+
+      float roundX = round(pacmanPosition.x / GRID_LENGTH) * GRID_LENGTH;
+      float roundY = round(pacmanPosition.y / GRID_LENGTH) * GRID_LENGTH;
 
       if (!hitWall) {
+        if (!isPath && !IsNextWall(pacmanPosition.x, pacmanPosition.y)) {
+          changeDirection = true;
+        }
+        if (IsNextWall(pacmanPosition.x, pacmanPosition.y)) {
+          changeDirection = false;
+        }
+        isPath = true;
         pacmanPosition = nextPos;
-      } // else 
+      } else {
+        isPath = false;
+        changeDirection = true;
+      }
+      if (prevDirection != inputDirection) {
         // TODO: Implement wall collision perfectly
-        inputDirection = setDirection(&direction);
+        isPath = false;
+        pacmanPosition.x = roundX;
+        pacmanPosition.y = roundY;
+        prevDirection = inputDirection;
+      }
+
+      pacmanPosition.x = (int) round(pacmanPosition.x);
+      pacmanPosition.y = (int) round(pacmanPosition.y);
 
       // Eating
       // TODO: FIX THE BUG FOR POSITION REGARDING PELLET EATING

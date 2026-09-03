@@ -28,6 +28,7 @@ void UnloadAudios();
 // gridwall.h
 bool IsCollidable(float x, float y, int object);
 bool IsWall(float x, float y);
+bool IsNextWall(float x, float y);
 bool IsOrb(float x, float y);
 bool IsBlorb(float x, float y);
 
