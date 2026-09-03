@@ -85,7 +85,7 @@ void CoreLogic() {
       if (inputDirection == S_DOWN) nextPos.y += SPEED * dt;
 
       // Corner check
-      float margin = 2.0;
+      float margin = GRID_LENGTH / 10.0;
       float size = (float) GRID_LENGTH - margin;
 
       bool hitWall =
