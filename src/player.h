@@ -8,7 +8,7 @@ void DrawPacman(int x, int y, int direction, int index) {
   );
 }
 
-void EatPellet(float x, float y, int *score) {
+void EatPellet(float x, float y) {
   bool orb = IsOrb(x, y);
   bool blorb = IsBlorb(x, y);
 
@@ -18,7 +18,7 @@ void EatPellet(float x, float y, int *score) {
   if (!orb && !blorb) return;
 
   MAP[gridY][gridX] = EATEN;
-  *score += orb ? SCORE_PELLET : blorb ? SCORE_POWER_PELLET : 0;
+  AddScore(orb ? SCORE_PELLET : blorb ? SCORE_POWER_PELLET : 0);
 
   #if SOUND_ALLOWED
   if (orb && !IsSoundPlaying(audios[AUDIO_EATDOT]))

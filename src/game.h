@@ -103,7 +103,7 @@ void CoreLogic() {
       // Eating
       // TODO: FIX THE BUG FOR POSITION REGARDING PELLET EATING
       // AS WELL AS THE BUG FOR MAZE-TRAVERSAL
-      EatPellet(pacmanPosition.x, pacmanPosition.y, &currentScore);
+      EatPellet(pacmanPosition.x, pacmanPosition.y);
 
       pacmanIndex = (int) (GetTime() / 0.075) % pacman.sprites;
     } else pacmanIndex = 2;

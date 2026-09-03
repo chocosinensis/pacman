@@ -50,5 +50,5 @@ void LoseLife();
 
 // player.h
 void DrawPacman(int x, int y, int direction, int index);
-void EatPellet(float x, float y, int *score);
+void EatPellet(float x, float y);
 
