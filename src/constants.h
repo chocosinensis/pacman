@@ -1,4 +1,4 @@
-#define GRID_LENGTH 25
+#define GRID_LENGTH 20
 
 #define GRID_WIDTH 28
 #define GRID_HEIGHT 36
