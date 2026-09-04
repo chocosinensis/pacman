@@ -11,6 +11,7 @@ typedef struct Character {
   Vector2 up;
   Vector2 down;
   int sprites;
+  int char_id;
 } Character;
 
 // game.h
@@ -43,8 +44,9 @@ Character newCharacter(
   int left_x, int left_y,
   int up_x, int up_y,
   int down_x, int down_y,
-  int sprites
+  int sprites, int char_id
 );
+Vector2 getCoordinates(Vector2 pos);
 
 // game_state.h
 void InitGameState();

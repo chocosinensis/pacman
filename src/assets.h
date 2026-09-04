@@ -17,11 +17,11 @@ void InitTextures() {
   emptyMaze = LoadTexture("assets/sprites/maze.png");
   filledMaze = LoadTexture("assets/sprites/filled-maze.png");
 
-  pacman = newCharacter(0, 0, 0, 1, 0, 2, 0, 3, 3);
-  blinky = newCharacter(4, 0, 4, 2, 4, 4, 4, 6, 2);
-  pinky = newCharacter(5, 0, 5, 2, 5, 4, 5, 6, 2);
-  inky = newCharacter(6, 0, 6, 2, 6, 4, 6, 6, 2);
-  clyde = newCharacter(7, 0, 7, 2, 7, 4, 7, 6, 2);
+  pacman = newCharacter(0, 0, 0, 1, 0, 2, 0, 3, 3, PACMAN);
+  blinky = newCharacter(4, 0, 4, 2, 4, 4, 4, 6, 2, BLINKY);
+  pinky = newCharacter(5, 0, 5, 2, 5, 4, 5, 6, 2, PINKY);
+  inky = newCharacter(6, 0, 6, 2, 6, 4, 6, 6, 2, INKY);
+  clyde = newCharacter(7, 0, 7, 2, 7, 4, 7, 6, 2, CLYDE);
   fruit = makeSprite(3, 3);
 }
 Sound InitAudio(int idx) {

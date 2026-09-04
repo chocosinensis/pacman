@@ -19,14 +19,20 @@ Character newCharacter(
   int left_x, int left_y,
   int up_x, int up_y,
   int down_x, int down_y,
-  int sprites
+  int sprites, int char_id
 ) {
   return (Character) {
     makeSprite(right_x, right_y),
     makeSprite(left_x, left_y),
     makeSprite(up_x, up_y),
     makeSprite(down_x, down_y),
-    sprites
+    sprites, char_id
   };
+}
+
+Vector2 getCoordinates(Vector2 pos) {
+  float gridX = round(pos.x / GRID_LENGTH) * GRID_LENGTH;
+  float gridY = round(pos.y / GRID_LENGTH) * GRID_LENGTH;
+  return (Vector2) { gridX, gridY };
 }
 

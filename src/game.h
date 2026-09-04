@@ -56,6 +56,18 @@ void CoreLogic() {
       beginning = true;
     }
     if (PAUSE) gamePaused = !gamePaused;
+
+    // TODO: Implement the maze and detect collision ghosts
+    // PACMAN BARE COLLISION
+    if (pacmanPosition.x < -GRID_LENGTH) {
+      queuedDirection = S_LEFT;
+      pacmanPosition.x = WIDTH - 1; // subtracted 1 b/c otherwise queuedDirection was messing up
+    }
+    if (pacmanPosition.x >= WIDTH) { // changed > to a >= b/c otherwise queuedDirection was messing up
+      queuedDirection = S_RIGHT;
+      pacmanPosition.x = -GRID_LENGTH;
+    }
+
     if (gameStarted && !gamePaused) {
       #if SOUND_ALLOWED
       if (!IsSoundPlaying(audios[AUDIO_SIREN])) PlaySound(audios[AUDIO_SIREN]);
@@ -79,43 +91,30 @@ void CoreLogic() {
 
       // PACMAN MOVEMENT
       if (queuedDirection != direction) {
-        float gridX = round(pacmanPosition.x / GRID_LENGTH) * GRID_LENGTH;
-        float gridY = round(pacmanPosition.y / GRID_LENGTH) * GRID_LENGTH;
+        Vector2 snap = getCoordinates(pacmanPosition);
 
         bool isClose =
-          fabsf(pacmanPosition.x - gridX) < 4 &&
-          fabsf(pacmanPosition.y - gridY) < 4;
+          fabsf(pacmanPosition.x - snap.x) < 4 &&
+          fabsf(pacmanPosition.y - snap.y) < 4;
 
-        if (isClose) {
-          Vector2 snap = { gridX, gridY };
-          if (CanTurn(snap, queuedDirection)) {
-            pacmanPosition = snap;
-            direction = queuedDirection;
-          }
+        if (isClose && CanTurn(snap, queuedDirection)) {
+          pacmanPosition = snap;
+          direction = queuedDirection;
         }
       }
 
       Vector2 nextPos = MoveInDirection(pacmanPosition, direction, SPEED * dt);
-      if (!WillHitWall(nextPos)) {
-        pacmanPosition = nextPos;
-      }
+      if (!WillHitWall(nextPos)) pacmanPosition = nextPos;
 
       pacmanPosition.x = (int) round(pacmanPosition.x);
       pacmanPosition.y = (int) round(pacmanPosition.y);
 
       // Eating
-      // TODO: FIX THE BUG FOR POSITION REGARDING PELLET EATING
-      // AS WELL AS THE BUG FOR MAZE-TRAVERSAL
       EatPellet(pacmanPosition.x, pacmanPosition.y);
 
       pacmanIndex = (int) (GetTime() / 0.075) % pacman.sprites;
-      blorbColor = ((int) (GetTime() / 0.2) % 2) ? PELLET_COLOR : 0x000000ff;
+      blorbColor = ((int) (GetTime() / 0.2) % 2) ? PELLET_COLOR : 0x00000000;
     } else pacmanIndex = 2;
-
-    // TODO: Implement the maze and detect collision ghosts
-    // PACMAN BARE COLLISION
-    if (pacmanPosition.x < -GRID_LENGTH) pacmanPosition.x = WIDTH;
-    if (pacmanPosition.x > WIDTH) pacmanPosition.x = -GRID_LENGTH;
 
     DrawPacman(pacmanPosition.x, pacmanPosition.y, direction, pacmanIndex);
 

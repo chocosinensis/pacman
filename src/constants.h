@@ -50,5 +50,15 @@
 #define WALL 1
 #define ORB 2
 #define BLORB 3
-#define EATEN 4
+#define ORB_EATEN 4
+
+// player.h
+#define PACMAN 0
+
+// ghosts.h
+#define BLINKY 1
+#define PINKY 2
+#define INKY 3
+#define CLYDE 4
+
 

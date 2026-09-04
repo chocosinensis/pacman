@@ -38,5 +38,5 @@ Then push (upload) the repository
 git push origin main
 ```
 
-### DETAILED [INSTRUCTIONS](Instructions.md)
+### DETAILED [INSTRUCTIONS](docs/Instructions.md)
 

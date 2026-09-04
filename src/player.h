@@ -25,7 +25,7 @@ void EatPellet(float x, float y) {
 
   if (!orb && !blorb) return;
 
-  MAP[gridY][gridX] = EATEN;
+  MAP[gridY][gridX] = ORB_EATEN;
   AddScore(orb ? SCORE_PELLET : blorb ? SCORE_POWER_PELLET : 0);
 
   #if SOUND_ALLOWED
