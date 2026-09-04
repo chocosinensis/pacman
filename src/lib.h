@@ -53,5 +53,6 @@ void LoseLife();
 
 // player.h
 void DrawPacman(int x, int y, int direction, int index);
+Vector2 MoveInDirection(Vector2 pos, int dir, float distance);
 void EatPellet(float x, float y);
 

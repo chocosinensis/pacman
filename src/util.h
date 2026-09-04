@@ -1,8 +1,8 @@
 void queueDirection(int *queued) {
-    if (LEFT) *queued = S_LEFT;
-    if (DOWN) *queued = S_DOWN;
-    if (UP) *queued = S_UP;
-    if (RIGHT) *queued = S_RIGHT;
+  if (LEFT) *queued = S_LEFT;
+  if (DOWN) *queued = S_DOWN;
+  if (UP) *queued = S_UP;
+  if (RIGHT) *queued = S_RIGHT;
 }
 
 Vector2 makeSprite(int x, int y) {

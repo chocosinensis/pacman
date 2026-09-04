@@ -19,13 +19,11 @@ void InitGameState() {
 
 void AddScore(int points) {
   currentScore += points;
-  if (currentScore > highScore) {
+  if (currentScore > highScore)
     highScore = currentScore;
-  }
 }
 
 void LoseLife() {
-  if (lives > 0) {
+  if (lives > 0)
     lives--;
-  }
 }

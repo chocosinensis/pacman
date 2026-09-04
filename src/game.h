@@ -1,11 +1,3 @@
-Vector2 MoveInDirection(Vector2 pos, int dir, float distance) {
-  if (dir == S_LEFT)  pos.x -= distance;
-  if (dir == S_RIGHT) pos.x += distance;
-  if (dir == S_UP)    pos.y -= distance;
-  if (dir == S_DOWN)  pos.y += distance;
-  return pos;
-}
-
 void CoreLogic() {
   int pacmanIndex = 2;
   Vector2 pacmanPosition = { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
@@ -94,7 +86,7 @@ void CoreLogic() {
           fabsf(pacmanPosition.y - gridY) < 4;
 
         if (isClose) {
-          Vector2 snap = {gridX, gridY};
+          Vector2 snap = { gridX, gridY };
           if (CanTurn(snap, queuedDirection)) {
             pacmanPosition = snap;
             direction = queuedDirection;

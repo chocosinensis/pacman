@@ -62,13 +62,10 @@ bool WillHitWall(Vector2 pos) {
     IsWall(pos.x + margin, pos.y + size)   ||
     IsWall(pos.x + size,   pos.y + size);
 }
-
-Vector2 MoveInDirection(Vector2 pos, int dir, float distance);
 bool CanTurn(Vector2 pos, int dir) {
   Vector2 next = MoveInDirection(pos, dir, GRID_LENGTH / 4.0);
   return !WillHitWall(next);
 }
-
 
 bool IsOrb(float x, float y) {
   return IsCollidable(x, y, ORB);

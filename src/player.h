@@ -8,6 +8,14 @@ void DrawPacman(int x, int y, int direction, int index) {
   );
 }
 
+Vector2 MoveInDirection(Vector2 pos, int dir, float distance) {
+  if (dir == S_LEFT)  pos.x -= distance;
+  if (dir == S_RIGHT) pos.x += distance;
+  if (dir == S_UP)    pos.y -= distance;
+  if (dir == S_DOWN)  pos.y += distance;
+  return pos;
+}
+
 void EatPellet(float x, float y) {
   bool orb = IsOrb(x, y);
   bool blorb = IsBlorb(x, y);
