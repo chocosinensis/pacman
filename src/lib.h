@@ -22,7 +22,7 @@ void InitTextures();
 Sound InitAudio(int idx);
 void InitAudios();
 void DrawOrbs();
-void DrawBlorbs();
+void DrawBlorbs(int blorbColor);
 void UnloadTextures();
 void UnloadAudios();
 

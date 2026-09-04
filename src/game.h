@@ -1,6 +1,7 @@
 void CoreLogic() {
   int pacmanIndex = 2;
   Vector2 pacmanPosition = { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
+  int blorbColor = PELLET_COLOR;
 
   while (!WindowShouldClose()) {
     float dt = GetFrameTime();
@@ -34,7 +35,7 @@ void CoreLogic() {
 
     // Draw orbs and blorbs
     DrawOrbs();
-    DrawBlorbs();
+    DrawBlorbs(blorbColor);
 
     if (GetKeyPressed() != 0) {
       gameStarted = true;
@@ -108,6 +109,7 @@ void CoreLogic() {
       EatPellet(pacmanPosition.x, pacmanPosition.y);
 
       pacmanIndex = (int) (GetTime() / 0.075) % pacman.sprites;
+      blorbColor = ((int) (GetTime() / 0.2) % 2) ? PELLET_COLOR : 0x000000ff;
     } else pacmanIndex = 2;
 
     // TODO: Implement the maze and detect collision ghosts
@@ -115,7 +117,7 @@ void CoreLogic() {
     if (pacmanPosition.x < -GRID_LENGTH) pacmanPosition.x = WIDTH;
     if (pacmanPosition.x > WIDTH) pacmanPosition.x = -GRID_LENGTH;
 
-    DrawPacman(pacmanPosition.x, pacmanPosition.y, queuedDirection, pacmanIndex);
+    DrawPacman(pacmanPosition.x, pacmanPosition.y, direction, pacmanIndex);
 
     EndDrawing();
   }

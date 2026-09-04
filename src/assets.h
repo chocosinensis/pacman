@@ -48,7 +48,7 @@ void DrawOrbs() {
     }
   }
 }
-void DrawBlorbs() {
+void DrawBlorbs(int blorbColor) {
   int r = GRID_LENGTH / 3;
   int offset = GRID_LENGTH / 2;
   for (int i = 0; i < GRID_HEIGHT; i++) {
@@ -57,7 +57,7 @@ void DrawBlorbs() {
 
       DrawCircle(
         j * GRID_LENGTH + offset, i * GRID_LENGTH + offset,
-        r, GetColor(PELLET_COLOR)
+        r, GetColor(blorbColor)
       );
     }
   }
