@@ -56,9 +56,15 @@
 #define PACMAN 0
 
 // ghosts.h
+// names
 #define BLINKY 1
 #define PINKY 2
 #define INKY 3
 #define CLYDE 4
 
+// states
+#define SCATTER 0
+#define CHASE 1
+#define FRIGHTENED 2
+#define EATEN 3
 

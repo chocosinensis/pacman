@@ -1,1 +1,1 @@
-`[GHOSTS](./Ghosts.md)`
+[GHOSTS](./Ghosts.md)

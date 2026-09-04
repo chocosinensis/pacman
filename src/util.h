@@ -19,14 +19,14 @@ Character newCharacter(
   int left_x, int left_y,
   int up_x, int up_y,
   int down_x, int down_y,
-  int sprites, int char_id
+  int sprites, int name
 ) {
   return (Character) {
     makeSprite(right_x, right_y),
     makeSprite(left_x, left_y),
     makeSprite(up_x, up_y),
     makeSprite(down_x, down_y),
-    sprites, char_id
+    sprites, name
   };
 }
 
