@@ -6,5 +6,6 @@
 #include "./assets.h"
 #include "./util.h"
 #include "./player.h"
+#include "./ghosts.h"
 #include "./game.h"
 

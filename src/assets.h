@@ -3,10 +3,7 @@ Texture2D emptyMaze;
 Texture2D filledMaze;
 
 Character pacman;
-Character blinky;
-Character pinky;
-Character inky;
-Character clyde;
+Character ghosts[GHOSTS];
 Vector2 fruit;
 
 const char *audio_names[] = { "start", "siren", "eatdot", "fright", "eyes", "eat_ghost", "eat_fruit", "death" };
@@ -18,10 +15,12 @@ void InitTextures() {
   filledMaze = LoadTexture("assets/sprites/filled-maze.png");
 
   pacman = newCharacter(0, 0, 0, 1, 0, 2, 0, 3, 3, PACMAN);
-  blinky = newCharacter(4, 0, 4, 2, 4, 4, 4, 6, 2, BLINKY);
-  pinky = newCharacter(5, 0, 5, 2, 5, 4, 5, 6, 2, PINKY);
-  inky = newCharacter(6, 0, 6, 2, 6, 4, 6, 6, 2, INKY);
-  clyde = newCharacter(7, 0, 7, 2, 7, 4, 7, 6, 2, CLYDE);
+
+  ghosts[BLINKY] = newCharacter(0, 4, 2, 4, 4, 4, 6, 4, 2, BLINKY);
+  ghosts[PINKY] = newCharacter(0, 5, 2, 5, 4, 5, 6, 5, 2, PINKY);
+  ghosts[INKY] = newCharacter(0, 6, 2, 6, 4, 6, 6, 6, 2, INKY);
+  ghosts[CLYDE] = newCharacter(0, 7, 2, 7, 4, 7, 6, 7, 2, CLYDE);
+
   fruit = makeSprite(3, 3);
 }
 Sound InitAudio(int idx) {

@@ -1,5 +1,6 @@
 void CoreLogic() {
   int pacmanIndex = 2;
+  int ghostIndex = 0;
   Vector2 pacmanPosition = { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
   int blorbColor = PELLET_COLOR;
 
@@ -18,8 +19,8 @@ void CoreLogic() {
     );
 
     // Score at top
-    DrawText(TextFormat("1UP  %04d", currentScore), GRID_LENGTH * 3, GRID_LENGTH * 1, 20, WHITE);
-    DrawText(TextFormat("HIGH %04d", highScore), GRID_LENGTH * 19.5, GRID_LENGTH * 1, 20, WHITE);
+    DrawText(TextFormat("1UP  %04d", currentScore), GRID_LENGTH * 3, GRID_LENGTH * 1, FONT_SIZE - 3, WHITE);
+    DrawText(TextFormat("HIGH %04d", highScore), GRID_LENGTH * 19.5, GRID_LENGTH * 1, FONT_SIZE - 3, WHITE);
 
     // INFO: Hearts at bottom (ironic)
     // No heart is at bottom if you use i++ and not ++i
@@ -37,17 +38,21 @@ void CoreLogic() {
     DrawOrbs();
     DrawBlorbs(blorbColor);
 
+    // TODO: Implement ghost movement independent of each other
+    // Ghosts are rendered for the first time here
+    InitGhosts(ghostIndex);
+
     if (GetKeyPressed() != 0) {
       gameStarted = true;
       if (!PAUSE) gamePaused = false;
     }
     if (!gameStarted) {
-      int textWidth = MeasureText("READY!", 30);
-      DrawText("READY!", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, 30, YELLOW);
+      int textWidth = MeasureText("READY!", FONT_SIZE);
+      DrawText("READY!", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, FONT_SIZE, YELLOW);
     }
     if (gameStarted && !PAUSE && gamePaused) {
-      int textWidth = MeasureText("PAUSE", 30);
-      DrawText("PAUSE", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, 30, YELLOW);
+      int textWidth = MeasureText("PAUSE", FONT_SIZE);
+      DrawText("PAUSE", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, FONT_SIZE, YELLOW);
     }
     if (!gameStarted && !beginning && gamePaused) {
       #if SOUND_ALLOWED
@@ -113,6 +118,7 @@ void CoreLogic() {
       EatPellet(pacmanPosition.x, pacmanPosition.y);
 
       pacmanIndex = (int) (GetTime() / 0.075) % pacman.sprites;
+      ghostIndex = (int) (GetTime() / 0.075) % ghosts[BLINKY].sprites;
       blorbColor = ((int) (GetTime() / 0.2) % 2) ? PELLET_COLOR : 0x00000000;
     } else pacmanIndex = 2;
 

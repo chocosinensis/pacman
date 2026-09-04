@@ -8,6 +8,7 @@
 #define WIDTH (GRID_WIDTH * GRID_LENGTH)
 #define HEIGHT (GRID_HEIGHT * GRID_LENGTH)
 #define TITLE "Pac-Man - B2 (091 + 098)"
+#define FONT_SIZE (GRID_LENGTH + 3)
 
 #define MAX_LIVES 3
 #define SCORE_PELLET 10
@@ -53,14 +54,15 @@
 #define ORB_EATEN 4
 
 // player.h
-#define PACMAN 0
+#define PACMAN 0xdead
 
 // ghosts.h
 // names
-#define BLINKY 1
-#define PINKY 2
-#define INKY 3
-#define CLYDE 4
+#define GHOSTS 4
+#define BLINKY 0
+#define PINKY 1
+#define INKY 2
+#define CLYDE 3
 
 // states
 #define SCATTER 0

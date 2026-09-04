@@ -58,3 +58,7 @@ void DrawPacman(int x, int y, int direction, int index);
 Vector2 MoveInDirection(Vector2 pos, int dir, float distance);
 void EatPellet(float x, float y);
 
+// ghosts.h
+void DrawGhost(int x, int y, int direction, int name, int index);
+void InitGhosts(int index);
+
