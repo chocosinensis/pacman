@@ -1,3 +1,11 @@
+Vector2 MoveInDirection(Vector2 pos, int dir, float distance) {
+  if (dir == S_LEFT)  pos.x -= distance;
+  if (dir == S_RIGHT) pos.x += distance;
+  if (dir == S_UP)    pos.y -= distance;
+  if (dir == S_DOWN)  pos.y += distance;
+  return pos;
+}
+
 void CoreLogic() {
   int pacmanIndex = 2;
   Vector2 pacmanPosition = { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
@@ -8,8 +16,7 @@ void CoreLogic() {
     BeginDrawing();
     ClearBackground(BLACK);
 
-    int inputDirection = setDirection(&direction);
-
+    queueDirection(&queuedDirection);
     DrawTexturePro(
       emptyMaze,
       (Rectangle) { 0, 0, emptyMaze.width, emptyMaze.height },
@@ -78,44 +85,26 @@ void CoreLogic() {
       #endif
 
       // PACMAN MOVEMENT
-      Vector2 nextPos = pacmanPosition;
-      if (inputDirection == S_LEFT) nextPos.x -= SPEED * dt;
-      if (inputDirection == S_RIGHT) nextPos.x += SPEED * dt;
-      if (inputDirection == S_UP) nextPos.y -= SPEED * dt;
-      if (inputDirection == S_DOWN) nextPos.y += SPEED * dt;
+      if (queuedDirection != direction) {
+        float gridX = round(pacmanPosition.x / GRID_LENGTH) * GRID_LENGTH;
+        float gridY = round(pacmanPosition.y / GRID_LENGTH) * GRID_LENGTH;
 
-      // Corner check
-      float margin = GRID_LENGTH / 10.0;
-      float size = (float) GRID_LENGTH - margin;
+        bool isClose =
+          fabsf(pacmanPosition.x - gridX) < 4 &&
+          fabsf(pacmanPosition.y - gridY) < 4;
 
-      bool hitWall =
-        IsWall(nextPos.x + margin, nextPos.y + margin) ||
-        IsWall(nextPos.x + size, nextPos.y + margin) ||
-        IsWall(nextPos.x + margin, nextPos.y + size) ||
-        IsWall(nextPos.x + size, nextPos.y + size);
-
-      float roundX = round(pacmanPosition.x / GRID_LENGTH) * GRID_LENGTH;
-      float roundY = round(pacmanPosition.y / GRID_LENGTH) * GRID_LENGTH;
-
-      if (!hitWall) {
-        if (!isPath && !IsNextWall(pacmanPosition.x, pacmanPosition.y)) {
-          changeDirection = true;
+        if (isClose) {
+          Vector2 snap = {gridX, gridY};
+          if (CanTurn(snap, queuedDirection)) {
+            pacmanPosition = snap;
+            direction = queuedDirection;
+          }
         }
-        if (IsNextWall(pacmanPosition.x, pacmanPosition.y)) {
-          changeDirection = false;
-        }
-        isPath = true;
-        pacmanPosition = nextPos;
-      } else {
-        isPath = false;
-        changeDirection = true;
       }
-      if (prevDirection != inputDirection) {
-        // TODO: Implement wall collision perfectly
-        isPath = false;
-        pacmanPosition.x = roundX;
-        pacmanPosition.y = roundY;
-        prevDirection = inputDirection;
+
+      Vector2 nextPos = MoveInDirection(pacmanPosition, direction, SPEED * dt);
+      if (!WillHitWall(nextPos)) {
+        pacmanPosition = nextPos;
       }
 
       pacmanPosition.x = (int) round(pacmanPosition.x);
@@ -134,7 +123,7 @@ void CoreLogic() {
     if (pacmanPosition.x < -GRID_LENGTH) pacmanPosition.x = WIDTH;
     if (pacmanPosition.x > WIDTH) pacmanPosition.x = -GRID_LENGTH;
 
-    DrawPacman(pacmanPosition.x, pacmanPosition.y, inputDirection, pacmanIndex);
+    DrawPacman(pacmanPosition.x, pacmanPosition.y, queuedDirection, pacmanIndex);
 
     EndDrawing();
   }
@@ -157,4 +146,3 @@ void Game() {
   CloseAudioDevice();
   CloseWindow();
 }
-

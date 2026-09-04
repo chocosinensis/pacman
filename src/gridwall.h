@@ -51,22 +51,25 @@ bool IsCollidable(float x, float y, int object) {
 bool IsWall(float x, float y) {
   return IsCollidable(x, y, WALL);
 }
-bool IsNextWall(float x, float y) {
-// #if DEBUG
-//   int gridX = (int) (x / GRID_LENGTH);
-//   int gridY = (int) (y / GRID_LENGTH);
-//   printf("gridX=%d,gridY=%d\n",gridX,gridY);
-// #endif
-  bool left = LEFT;// && (direction != S_LEFT || direction != S_RIGHT);
-  bool down = DOWN && (direction != S_DOWN || direction != S_UP);
-  bool up = UP && (direction != S_UP || direction != S_DOWN);
-  bool right = RIGHT && (direction != S_RIGHT || direction != S_LEFT);
-  if (left) return IsWall(x - GRID_LENGTH / 4, y);
-  if (down) return IsWall(x, y + GRID_LENGTH / 4);
-  if (up) return IsWall(x, y - GRID_LENGTH / 4);
-  if (right) return IsWall(x + GRID_LENGTH / 4, y);
-  return IsWall(x, y);
+
+bool WillHitWall(Vector2 pos) {
+  float margin = GRID_LENGTH / 10.0f;
+  float size = (float) GRID_LENGTH - margin;
+
+  return
+    IsWall(pos.x + margin, pos.y + margin) ||
+    IsWall(pos.x + size,   pos.y + margin) ||
+    IsWall(pos.x + margin, pos.y + size)   ||
+    IsWall(pos.x + size,   pos.y + size);
 }
+
+Vector2 MoveInDirection(Vector2 pos, int dir, float distance);
+bool CanTurn(Vector2 pos, int dir) {
+  Vector2 next = MoveInDirection(pos, dir, GRID_LENGTH / 4.0);
+  return !WillHitWall(next);
+}
+
+
 bool IsOrb(float x, float y) {
   return IsCollidable(x, y, ORB);
 }

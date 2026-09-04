@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 
 #include "raylib.h"
 #include "raymath.h"
@@ -28,12 +29,13 @@ void UnloadAudios();
 // gridwall.h
 bool IsCollidable(float x, float y, int object);
 bool IsWall(float x, float y);
-bool IsNextWall(float x, float y);
+bool WillHitWall(Vector2 pos);
+bool CanTurn(Vector2 pos, int dir);
 bool IsOrb(float x, float y);
 bool IsBlorb(float x, float y);
 
 // util.h
-int setDirection(int *p_direction);
+void queueDirection(int *queued);
 Vector2 makeSprite(int x, int y);
 Vector2 getSpriteDirection(Character ch, int direction);
 Character newCharacter(
