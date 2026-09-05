@@ -69,9 +69,7 @@ void CoreLogic() {
       DrawText("PAUSE", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, FONT_SIZE, YELLOW);
     }
     if (!gameStarted && !beginning && gamePaused) {
-      #if SOUND_ALLOWED
-      PlaySound(audios[AUDIO_START]);
-      #endif
+      Play(AUDIO_START);
       beginning = true;
     }
     if (PAUSE) gamePaused = !gamePaused;
@@ -88,9 +86,7 @@ void CoreLogic() {
     }
 
     if (gameStarted && !gamePaused) {
-      #if SOUND_ALLOWED
-      if (!IsSoundPlaying(audios[AUDIO_SIREN])) PlaySound(audios[AUDIO_SIREN]);
-      #endif
+      Play(AUDIO_SIREN);
 
       #if DEBUG
       // INFO: UGLY AHH CODE

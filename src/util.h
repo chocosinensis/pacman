@@ -5,6 +5,12 @@ void QueueDirection(int *queued) {
   if (RIGHT) *queued = S_RIGHT;
 }
 
+void Play(int audioIndex) {
+  #if SOUND_ALLOWED
+  if (!IsSoundPlaying(audios[audioIndex])) PlaySound(audios[audioIndex]);
+  #endif
+}
+
 Vector2 MakeSprite(int x, int y) {
   return (Vector2) { x * UNIT_SPRITE_LENGTH, y * UNIT_SPRITE_LENGTH };
 }

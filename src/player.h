@@ -28,11 +28,7 @@ void EatPellet(float x, float y) {
   MAP[gridY][gridX] = ORB_EATEN;
   AddScore(orb ? SCORE_PELLET : blorb ? SCORE_POWER_PELLET : 0);
 
-  #if SOUND_ALLOWED
-  if (orb && !IsSoundPlaying(audios[AUDIO_EATDOT]))
-    PlaySound(audios[AUDIO_EATDOT]);
-
-  if (blorb) PlaySound(audios[AUDIO_FRIGHT]);
-  #endif
+  if (orb) Play(AUDIO_EATDOT);
+  if (blorb) Play(AUDIO_FRIGHT);
 }
 
