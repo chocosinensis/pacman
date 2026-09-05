@@ -1,21 +1,22 @@
 void CoreLogic() {
   int pacmanIndex = 2;
-  int ghostIndex = 0;
+  int ghostIndeces[GHOSTS] = { 0 };
   int blorbColor = PELLET_COLOR;
 
-  Vector2 pacmanPosition = { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
+  Vector2 pacmanPosition = (Vector2) { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
   Vector2 pacmanTile = Tileify(pacmanPosition);
   Vector2 ghostPositions[] = {
-    { (12 + BLINKY) * GRID_LENGTH, 17 * GRID_LENGTH },
-    { (12 + PINKY)  * GRID_LENGTH, 17 * GRID_LENGTH },
-    { (12 + INKY)   * GRID_LENGTH, 17 * GRID_LENGTH },
-    { (12 + CLYDE)  * GRID_LENGTH, 17 * GRID_LENGTH },
+    (Vector2) { (12 + BLINKY) * GRID_LENGTH, 17 * GRID_LENGTH },
+    (Vector2) { (12 + PINKY)  * GRID_LENGTH, 17 * GRID_LENGTH },
+    (Vector2) { (12 + INKY)   * GRID_LENGTH, 17 * GRID_LENGTH },
+    (Vector2) { (12 + CLYDE)  * GRID_LENGTH, 17 * GRID_LENGTH },
   };
 
   InitGhosts(ghostPositions);
 
   while (!WindowShouldClose()) {
     float dt = GetFrameTime();
+    float distance = SPEED * dt;
 
     BeginDrawing();
     ClearBackground(BLACK);
@@ -44,19 +45,25 @@ void CoreLogic() {
       DrawPacman(lifeX, lifeY, S_LEFT, 0);
     }
 
+    // TODO: fix gameover
+    if (lives == 0) {
+      gameStarted = false;
+      gamePaused = true;
+      beginning = true;
+      int textWidth = MeasureText("GAME OVER", FONT_SIZE);
+      DrawText("GAME OVER", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, FONT_SIZE, YELLOW);
+      return;
+    }
+
     // Draw orbs and blorbs
     DrawOrbs();
     DrawBlorbs(blorbColor);
 
     // TODO: Implement ghost movement independent of each other
     // Ghosts are rendered for the first time here
-    for (int i = 0; i < LENGTH(ghosts); i++) {
-      Ghost *gh = g(i);
-      Vector2 pos = gh->position;
-      DrawGhost(pos.x, pos.y, gh->direction, gh->name, ghostIndex);
-    }
+    for (int i = 0; i < LENGTH(ghosts); i++) DrawGhost(*g(i), ghostIndeces[i]);
 
-    if (GetKeyPressed() != 0) {
+    if (lives >= 0 && GetKeyPressed() != 0) {
       gameStarted = true;
       if (!PAUSE) gamePaused = false;
     }
@@ -109,8 +116,8 @@ void CoreLogic() {
         Vector2 snap = GetCoordinates(pacmanPosition);
 
         bool isClose =
-          fabsf(pacmanPosition.x - snap.x) < 4 &&
-          fabsf(pacmanPosition.y - snap.y) < 4;
+          fabsf(pacmanPosition.x - snap.x) < GRID_LENGTH / 5 &&
+          fabsf(pacmanPosition.y - snap.y) < GRID_LENGTH / 5;
 
         if (isClose && CanTurn(snap, queuedDirection)) {
           pacmanPosition = snap;
@@ -118,7 +125,7 @@ void CoreLogic() {
         }
       }
 
-      Vector2 nextPos = MoveInDirection(pacmanPosition, direction, SPEED * dt);
+      Vector2 nextPos = MoveInDirection(pacmanPosition, direction, distance);
       if (!WillHitWall(nextPos)) pacmanPosition = nextPos;
 
       pacmanPosition.x = (int) round(pacmanPosition.x);
@@ -128,10 +135,28 @@ void CoreLogic() {
       // Eating
       EatPellet(pacmanPosition.x, pacmanPosition.y);
 
+      for (int i = 0; i < LENGTH(ghosts); i++) {
+        Ghost *gh = g(i);
+        Vector2 targetTile = GetTargetTile(*gh, pacmanTile);
+        GoToTile(gh, targetTile, distance);
+        CollideWithGhost(gh, pacmanPosition);
+        printf("POSITION FOR %d : (%.2f, %.2f)\n", gh->name, gh->position.x, gh->position.y);
+      }
+
       pacmanIndex = (int) (GetTime() / 0.075) % pacman.sprites;
-      ghostIndex = (int) (GetTime() / 0.075) % ghosts[BLINKY].sprites;
+      for (int i = 0; i < LENGTH(ghostIndeces); i++)
+        ghostIndeces[i] = g(i)->state == EATEN ? 0 : (int) (GetTime() / 0.075) % ghosts[i].sprites;
       blorbColor = ((int) (GetTime() / 0.2) % 2) ? PELLET_COLOR : 0x00000000;
     } else pacmanIndex = 2;
+
+    if (gameOver && !gameStarted) {
+      pacmanPosition = (Vector2) { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
+      pacmanTile = Tileify(pacmanPosition);
+      for (int i = 0; i < LENGTH(ghosts); i++)
+        g(i)->position = (Vector2) { (12 + i) * GRID_LENGTH, 17 * GRID_LENGTH };
+      gameOver = false;
+      // gamePaused = false;
+    }
 
     DrawPacman(pacmanPosition.x, pacmanPosition.y, direction, pacmanIndex);
 

@@ -28,7 +28,53 @@ void EatPellet(float x, float y) {
   MAP[gridY][gridX] = ORB_EATEN;
   AddScore(orb ? SCORE_PELLET : blorb ? SCORE_POWER_PELLET : 0);
 
+  if (blorb) MakeFrightened();
+
   if (orb) Play(AUDIO_EATDOT);
   if (blorb) Play(AUDIO_FRIGHT);
+}
+
+void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition) {
+  Vector2 ghostTile = Tileify(ghost->position);
+  Vector2 pacmanTile = Tileify(pacmanPosition);
+  bool hasCollided = ghostTile.x == pacmanTile.x && ghostTile.y == pacmanTile.y;
+  if (hasCollided) {
+    if (ghost->state == FRIGHTENED) {
+      ChangeState(ghost, EATEN);
+      Play(AUDIO_EATGHOST);
+    }
+    if (ghost->state == SCATTER || ghost->state == CHASE)
+      // TODO: Uncomment for functionality to work
+      // GetEaten(pacmanPosition);
+      printf("");
+  }
+}
+
+void GetEaten(Vector2 pacmanPosition) {
+  gameStarted = false;
+  gamePaused = true;
+  beginning = false;
+  LoseLife();
+
+  // TODO: Play game over animation 
+  int idx = 0;
+  int DEAD_SPRITES = 11;
+
+  Play(AUDIO_DEATH);
+
+  while (idx != DEAD_SPRITES) {
+    DrawTexturePro(
+      characters,
+      (Rectangle) {
+        dead.x + (idx * UNIT_SPRITE_LENGTH), dead.y * UNIT_SPRITE_LENGTH,
+        UNIT_SPRITE_LENGTH, UNIT_SPRITE_LENGTH
+      },
+      (Rectangle) { pacmanPosition.x, pacmanPosition.y, GRID_LENGTH, GRID_LENGTH },
+      Vector2Zero(), 0, WHITE
+    );
+    idx++;
+  }
+
+  gameOver = true;
 }
 

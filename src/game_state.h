@@ -2,6 +2,8 @@ bool gameStarted = false;
 bool beginning = false;
 bool gamePaused = true;
 
+bool gameOver = true;
+
 int direction = S_LEFT;
 int queuedDirection = S_LEFT;
 

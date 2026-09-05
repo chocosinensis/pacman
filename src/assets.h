@@ -5,6 +5,9 @@ Texture2D filledMaze;
 Character pacman;
 Character ghosts[GHOSTS];
 Vector2 fruit;
+Vector2 frightened;
+Character eyes;
+Vector2 dead;
 
 Ghost blinky;
 Ghost pinky;
@@ -27,6 +30,9 @@ void InitTextures() {
   ghosts[CLYDE]  = InitCharacter(0, 7, 2, 7, 4, 7, 6, 7, 2, CLYDE);
 
   fruit = MakeSprite(3, 3);
+  frightened = MakeSprite(8, 4);
+  eyes = InitCharacter(9, 4, 9, 5, 9, 6, 9, 7, 1, EYES);
+  dead = MakeSprite(4, 0);
 }
 Sound InitAudio(int idx) {
   char path[50];

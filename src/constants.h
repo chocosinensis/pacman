@@ -41,10 +41,10 @@
 
 #define PELLET_COLOR 0xffb6adff
 
-#define S_RIGHT  0
-#define S_LEFT   1
+#define S_LEFT   0
+#define S_DOWN   1
 #define S_UP     2
-#define S_DOWN   3
+#define S_RIGHT  3
 
 // gridwall.h
 #define VOID       0
@@ -64,6 +64,8 @@
 #define PINKY   1
 #define INKY    2
 #define CLYDE   3
+
+#define EYES 0xe4e5
 
 // states
 #define SCATTER     0

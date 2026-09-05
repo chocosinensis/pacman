@@ -67,14 +67,20 @@ void LoseLife();
 void DrawPacman(int x, int y, int direction, int index);
 Vector2 MoveInDirection(Vector2 pos, int dir, float distance);
 void EatPellet(float x, float y);
+void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition);
+void GetEaten(Vector2 pacmanPosition);
 
 // ghosts.h
-void DrawGhost(int x, int y, int direction, int name, int index);
+void DrawGhost(Ghost gh, int index);
 void InitGhosts(Vector2 ghostPositions[]);
 Ghost *g(int idx);
 double GetDistance(Vector2 tile1, Vector2 tile2);
+Vector2 AddToTile(Vector2 tile, int direction, int step);
 Vector2 GetSteppedTile(Vector2 pacmanTile, int step);
 Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile);
+bool IsNextWall(Vector2 tiles[], int dir, int idx, int direction);
 int GetNextDirection(Ghost ghost, Vector2 targetTile);
-void GoToTile(Ghost ghost, Vector2 tile);
+void GoToTile(Ghost *ghost, Vector2 tile, float distance);
+void ChangeState(Ghost *ghost, int state);
+void MakeFrightened();
 
