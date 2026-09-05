@@ -1,8 +1,18 @@
 void CoreLogic() {
   int pacmanIndex = 2;
   int ghostIndex = 0;
-  Vector2 pacmanPosition = { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
   int blorbColor = PELLET_COLOR;
+
+  Vector2 pacmanPosition = { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
+  Vector2 pacmanTile = Tileify(pacmanPosition);
+  Vector2 ghostPositions[] = {
+    { (12 + BLINKY) * GRID_LENGTH, 17 * GRID_LENGTH },
+    { (12 + PINKY)  * GRID_LENGTH, 17 * GRID_LENGTH },
+    { (12 + INKY)   * GRID_LENGTH, 17 * GRID_LENGTH },
+    { (12 + CLYDE)  * GRID_LENGTH, 17 * GRID_LENGTH },
+  };
+
+  InitGhosts(ghostPositions);
 
   while (!WindowShouldClose()) {
     float dt = GetFrameTime();
@@ -10,7 +20,7 @@ void CoreLogic() {
     BeginDrawing();
     ClearBackground(BLACK);
 
-    queueDirection(&queuedDirection);
+    QueueDirection(&queuedDirection);
     DrawTexturePro(
       emptyMaze,
       (Rectangle) { 0, 0, emptyMaze.width, emptyMaze.height },
@@ -40,7 +50,11 @@ void CoreLogic() {
 
     // TODO: Implement ghost movement independent of each other
     // Ghosts are rendered for the first time here
-    InitGhosts(ghostIndex);
+    for (int i = 0; i < LENGTH(ghosts); i++) {
+      Ghost *gh = g(i);
+      Vector2 pos = gh->position;
+      DrawGhost(pos.x, pos.y, gh->direction, gh->name, ghostIndex);
+    }
 
     if (GetKeyPressed() != 0) {
       gameStarted = true;
@@ -96,7 +110,7 @@ void CoreLogic() {
 
       // PACMAN MOVEMENT
       if (queuedDirection != direction) {
-        Vector2 snap = getCoordinates(pacmanPosition);
+        Vector2 snap = GetCoordinates(pacmanPosition);
 
         bool isClose =
           fabsf(pacmanPosition.x - snap.x) < 4 &&
@@ -113,6 +127,7 @@ void CoreLogic() {
 
       pacmanPosition.x = (int) round(pacmanPosition.x);
       pacmanPosition.y = (int) round(pacmanPosition.y);
+      pacmanTile = Tileify(pacmanPosition);
 
       // Eating
       EatPellet(pacmanPosition.x, pacmanPosition.y);

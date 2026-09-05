@@ -14,6 +14,13 @@ typedef struct Character {
   int name;
 } Character;
 
+typedef struct Ghost {
+  int name;
+  int state;
+  Vector2 position;
+  int direction;
+} Ghost;
+
 // game.h
 void CoreLogic();
 void Game();
@@ -36,17 +43,19 @@ bool IsOrb(float x, float y);
 bool IsBlorb(float x, float y);
 
 // util.h
-void queueDirection(int *queued);
-Vector2 makeSprite(int x, int y);
-Vector2 getSpriteDirection(Character ch, int direction);
-Character newCharacter(
+void QueueDirection(int *queued);
+Vector2 MakeSprite(int x, int y);
+Vector2 GetSpriteDirection(Character ch, int direction);
+Character InitCharacter(
   int right_x, int right_y,
   int left_x, int left_y,
   int up_x, int up_y,
   int down_x, int down_y,
   int sprites, int name
 );
-Vector2 getCoordinates(Vector2 pos);
+Vector2 Tileify(Vector2 pos);
+Vector2 GetTilePosition(Vector2 tile);
+Vector2 GetCoordinates(Vector2 pos);
 
 // game_state.h
 void InitGameState();
@@ -60,5 +69,11 @@ void EatPellet(float x, float y);
 
 // ghosts.h
 void DrawGhost(int x, int y, int direction, int name, int index);
-void InitGhosts(int index);
+void InitGhosts(Vector2 ghostPositions[]);
+Ghost *g(int idx);
+double GetDistance(Vector2 tile1, Vector2 tile2);
+Vector2 GetSteppedTile(Vector2 pacmanTile, int step);
+Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile);
+int GetNextDirection(Ghost ghost, Vector2 targetTile);
+void GoToTile(Ghost ghost, Vector2 tile);
 

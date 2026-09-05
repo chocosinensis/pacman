@@ -1,5 +1,5 @@
 void DrawPacman(int x, int y, int direction, int index) {
-  Vector2 pc = getSpriteDirection(pacman, direction);
+  Vector2 pc = GetSpriteDirection(pacman, direction);
   DrawTexturePro(
     characters,
     (Rectangle) { pc.x + (index * UNIT_SPRITE_LENGTH), pc.y, UNIT_SPRITE_LENGTH, UNIT_SPRITE_LENGTH },
