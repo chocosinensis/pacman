@@ -21,7 +21,7 @@
 #define RIGHT (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D) || IsKeyPressed(KEY_L))
 #define PAUSE (IsKeyPressed(KEY_SPACE))
 
-#define LENGTH(arr) (sizeof(arr) / sizeof(arr[0]))
+#define LENGTH(arr) (sizeof((arr)) / sizeof((arr)[0]))
 
 // assets.h
 #define AUDIO_LENGTH 8
