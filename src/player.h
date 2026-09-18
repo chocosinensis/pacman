@@ -27,6 +27,7 @@ void EatPellet(float x, float y) {
 
   MAP[gridY][gridX] = ORB_EATEN;
   AddScore(orb ? SCORE_PELLET : blorb ? SCORE_POWER_PELLET : 0);
+  pelletsEaten++;
 
   if (blorb) MakeFrightened();
 
@@ -40,7 +41,9 @@ void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition) {
   bool hasCollided = ghostTile.x == pacmanTile.x && ghostTile.y == pacmanTile.y;
   if (hasCollided) {
     if (ghost->state == FRIGHTENED) {
+      ghostsEaten++;
       ChangeState(ghost, EATEN);
+      AddScore(pow(SCORE_GHOST / 100, ghostsEaten) * 100);
       Play(AUDIO_EATGHOST);
     }
     if (ghost->state == SCATTER || ghost->state == CHASE)

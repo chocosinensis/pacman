@@ -10,10 +10,11 @@
 #define TITLE "Pac-Man - B2 (091 + 098)"
 #define FONT_SIZE (GRID_LENGTH + 3)
 
-#define MAX_LIVES 3
-#define SCORE_PELLET 10
+#define MAX_LIVES           3
+#define SCORE_PELLET       10
 #define SCORE_POWER_PELLET 50
-#define SCORE_GHOST 200
+#define SCORE_GHOST       200
+#define TOTAL_PELLETS     244
 
 #define LEFT  (IsKeyPressed(KEY_LEFT)  || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_H))
 #define DOWN  (IsKeyPressed(KEY_DOWN)  || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_J))
@@ -74,6 +75,21 @@
 #define EATEN       3
 
 // tiles
-#define GHOST_GATE (Vector2) { 13, 14 }
-#define GHOST_HOME (Vector2) { 13, 17 }
+#define GHOST_GATE ((Vector2) { 13, 14 })
+#define GHOST_HOME ((Vector2) { 13, 17 })
+
+// fn-macro
+#define HIT_WALLS { \
+    WillHitWall(nextTiles[S_LEFT]), \
+    WillHitWall(nextTiles[S_DOWN]), \
+    WillHitWall(nextTiles[S_UP]), \
+    WillHitWall(nextTiles[S_RIGHT]) \
+  }
+
+#define TWO_WALLS(dir1, dir2, dir3) \
+  if (direction == dir1 && hitWalls[dir1]) { \
+    if (hitWalls[dir2]) return dir3; \
+    if (hitWalls[dir3]) return dir2; \
+    return dir1; \
+  }
 

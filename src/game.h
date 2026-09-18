@@ -137,10 +137,14 @@ void CoreLogic() {
 
       for (int i = 0; i < LENGTH(ghosts); i++) {
         Ghost *gh = g(i);
-        Vector2 targetTile = GetTargetTile(*gh, pacmanTile);
+        bool reachedGate = false;
+        Vector2 targetTile = reachedGate ? GHOST_HOME : GetTargetTile(*gh, pacmanTile);
         GoToTile(gh, targetTile, distance);
+        GhostToHome(gh, distance, &reachedGate);
         CollideWithGhost(gh, pacmanPosition);
+        #if DEBUG
         printf("POSITION FOR %d : (%.2f, %.2f)\n", gh->name, gh->position.x, gh->position.y);
+        #endif
       }
 
       pacmanIndex = (int) (GetTime() / 0.075) % pacman.sprites;

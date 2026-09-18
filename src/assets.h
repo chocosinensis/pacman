@@ -31,7 +31,7 @@ void InitTextures() {
 
   fruit = MakeSprite(3, 3);
   frightened = MakeSprite(8, 4);
-  eyes = InitCharacter(9, 4, 9, 5, 9, 6, 9, 7, 1, EYES);
+  eyes = InitCharacter(8, 5, 9, 5, 10, 5, 11, 5, 1, EYES);
   dead = MakeSprite(4, 0);
 }
 Sound InitAudio(int idx) {

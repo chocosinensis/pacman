@@ -1,2 +1,2 @@
 #define DEBUG 0
-#define SOUND_ALLOWED 1
+#define SOUND_ALLOWED 0
