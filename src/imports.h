@@ -1,6 +1,7 @@
 #include "./lib.h"
 #include "./debug.h"
 #include "./constants.h"
+#include "./macros.h"
 #include "./game_state.h"
 #include "./gridwall.h"
 #include "./assets.h"

@@ -1,8 +1,8 @@
 void QueueDirection(int *queued) {
-  if (LEFT)  *queued = S_LEFT;
-  if (DOWN)  *queued = S_DOWN;
-  if (UP)    *queued = S_UP;
-  if (RIGHT) *queued = S_RIGHT;
+  if (PRESSED_LEFT)  *queued = S_LEFT;
+  if (PRESSED_DOWN)  *queued = S_DOWN;
+  if (PRESSED_UP)    *queued = S_UP;
+  if (PRESSED_RIGHT) *queued = S_RIGHT;
 }
 
 void Play(int audioIndex) {

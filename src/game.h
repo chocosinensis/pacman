@@ -65,13 +65,13 @@ void CoreLogic() {
 
     if (lives >= 0 && GetKeyPressed() != 0) {
       gameStarted = true;
-      if (!PAUSE) gamePaused = false;
+      if (!PRESSED_PAUSE) gamePaused = false;
     }
     if (!gameStarted) {
       int textWidth = MeasureText("READY!", FONT_SIZE);
       DrawText("READY!", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, FONT_SIZE, YELLOW);
     }
-    if (gameStarted && !PAUSE && gamePaused) {
+    if (gameStarted && !PRESSED_PAUSE && gamePaused) {
       int textWidth = MeasureText("PAUSE", FONT_SIZE);
       DrawText("PAUSE", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, FONT_SIZE, YELLOW);
     }
@@ -79,7 +79,7 @@ void CoreLogic() {
       Play(AUDIO_START);
       beginning = true;
     }
-    if (PAUSE) gamePaused = !gamePaused;
+    if (PRESSED_PAUSE) gamePaused = !gamePaused;
 
     // TODO: Implement the maze and detect collision ghosts
     // PACMAN BARE COLLISION
@@ -147,9 +147,9 @@ void CoreLogic() {
         #endif
       }
 
-      pacmanIndex = (int) (GetTime() / 0.075) % pacman.sprites;
+      pacmanIndex = (int) (GetTime() / ANIMATION_SPEED) % pacman.sprites;
       for (int i = 0; i < LENGTH(ghostIndeces); i++)
-        ghostIndeces[i] = g(i)->state == EATEN ? 0 : (int) (GetTime() / 0.075) % ghosts[i].sprites;
+        ghostIndeces[i] = g(i)->state == EATEN ? 0 : (int) (GetTime() / ANIMATION_SPEED) % ghosts[i].sprites;
       blorbColor = ((int) (GetTime() / 0.2) % 2) ? PELLET_COLOR : 0x00000000;
     } else pacmanIndex = 2;
 

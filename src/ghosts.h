@@ -50,10 +50,10 @@ Vector2 GetSteppedTile(Vector2 pacmanTile, int step) {
 
 Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile) {
   Vector2 scatters[] = {
-    (Vector2) { -1, GRID_WIDTH - 2 },
-    (Vector2) { -1, 2 },
-    (Vector2) { GRID_HEIGHT - 2, 1 },
-    (Vector2) { GRID_HEIGHT - 2, GRID_WIDTH - 1 }
+    (Vector2) { GRID_WIDTH - 2, -1 },
+    (Vector2) { 2, -1 },
+    (Vector2) { GRID_WIDTH - 1, GRID_HEIGHT - 2 },
+    (Vector2) { 1, GRID_HEIGHT - 2 },
   };
 
   if (ghost.state == SCATTER) return scatters[ghost.name];
@@ -80,18 +80,13 @@ Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile) {
   return GHOST_GATE;
 }
 
-bool IsNextWall(Vector2 tiles[], int dir, int idx, int direction) {
-  Vector2 pos = GetTilePosition(tiles[idx]);
-  return !WillHitWall(pos) && (dir == direction || idx == direction);
-}
-
 bool IsGhostInHouse(Vector2 tile) {
   int houseLeft = 11, houseDown = 19, houseUp = 14, houseRight = 18;
   return houseLeft < tile.x && tile.x < houseRight &&
     houseUp < tile.y && tile.y < houseDown;
 }
 
-bool SurroundedByWalls(Vector2 nextTiles[], int direction) {
+bool SurroundedByWalls(Vector2 nextPositions[], int direction) {
   bool hitWalls[] = HIT_WALLS;
   if (direction == S_LEFT)  return hitWalls[S_UP]   && hitWalls[S_DOWN];
   if (direction == S_DOWN)  return hitWalls[S_LEFT] && hitWalls[S_RIGHT];
@@ -100,7 +95,16 @@ bool SurroundedByWalls(Vector2 nextTiles[], int direction) {
   return false;
 }
 
-int DirectionWhenTwoWalls(Vector2 nextTiles[], int direction) {
+bool HitTwoWalls(Vector2 nextPositions[], int direction) {
+  bool hitWalls[] = HIT_WALLS;
+  HIT_TWO_WALLS(S_LEFT , S_UP  , S_DOWN )
+  HIT_TWO_WALLS(S_DOWN , S_LEFT, S_RIGHT)
+  HIT_TWO_WALLS(S_UP   , S_LEFT, S_RIGHT)
+  HIT_TWO_WALLS(S_RIGHT, S_UP  , S_DOWN )
+  return false;
+}
+
+int DirectionWhenTwoWalls(Vector2 nextPositions[], int direction) {
   bool hitWalls[] = HIT_WALLS;
   TWO_WALLS(S_LEFT , S_UP  , S_DOWN )
   TWO_WALLS(S_DOWN , S_LEFT, S_RIGHT)
@@ -108,19 +112,65 @@ int DirectionWhenTwoWalls(Vector2 nextTiles[], int direction) {
   TWO_WALLS(S_RIGHT, S_UP  , S_DOWN )
 }
 
+bool IsGoodToTurn(Vector2 nextPositions[], int direction) {
+  bool hitWalls[] = HIT_WALLS;
+  for (int i = 0; i < LENGTH(hitWalls); i++) printf("%d ", hitWalls[i]); printf("\n");
+  return (
+    UNTURNABLE(S_LEFT , S_UP  , S_DOWN)  ||
+    UNTURNABLE(S_DOWN , S_LEFT, S_RIGHT) ||
+    UNTURNABLE(S_UP   , S_LEFT, S_RIGHT) ||
+    UNTURNABLE(S_RIGHT, S_UP  , S_DOWN)
+  );/* && (
+    TURNABLE(S_LEFT , S_UP  , S_DOWN)  ||
+    TURNABLE(S_DOWN , S_LEFT, S_RIGHT) ||
+    TURNABLE(S_UP   , S_LEFT, S_RIGHT) ||
+    TURNABLE(S_RIGHT, S_UP  , S_DOWN)
+  );*/
+}
+
+int Turn(Vector2 nextTiles[], Vector2 targetTile, int direction) {
+  int dir1 = S_UP, dir2 = S_DOWN;
+  if (direction == S_LEFT)  { dir1 = S_UP  ; dir2 = S_DOWN ; }
+  if (direction == S_DOWN)  { dir1 = S_LEFT; dir2 = S_RIGHT; }
+  if (direction == S_UP)    { dir1 = S_LEFT; dir2 = S_RIGHT; }
+  if (direction == S_RIGHT) { dir1 = S_UP  ; dir2 = S_DOWN ; }
+
+  double d1 = GetDistance(nextTiles[dir1], targetTile);
+  double d2 = GetDistance(nextTiles[dir2], targetTile);
+  printf("d1 = %.2f, d2 = %.2f\n", d1, d2);
+
+  return d1 > d2 ? dir2 : d1 < d2 ? dir1 : direction;
+}
+
+int TurnOrGoStraight(Vector2 nextTiles[], Vector2 targetTile, int direction) {
+  int turnDir = Turn(nextTiles, targetTile, direction);
+
+  double d_straight = GetDistance(nextTiles[direction], targetTile);
+  double d_turn = GetDistance(nextTiles[turnDir], targetTile);
+
+  return d_straight > d_turn ? turnDir : direction;
+}
+
 // TODO: Implement GetNextDirection function
 // INFO: MORE WORK TO BE DONE
 int GetNextDirection(Ghost ghost, Vector2 targetTile) {
+  int gDir = ghost.direction;
   Vector2 ghostTile = Tileify(ghost.position);
+
   Vector2 nextTiles[] = {
     AddToTile(ghostTile, S_LEFT , 1),
     AddToTile(ghostTile, S_DOWN , 1),
     AddToTile(ghostTile, S_UP   , 1),
     AddToTile(ghostTile, S_RIGHT, 1),
   };
-  int gDir = ghost.direction;
+  Vector2 nextPositions[] = {
+    GetTilePosition(nextTiles[S_LEFT]),
+    GetTilePosition(nextTiles[S_DOWN]),
+    GetTilePosition(nextTiles[S_UP]),
+    GetTilePosition(nextTiles[S_RIGHT]),
+  };
 
-  int dir = S_UP;
+  int dir = gDir;
 
   if (IsGhostInHouse(ghostTile)) {
     int leftOrRight = ghostTile.x < 13 ? S_RIGHT : ghostTile.x > 14 ? S_LEFT : S_UP;
@@ -128,36 +178,45 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
   }
 
   for (int i = 0; i < LENGTH(nextTiles); i++) {
-    bool backwards = (i == S_LEFT  && gDir == S_RIGHT)
-      || (i == S_DOWN  && gDir == S_UP)
-      || (i == S_UP    && gDir == S_DOWN)
-      || (i == S_RIGHT && gDir == S_LEFT);
+    bool backwards =
+      (i == S_LEFT  && gDir == S_RIGHT) ||
+      (i == S_DOWN  && gDir == S_UP)    ||
+      (i == S_UP    && gDir == S_DOWN)  ||
+      (i == S_RIGHT && gDir == S_LEFT);
 
-    if (backwards) continue;
+    Vector2 pos = nextPositions[i];
+    Vector2 currentPos = nextPositions[gDir];
 
-    Vector2 pos = GetTilePosition(nextTiles[i]);
-    if (SurroundedByWalls(nextTiles, i)) { continue; }
-
-    double d_i = GetDistance(nextTiles[i], targetTile);
-    double d = GetDistance(nextTiles[dir], targetTile);
-
+    if (ghost.name == BLINKY && IsGoodToTurn(nextPositions, gDir)) printf("GOOD TO TURN\n");
     #if DEBUG
+    if (ghost.name == BLINKY)
     printf(
-      "ghost = %d, i = %d, dir = %d, d_i = %.2lf, d = %.2lf, "
-      "nextTiles[i] = (%.2f, %.2f), nextTiles[dir] = (%.2f, %.2f), "
-      "will hit wall = %d\n",
-      ghost.name, i, dir, d_i, d,
-      nextTiles[i].x, nextTiles[i].y, nextTiles[dir].x, nextTiles[dir].y, WillHitWall(pos)
+      "ghost = %d, "
+      "i = %d, dir = %d, gDir = %d, targetTile = (%.2f, %.2f)\n"
+      "pos = (%.2f, %.2f), currentPos = (%.2f, %.2f), backwards = %d\n"
+      "nextTiles[i] = (%.2f, %.2f), nextTiles[dir] = (%.2f, %.2f)\n"
+      "will hit wall = %d, will currentPos hit = %d, is good to turn = %d\n"
+      "hit two walls = %d, dir when two walls = %d, surrounded = %d\n"
+      , ghost.name
+      , i, dir, gDir
+      , targetTile.x, targetTile.y
+      , pos.x, pos.y, currentPos.x, currentPos.y, backwards
+      , nextTiles[i].x, nextTiles[i].y, nextTiles[dir].x, nextTiles[dir].y
+      , WillHitWall(pos), WillHitWall(currentPos), IsGoodToTurn(nextPositions, gDir)
+      , HitTwoWalls(nextPositions, dir), DirectionWhenTwoWalls(nextPositions, dir)
+      , SurroundedByWalls(nextPositions, dir)
     );
     #endif
 
-    if (!backwards && WillHitWall(ghost.position)) { dir = DirectionWhenTwoWalls(nextTiles, i); continue; }
-    if (!backwards && d_i < d && !WillHitWall(pos)) dir = i;
-    if (!backwards && d_i == d) {
-      if (IsNextWall(nextTiles, dir, i, S_UP   )) { dir = S_UP;    break; }
-      if (IsNextWall(nextTiles, dir, i, S_LEFT )) { dir = S_LEFT;  break; }
-      if (IsNextWall(nextTiles, dir, i, S_DOWN )) { dir = S_DOWN;  break; }
-      if (IsNextWall(nextTiles, dir, i, S_RIGHT)) { dir = S_RIGHT; break; }
+    if (backwards) continue;
+    if (SurroundedByWalls(nextPositions, gDir)) { dir = gDir; break; }
+    if (HitTwoWalls(nextPositions, gDir)) {
+      dir = DirectionWhenTwoWalls(nextPositions, gDir); if (ghost.name == BLINKY) printf("dir = %d\n", dir);
+      break;
+    }
+    if (WillHitWall(currentPos) || IsGoodToTurn(nextPositions, gDir)) {
+      dir = Turn(nextTiles, targetTile, gDir); if(ghost.name==BLINKY)printf("GAY2, dir = %d\n", dir);
+      break;
     }
   }
 

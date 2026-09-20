@@ -4,6 +4,7 @@
 #define GRID_HEIGHT 36
 
 #define SPEED (300 * GRID_LENGTH / 25)
+#define ANIMATION_SPEED 0.075
 
 #define WIDTH (GRID_WIDTH * GRID_LENGTH)
 #define HEIGHT (GRID_HEIGHT * GRID_LENGTH)
@@ -16,11 +17,11 @@
 #define SCORE_GHOST       200
 #define TOTAL_PELLETS     244
 
-#define LEFT  (IsKeyPressed(KEY_LEFT)  || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_H))
-#define DOWN  (IsKeyPressed(KEY_DOWN)  || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_J))
-#define UP    (IsKeyPressed(KEY_UP)    || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_K))
-#define RIGHT (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D) || IsKeyPressed(KEY_L))
-#define PAUSE (IsKeyPressed(KEY_SPACE))
+#define PRESSED_LEFT  (IsKeyPressed(KEY_LEFT)  || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_H))
+#define PRESSED_DOWN  (IsKeyPressed(KEY_DOWN)  || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_J))
+#define PRESSED_UP    (IsKeyPressed(KEY_UP)    || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_K))
+#define PRESSED_RIGHT (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D) || IsKeyPressed(KEY_L))
+#define PRESSED_PAUSE (IsKeyPressed(KEY_SPACE))
 
 #define LENGTH(arr) (sizeof((arr)) / sizeof((arr)[0]))
 
@@ -77,19 +78,3 @@
 // tiles
 #define GHOST_GATE ((Vector2) { 13, 14 })
 #define GHOST_HOME ((Vector2) { 13, 17 })
-
-// fn-macro
-#define HIT_WALLS { \
-    WillHitWall(nextTiles[S_LEFT]), \
-    WillHitWall(nextTiles[S_DOWN]), \
-    WillHitWall(nextTiles[S_UP]), \
-    WillHitWall(nextTiles[S_RIGHT]) \
-  }
-
-#define TWO_WALLS(dir1, dir2, dir3) \
-  if (direction == dir1 && hitWalls[dir1]) { \
-    if (hitWalls[dir2]) return dir3; \
-    if (hitWalls[dir3]) return dir2; \
-    return dir1; \
-  }
-

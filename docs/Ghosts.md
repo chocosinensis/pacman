@@ -34,10 +34,10 @@ TURN AROUND 180 DEGREES ONLY WHEN:
 **Target**:
 
 Scatter:
-Blinky : (-1, GRID_WIDTH - 2)
-Pinky  : (-1, 2)
-Inky   : (GRID_HEIGHT - 2, 1)
-Clyde  : (GRID_HEIGHT - 2, GRID_WIDTH - 1)
+Blinky : (GRID_WIDTH - 2, -1)
+Pinky  : (2, -1)
+Inky   : (GRID_WIDTH - 1, GRID_HEIGHT - 2)
+Clyde  : (1, GRID_HEIGHT - 2)
 
 Frightened: when pacman eats blorb on lvls 1-16 and 18
 GHOSTS TURN AROUND 180 DEGREES
