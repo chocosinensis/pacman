@@ -214,7 +214,7 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
       dir = DirectionWhenTwoWalls(nextPositions, gDir); if (ghost.name == BLINKY) printf("dir = %d\n", dir);
       break;
     }
-    if (WillHitWall(currentPos) || IsGoodToTurn(nextPositions, gDir)) {
+    if (WillHitWall(currentPos)/* || IsGoodToTurn(nextPositions, gDir)*/) {
       dir = Turn(nextTiles, targetTile, gDir); if(ghost.name==BLINKY)printf("GAY2, dir = %d\n", dir);
       break;
     }
