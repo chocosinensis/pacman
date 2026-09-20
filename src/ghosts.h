@@ -112,10 +112,10 @@ int DirectionWhenTwoWalls(Vector2 nextPositions[], int direction) {
   TWO_WALLS(S_RIGHT, S_UP  , S_DOWN )
 }
 
-bool IsGoodToTurn(Vector2 nextPositions[], int direction) {
+bool IsGoodToTurn(Vector2 nextPositions[], int direction, bool snap) {
   bool hitWalls[] = HIT_WALLS;
   for (int i = 0; i < LENGTH(hitWalls); i++) printf("%d ", hitWalls[i]); printf("\n");
-  return (
+  return snap && (
     UNTURNABLE(S_LEFT , S_UP  , S_DOWN)  ||
     UNTURNABLE(S_DOWN , S_LEFT, S_RIGHT) ||
     UNTURNABLE(S_UP   , S_LEFT, S_RIGHT) ||
@@ -137,7 +137,6 @@ int Turn(Vector2 nextTiles[], Vector2 targetTile, int direction) {
 
   double d1 = GetDistance(nextTiles[dir1], targetTile);
   double d2 = GetDistance(nextTiles[dir2], targetTile);
-  printf("d1 = %.2f, d2 = %.2f\n", d1, d2);
 
   return d1 > d2 ? dir2 : d1 < d2 ? dir1 : direction;
 }
@@ -156,6 +155,7 @@ int TurnOrGoStraight(Vector2 nextTiles[], Vector2 targetTile, int direction) {
 int GetNextDirection(Ghost ghost, Vector2 targetTile) {
   int gDir = ghost.direction;
   Vector2 ghostTile = Tileify(ghost.position);
+  int snapCount = 0;
 
   Vector2 nextTiles[] = {
     AddToTile(ghostTile, S_LEFT , 1),
@@ -187,7 +187,10 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
     Vector2 pos = nextPositions[i];
     Vector2 currentPos = nextPositions[gDir];
 
-    if (ghost.name == BLINKY && IsGoodToTurn(nextPositions, gDir)) printf("GOOD TO TURN\n");
+    bool snap = ghost.position.x == GetTilePosition(ghostTile).x &&
+      ghost.position.y == GetTilePosition(ghostTile).y && ++snapCount == 1;
+
+    if (ghost.name == BLINKY && IsGoodToTurn(nextPositions, gDir, snap)) printf("GOOD TO TURN\n");
     #if DEBUG
     if (ghost.name == BLINKY)
     printf(

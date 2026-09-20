@@ -82,7 +82,7 @@ bool IsGhostInHouse(Vector2 tile);
 bool SurroundedByWalls(Vector2 nextPositions[], int direction);
 bool HitTwoWalls(Vector2 nextPositions[], int direction);
 int DirectionWhenTwoWalls(Vector2 nextPositions[], int direction);
-bool IsGoodToTurn(Vector2 nextPositions[], int direction);
+bool IsGoodToTurn(Vector2 nextPositions[], int direction, bool snap);
 int Turn(Vector2 nextTiles[], Vector2 targetTile, int direction);
 int GetNextDirection(Ghost ghost, Vector2 targetTile);
 void GoToTile(Ghost *ghost, Vector2 tile, float distance);
