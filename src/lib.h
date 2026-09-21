@@ -45,6 +45,7 @@ bool IsBlorb(float x, float y);
 // util.h
 void QueueDirection(int *queued);
 void Play(int audioIndex);
+void DrawCredits();
 Vector2 MakeSprite(int x, int y);
 Vector2 GetSpriteDirection(Character ch, int direction);
 Character InitCharacter(

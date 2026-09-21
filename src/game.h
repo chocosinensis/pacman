@@ -29,6 +29,9 @@ void CoreLogic() {
       Vector2Zero(), 0, WHITE
     );
 
+    // Credits
+    DrawCredits();
+
     // Score at top
     DrawText(TextFormat("1UP  %04d", currentScore), GRID_LENGTH * 3, GRID_LENGTH * 1, FONT_SIZE - 3, WHITE);
     DrawText(TextFormat("HIGH %04d", highScore), GRID_LENGTH * 19.5, GRID_LENGTH * 1, FONT_SIZE - 3, WHITE);
