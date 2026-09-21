@@ -3,6 +3,7 @@ build/*
 build/app
 !build/.gitkeep
 main
+.DS_Store
 
 # Prerequisites
 *.d
