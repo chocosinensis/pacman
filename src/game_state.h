@@ -2,7 +2,8 @@ bool gameStarted = false;
 bool beginning = false;
 bool gamePaused = true;
 
-bool gotEaten = true;
+bool gotEatenStart = false;
+bool gotEatenEnd = true;
 bool gameOver = false;
 
 int direction = S_LEFT;

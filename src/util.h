@@ -60,3 +60,8 @@ Vector2 GetCoordinates(Vector2 pos) {
   return GetTilePosition(Tileify(pos));
 }
 
+bool Snaps(Vector2 pos, int *snapCount) {
+  Vector2 coords = GetCoordinates(pos);
+  float offset = 0;
+  return fabsf(pos.x - coords.x) <= offset && fabsf(pos.y - coords.y) <= offset && ++(*snapCount) == 1;
+}

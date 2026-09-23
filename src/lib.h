@@ -75,13 +75,15 @@ Character InitCharacter(
 Vector2 Tileify(Vector2 pos);
 Vector2 GetTilePosition(Vector2 tile);
 Vector2 GetCoordinates(Vector2 pos);
+bool Snaps(Vector2 pos, int *snapCount);
 
 // player.h
 void DrawPacman(int x, int y, int direction, int index);
 Vector2 MoveInDirection(Vector2 pos, int dir, float distance);
 void EatPellet(float x, float y);
 void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition);
-void GetEaten(Vector2 pacmanPosition);
+void GetEaten();
+void AnimateGameOver(Vector2 pacmanPosition);
 
 // ghosts.h
 Vector2 GetGhostSprite(Ghost gh);
@@ -91,7 +93,7 @@ Ghost *g(int idx);
 double GetDistance(Vector2 tile1, Vector2 tile2);
 Vector2 AddToTile(Vector2 tile, int direction, int step);
 Vector2 GetSteppedTile(Vector2 pacmanTile, int step);
-Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile);
+Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile, Vector2 blinkyTile);
 bool IsGhostInHouse(Vector2 tile);
 bool SurroundedByWalls(Vector2 nextPositions[], int direction);
 bool HitTwoWalls(Vector2 nextPositions[], int direction);

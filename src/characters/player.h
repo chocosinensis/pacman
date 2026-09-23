@@ -48,36 +48,46 @@ void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition) {
     }
     if (ghost->state == SCATTER || ghost->state == CHASE)
       // TODO: Uncomment for functionality to work
-      GetEaten(pacmanPosition);
+      // GetEaten();
       printf("");
   }
 }
 
-void GetEaten(Vector2 pacmanPosition) {
+void GetEaten() {
+  gotEatenStart = true;
   gameStarted = false;
   gamePaused = true;
   beginning = false;
   LoseLife();
+  SetTimer(&gotEatenTimer);
 
-  // TODO: Play game over animation 
+  Play(AUDIO_DEATH);
+}
+
+void AnimateGameOver(Vector2 pacmanPosition) {
   int idx = 0;
   int DEAD_SPRITES = 11;
 
-  Play(AUDIO_DEATH);
+  // for (int i = 0; i < GHOSTS; i++) {
+  //   g(i)->position = (Vector2) { -GRID_LENGTH, -GRID_LENGTH };
+  // }
 
-  while (idx != DEAD_SPRITES) {
+  double time = 1;
+  while (GetCurrentTime(gotEatenTimer) < time && idx != DEAD_SPRITES + 1) {
     DrawTexturePro(
       characters,
       (Rectangle) {
-        dead.x + (idx * UNIT_SPRITE_LENGTH), dead.y * UNIT_SPRITE_LENGTH,
+        dead.x + (idx * UNIT_SPRITE_LENGTH), dead.y,
         UNIT_SPRITE_LENGTH, UNIT_SPRITE_LENGTH
       },
       (Rectangle) { pacmanPosition.x, pacmanPosition.y, GRID_LENGTH, GRID_LENGTH },
       Vector2Zero(), 0, WHITE
     );
-    idx++;
+    if (GetCurrentTime(gotEatenTimer) >= idx * time / (DEAD_SPRITES * 1.0)) idx++;
+    EndDrawing();
   }
 
-  gotEaten = true;
+  gotEatenEnd = true;
+  gotEatenStart = false;
 }
 

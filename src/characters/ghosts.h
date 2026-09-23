@@ -57,7 +57,7 @@ Vector2 GetSteppedTile(Vector2 pacmanTile, int step) {
   if (direction == S_RIGHT) return (Vector2) { pacmanTile.x + step, pacmanTile.y };
 }
 
-Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile) {
+Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile, Vector2 blinkyTile) {
   Vector2 scatters[] = {
     (Vector2) { GRID_WIDTH - 2, -1 },
     (Vector2) { 2, -1 },
@@ -73,7 +73,8 @@ Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile) {
     // TODO: Implement inky's target tile
     if (ghost.name == INKY) {
       Vector2 intermediate = GetSteppedTile(pacmanTile, 2);
-      return scatters[INKY];
+      Vector2 inkyTarget = Vector2Add(Vector2Scale(intermediate, 2), Vector2Scale(blinkyTile, -1));
+      return inkyTarget;
     }
     if (ghost.name == CLYDE) {
       bool isEightTilesAway = GetDistance(Tileify(ghost.position), pacmanTile) >= 8;
@@ -148,7 +149,7 @@ int Turn(Vector2 nextTiles[], Vector2 targetTile, int direction) {
   double d1 = GetDistance(nextTiles[dir1], targetTile);
   double d2 = GetDistance(nextTiles[dir2], targetTile);
 
-  return d1 > d2 ? dir2 : d1 < d2 ? dir1 : direction;
+  return d1 > d2 ? dir2 : dir1;
 }
 
 int TurnOrGoStraight(Vector2 nextTiles[], Vector2 targetTile, int direction) {
@@ -197,8 +198,7 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
     Vector2 pos = nextPositions[i];
     Vector2 currentPos = nextPositions[gDir];
 
-    bool snap = ghost.position.x == GetTilePosition(ghostTile).x &&
-      ghost.position.y == GetTilePosition(ghostTile).y && ++snapCount == 1;
+    bool snap = Snaps(ghost.position, &snapCount);
 
     if (ghost.name == BLINKY && IsGoodToTurn(nextPositions, gDir, snap)) printf("GOOD TO TURN\n");
     #if DEBUG
@@ -221,6 +221,8 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
     );
     #endif
 
+    if (ghost.name == CLYDE) printf("(%.2f, %.2f)\n", ghost.position.x, ghost.position.y);
+
     if (backwards) continue;
     if (SurroundedByWalls(nextPositions, gDir)) { dir = gDir; break; }
     if (HitTwoWalls(nextPositions, gDir)) {
@@ -231,6 +233,9 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
       dir = Turn(nextTiles, targetTile, gDir); if(ghost.name==BLINKY)printf("GAY2, dir = %d\n", dir);
       break;
     }
+    // if (IsGoodToTurn(nextPositions, gDir, snap)) {
+    //   dir = TurnOrGoStraight(nextTiles, targetTile, gDir);
+    // }
   }
 
   return dir;

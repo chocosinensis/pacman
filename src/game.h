@@ -66,7 +66,7 @@ void CoreLogic() {
     for (int i = 0; i < LENGTH(ghosts); i++) DrawGhost(*g(i), ghostIndeces[i]);
 
     // INFO: THIS IS WHERE THE GAME STARTS
-    if (lives >= 0 && GetKeyPressed() != 0) {
+    if (lives >= 0 && !gotEatenStart && GetKeyPressed() != 0) {
       if (!gameStarted) InitTimers();
       gameStarted = true;
       if (!PRESSED_PAUSE) gamePaused = false;
@@ -143,7 +143,8 @@ void CoreLogic() {
       for (int i = 0; i < LENGTH(ghosts); i++) {
         Ghost *gh = g(i);
         bool reachedGate = false;
-        Vector2 targetTile = reachedGate ? GHOST_HOME : GetTargetTile(*gh, pacmanTile);
+        Vector2 blinkyTile = Tileify(g(BLINKY)->position);
+        Vector2 targetTile = reachedGate ? GHOST_HOME : GetTargetTile(*gh, pacmanTile, blinkyTile);
         if (gh->state != EATEN) gh->state = GetGhostState(*gh, gh->state == FRIGHTENED);
         GoToTile(gh, targetTile, delta);
         GhostToHome(gh, delta, &reachedGate);
@@ -162,13 +163,18 @@ void CoreLogic() {
       blorbColor = ((int) (GetTime() / 0.2) % 2) ? PELLET_COLOR : 0x00000000;
     } else pacmanIndex = 2;
 
-    if (gotEaten && !gameStarted) {
+    if (!gotEatenStart && gotEatenEnd && !gameStarted) {
       MiniReset();
       pacmanPosition = PACMAN_STARTING_POSITION;
       pacmanTile = Tileify(pacmanPosition);
       InitGhosts();
-      gotEaten = false;
+      gotEatenEnd = false;
       // gamePaused = false;
+    }
+
+    if (gotEatenStart) {
+      AnimateGameOver(pacmanPosition);
+      continue;
     }
 
     DrawPacman(pacmanPosition.x, pacmanPosition.y, direction, pacmanIndex);

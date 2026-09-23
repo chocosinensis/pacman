@@ -1,5 +1,6 @@
 double levelTimer;
 double frightenedTimer;
+double gotEatenTimer;
 
 void SetTimer(double *timer) {
   *timer = GetTime();

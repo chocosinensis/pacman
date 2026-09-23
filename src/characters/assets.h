@@ -34,7 +34,7 @@ void InitTextures() {
   frightened = MakeSprite(8, 4);
   frightenedWhite = MakeSprite(10, 4);
   eyes = InitCharacter(8, 5, 9, 5, 10, 5, 11, 5, 1, EYES);
-  dead = MakeSprite(4, 0);
+  dead = MakeSprite(3, 0);
 }
 Sound InitAudio(int idx) {
   char path[50];
