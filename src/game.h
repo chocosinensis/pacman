@@ -9,8 +9,8 @@ void CoreLogic() {
   InitGhosts();
 
   while (!WindowShouldClose()) {
-    float dt = GetFrameTime();
-    float distance = SPEED * dt;
+    float delta = GetFrameTime();
+    float playerDistance = PACMAN_SPEED * delta;
 
     BeginDrawing();
     ClearBackground(BLACK);
@@ -130,7 +130,7 @@ void CoreLogic() {
         }
       }
 
-      Vector2 nextPos = MoveInDirection(pacmanPosition, direction, distance);
+      Vector2 nextPos = MoveInDirection(pacmanPosition, direction, playerDistance);
       if (!WillHitWall(nextPos)) pacmanPosition = nextPos;
 
       pacmanPosition.x = (int) round(pacmanPosition.x);
@@ -144,9 +144,13 @@ void CoreLogic() {
         Ghost *gh = g(i);
         bool reachedGate = false;
         Vector2 targetTile = reachedGate ? GHOST_HOME : GetTargetTile(*gh, pacmanTile);
-        GoToTile(gh, targetTile, distance);
-        GhostToHome(gh, distance, &reachedGate);
+        if (gh->state != EATEN) gh->state = GetGhostState(*gh, gh->state == FRIGHTENED);
+        GoToTile(gh, targetTile, delta);
+        GhostToHome(gh, delta, &reachedGate);
         CollideWithGhost(gh, pacmanPosition);
+        bool blorbified = gh->state == FRIGHTENED || gh->state == EATEN; // CATCH FOR EYES-BUG
+        if (blorbified && GetCurrentTime(frightenedTimer) >= 8)
+          gh->state = GetGhostState(*gh, false);
         #if DEBUG
         printf("POSITION FOR %d : (%.2f, %.2f)\n", gh->name, gh->position.x, gh->position.y);
         #endif

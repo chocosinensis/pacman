@@ -1,8 +1,16 @@
-void DrawGhost(Ghost gh, int index) {
+Vector2 GetGhostSprite(Ghost gh) {
   Vector2 g = GetSpriteDirection(ghosts[gh.name], gh.direction);
-  if (gh.state == FRIGHTENED) g = frightened;
+  if (gh.state == FRIGHTENED) {
+    g = frightened;
+    double t = GetCurrentTime(frightenedTimer);
+    if (t >= 5.5) g = ((int) (t / 0.25)) % 2 ? frightenedWhite : frightened;
+  }
   if (gh.state == EATEN) g = GetSpriteDirection(eyes, gh.direction);
+  return g;
+}
 
+void DrawGhost(Ghost gh, int index) {
+  Vector2 g = GetGhostSprite(gh);
   Vector2 pos = gh.position;
   DrawTexturePro(
     characters,
@@ -113,9 +121,10 @@ int DirectionWhenTwoWalls(Vector2 nextPositions[], int direction) {
   TWO_WALLS(S_RIGHT, S_UP  , S_DOWN )
 }
 
+// TODO: FINISH IT
 bool IsGoodToTurn(Vector2 nextPositions[], int direction, bool snap) {
   bool hitWalls[] = HIT_WALLS;
-  for (int i = 0; i < LENGTH(hitWalls); i++) printf("%d ", hitWalls[i]); printf("\n");
+  // for (int i = 0; i < LENGTH(hitWalls); i++) printf("%d ", hitWalls[i]); printf("\n");
   return snap && (
     UNTURNABLE(S_LEFT , S_UP  , S_DOWN)  ||
     UNTURNABLE(S_DOWN , S_LEFT, S_RIGHT) ||
@@ -195,13 +204,13 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
     #if DEBUG
     if (ghost.name == BLINKY)
     printf(
-      "ghost = %d, "
+      "ghost = %d, state = %d, "
       "i = %d, dir = %d, gDir = %d, targetTile = (%.2f, %.2f)\n"
       "pos = (%.2f, %.2f), currentPos = (%.2f, %.2f), backwards = %d\n"
       "nextTiles[i] = (%.2f, %.2f), nextTiles[dir] = (%.2f, %.2f)\n"
       "will hit wall = %d, will currentPos hit = %d, is good to turn = %d\n"
       "hit two walls = %d, dir when two walls = %d, surrounded = %d\n"
-      , ghost.name
+      , ghost.name, ghost.state
       , i, dir, gDir
       , targetTile.x, targetTile.y
       , pos.x, pos.y, currentPos.x, currentPos.y, backwards
@@ -228,7 +237,9 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
 }
 
 // TODO: Implement GoToTile function
-void GoToTile(Ghost *ghost, Vector2 tile, float distance) {
+void GoToTile(Ghost *ghost, Vector2 tile, float delta) {
+  float distance = (ghost->state == EATEN ? EATEN_GHOST_SPEED : GHOST_SPEED) * delta;
+
   ghost->direction = GetNextDirection(*ghost, tile);
   ghost->position = CanTurn(ghost->position, ghost->direction)
     ? MoveInDirection(ghost->position, ghost->direction, distance)
@@ -264,14 +275,54 @@ void ChangeState(Ghost *ghost, int state) {
   ghost->state = state;
 }
 
+bool BlinkyWillChase() {
+  return (
+    BLINKY_CHASE( 1,  1,  20) ||
+    BLINKY_CHASE( 2,  2,  30) ||
+    BLINKY_CHASE( 3,  5,  40) ||
+    BLINKY_CHASE( 6,  8,  50) ||
+    BLINKY_CHASE( 9, 11,  60) ||
+    BLINKY_CHASE(12, 14,  80) ||
+    BLINKY_CHASE(15, 18, 100) ||
+    BLINKY_CHASE(19, MAX_LEVEL, 120)
+  );
+}
+
+int GetGhostState(Ghost gh, bool frightened) {
+  if (frightened) return FRIGHTENED;
+
+  if (gh.name == BLINKY && BlinkyWillChase()) return CHASE;
+
+  int states[3][7] = {
+    { 7, 20, 7, 20, 5,           20, 5 },
+    { 7, 20, 7, 20, 5, 17 * 60 + 14, 1 },
+    { 5, 20, 5, 20, 5, 17 * 60 + 14, 1 }
+  };
+  int stateIndex = level == 1 ? 0 : 2 <= level && level <= 4 ? 1 : 2;
+
+  int totalTime = 0;
+  int state;
+
+  for (int i = 0; i < LENGTH(states[stateIndex]); i++) {
+    int t = states[stateIndex][i];
+    totalTime += t;
+    double p = GetCurrentTime(levelTimer);
+    if (totalTime - t <= p && p <= totalTime) return i % 2;
+  }
+
+  return CHASE;
+}
+
 void MakeFrightened() {
   ghostsEaten = 0;
   for (int i = 0; i < LENGTH(ghosts); i++)
     ChangeState(g(i), FRIGHTENED);
+  SetTimer(&frightenedTimer);
 }
 
-void GhostToHome(Ghost *ghost, float distance, bool *reachedGate) {
+void GhostToHome(Ghost *ghost, float delta, bool *reachedGate) {
   if (ghost->state != EATEN) return;
+  float distance = EATEN_GHOST_SPEED * delta;
   if (ghost->position.x == GHOST_GATE.x && ghost->position.y == GHOST_GATE.y)
     *reachedGate = true;
     // GoToTile(ghost, GHOST_HOME, distance);

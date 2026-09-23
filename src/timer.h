@@ -1,12 +1,12 @@
-double levelTime;
+double levelTimer;
+double frightenedTimer;
 
-void InitTimers() {
-  levelTime = GetTime();
-  printf("Timers initialized, levelTime = %.2lf\n", levelTime);
+void SetTimer(double *timer) {
+  *timer = GetTime();
 }
 
-void ResetTimers() {
-  levelTime = GetTime();
+void InitTimers() {
+  SetTimer(&levelTimer);
 }
 
 double GetCurrentTime(double start) {

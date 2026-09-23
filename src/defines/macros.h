@@ -29,3 +29,8 @@
 
 #define UNTURNABLE(dir1, dir2, dir3) (direction == (dir1) && (!hitWalls[(dir2)] || !hitWalls[(dir3)]))
 // #define TURNABLE(dir1, dir2, dir3) (direction == (dir1) && !(hitWalls[(dir2)] && hitWalls[(dir3)]))
+
+#define BLINKY_CHASE(lvl1, lvl2, orbs) ( \
+    (lvl1) <= level && level <= (lvl2) && \
+    (orbs) >= (TOTAL_PELLETS - pelletsEaten) \
+  )

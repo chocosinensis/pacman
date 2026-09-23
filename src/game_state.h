@@ -48,6 +48,7 @@ void ResetGameState(Vector2 *pacmanPosition) {
 
 void NextLevel(Vector2 *pacmanPosition) {
   level++;
+  if (level > MAX_LEVEL) level = 1;
   ResetGameState(pacmanPosition);
 }
 

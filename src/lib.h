@@ -55,8 +55,8 @@ bool IsBlorb(float x, float y);
 bool IsEveryPelletEaten(int pelletCount);
 
 // timer.h
+void SetTimer(double *timer);
 void InitTimers();
-void ResetTimers();
 double GetCurrentTime(double start);
 
 // util.h
@@ -84,6 +84,7 @@ void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition);
 void GetEaten(Vector2 pacmanPosition);
 
 // ghosts.h
+Vector2 GetGhostSprite(Ghost gh);
 void DrawGhost(Ghost gh, int index);
 void InitGhosts();
 Ghost *g(int idx);
@@ -98,8 +99,10 @@ int DirectionWhenTwoWalls(Vector2 nextPositions[], int direction);
 bool IsGoodToTurn(Vector2 nextPositions[], int direction, bool snap);
 int Turn(Vector2 nextTiles[], Vector2 targetTile, int direction);
 int GetNextDirection(Ghost ghost, Vector2 targetTile);
-void GoToTile(Ghost *ghost, Vector2 tile, float distance);
+void GoToTile(Ghost *ghost, Vector2 tile, float delta);
 void RotateGhost(Ghost *ghost, int prevState, int newState);
 void ChangeState(Ghost *ghost, int state);
+bool BlinkyWillChase();
+int GetGhostState(Ghost gh, bool frightened);
 void MakeFrightened();
-void GhostToHome(Ghost *ghost, float distance, bool *reachedGate);
+void GhostToHome(Ghost *ghost, float delta, bool *reachedGate);

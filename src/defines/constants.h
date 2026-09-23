@@ -3,7 +3,10 @@
 #define GRID_WIDTH  28
 #define GRID_HEIGHT 36
 
-#define SPEED (300 * GRID_LENGTH / 25)
+#define SPEED(base) ((base) * GRID_LENGTH / 25)
+#define PACMAN_SPEED      SPEED(375)
+#define GHOST_SPEED       SPEED(275)
+#define EATEN_GHOST_SPEED SPEED(500)
 #define ANIMATION_SPEED 0.075
 
 #define WIDTH (GRID_WIDTH * GRID_LENGTH)
@@ -12,6 +15,7 @@
 #define FONT_SIZE (GRID_LENGTH + 3)
 
 #define MAX_LIVES           3
+#define MAX_LEVEL          40
 #define SCORE_PELLET       10
 #define SCORE_POWER_PELLET 50
 #define SCORE_GHOST       200

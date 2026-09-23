@@ -6,6 +6,7 @@ Character pacman;
 Character ghosts[GHOSTS];
 Vector2 fruit;
 Vector2 frightened;
+Vector2 frightenedWhite;
 Character eyes;
 Vector2 dead;
 
@@ -31,6 +32,7 @@ void InitTextures() {
 
   fruit = MakeSprite(3, 3);
   frightened = MakeSprite(8, 4);
+  frightenedWhite = MakeSprite(10, 4);
   eyes = InitCharacter(8, 5, 9, 5, 10, 5, 11, 5, 1, EYES);
   dead = MakeSprite(4, 0);
 }
