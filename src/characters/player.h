@@ -48,7 +48,7 @@ void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition) {
     }
     if (ghost->state == SCATTER || ghost->state == CHASE)
       // TODO: Uncomment for functionality to work
-      // GetEaten(pacmanPosition);
+      GetEaten(pacmanPosition);
       printf("");
   }
 }
@@ -78,6 +78,6 @@ void GetEaten(Vector2 pacmanPosition) {
     idx++;
   }
 
-  gameOver = true;
+  gotEaten = true;
 }
 

@@ -22,6 +22,7 @@
 #define PRESSED_UP    (IsKeyPressed(KEY_UP)    || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_K))
 #define PRESSED_RIGHT (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D) || IsKeyPressed(KEY_L))
 #define PRESSED_PAUSE (IsKeyPressed(KEY_SPACE))
+#define PRESSED_RESTART (PRESSED_PAUSE || IsKeyPressed(KEY_R))
 
 #define LENGTH(arr) (sizeof((arr)) / sizeof((arr)[0]))
 
@@ -55,8 +56,11 @@
 #define BLORB      3
 #define ORB_EATEN  4
 
+#include "./map.h"
+
 // player.h
 #define PACMAN 0xdead
+#define PACMAN_STARTING_POSITION ((Vector2) { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 })
 
 // ghosts.h
 // names

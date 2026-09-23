@@ -12,7 +12,8 @@ void DrawGhost(Ghost gh, int index) {
   );
 }
 
-void InitGhosts(Vector2 ghostPositions[]) {
+void InitGhosts() {
+  Vector2 ghostPositions[] = GHOST_HOMES;
   blinky = (Ghost) { BLINKY, SCATTER, ghostPositions[BLINKY], S_RIGHT };
   pinky  = (Ghost) { PINKY , SCATTER, ghostPositions[PINKY] , S_RIGHT };
   inky   = (Ghost) { INKY  , SCATTER, ghostPositions[INKY]  , S_RIGHT };

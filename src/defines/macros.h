@@ -1,4 +1,12 @@
 // ghosts.h
+#define SET_GHOST_HOME(ghost) ((Vector2) { (12 + ghost) * GRID_LENGTH, 17 * GRID_LENGTH })
+#define GHOST_HOMES { \
+    SET_GHOST_HOME(BLINKY), \
+    SET_GHOST_HOME(PINKY), \
+    SET_GHOST_HOME(INKY), \
+    SET_GHOST_HOME(CLYDE), \
+  } \
+
 #define HIT_WALLS { \
     WillHitWall(nextPositions[S_LEFT]), \
     WillHitWall(nextPositions[S_DOWN]), \

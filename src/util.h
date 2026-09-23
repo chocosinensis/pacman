@@ -12,15 +12,15 @@ void Play(int audioIndex) {
 }
 
 void DrawCredits() {
-    // INFO: CREDITS
-    // 2505091 : @chocosinensis
-    // 2505098 : @DirayatSupro
-    float x = GRID_LENGTH * 23;
-    float fontSize = FONT_SIZE / 3;
-    int color = 0xDEADCAFE;
+  // INFO: CREDITS
+  // 2505091 : @chocosinensis
+  // 2505098 : @DirayatSupro
+  float x = GRID_LENGTH * 23;
+  float fontSize = FONT_SIZE / 3;
+  int color = 0xDEADCAFE;
 
-    DrawText("@chocosinensis", x, GRID_LENGTH * 34.5, fontSize, GetColor(color));
-    DrawText("@DirayatSupro", x, GRID_LENGTH * 35, fontSize, GetColor(color));
+  DrawText("@chocosinensis", x, GRID_LENGTH * 34.5, fontSize, GetColor(color));
+  DrawText("@DirayatSupro", x, GRID_LENGTH * 35, fontSize, GetColor(color));
 }
 
 Vector2 MakeSprite(int x, int y) {

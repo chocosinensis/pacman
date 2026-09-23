@@ -5,6 +5,8 @@
 #include "raylib.h"
 #include "raymath.h"
 
+#include "./defines/imports.h"
+
 typedef struct Character {
   Vector2 right;
   Vector2 left;
@@ -25,6 +27,14 @@ typedef struct Ghost {
 void CoreLogic();
 void Game();
 
+// game_state.h
+void InitGameState();
+void MiniReset();
+void ResetGameState(Vector2 *pacmanPosition);
+void NextLevel(Vector2 *pacmanPosition);
+void AddScore(int points);
+void LoseLife();
+
 // assets.h
 void InitTextures();
 Sound InitAudio(int idx);
@@ -35,12 +45,19 @@ void UnloadTextures();
 void UnloadAudios();
 
 // gridwall.h
+void InitMap(int MAP[GRID_HEIGHT][GRID_WIDTH]);
 bool IsCollidable(float x, float y, int object);
 bool IsWall(float x, float y);
 bool WillHitWall(Vector2 pos);
 bool CanTurn(Vector2 pos, int dir);
 bool IsOrb(float x, float y);
 bool IsBlorb(float x, float y);
+bool IsEveryPelletEaten(int pelletCount);
+
+// timer.h
+void InitTimers();
+void ResetTimers();
+double GetCurrentTime(double start);
 
 // util.h
 void QueueDirection(int *queued);
@@ -59,11 +76,6 @@ Vector2 Tileify(Vector2 pos);
 Vector2 GetTilePosition(Vector2 tile);
 Vector2 GetCoordinates(Vector2 pos);
 
-// game_state.h
-void InitGameState();
-void AddScore(int points);
-void LoseLife();
-
 // player.h
 void DrawPacman(int x, int y, int direction, int index);
 Vector2 MoveInDirection(Vector2 pos, int dir, float distance);
@@ -73,7 +85,7 @@ void GetEaten(Vector2 pacmanPosition);
 
 // ghosts.h
 void DrawGhost(Ghost gh, int index);
-void InitGhosts(Vector2 ghostPositions[]);
+void InitGhosts();
 Ghost *g(int idx);
 double GetDistance(Vector2 tile1, Vector2 tile2);
 Vector2 AddToTile(Vector2 tile, int direction, int step);

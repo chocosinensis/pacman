@@ -3,16 +3,10 @@ void CoreLogic() {
   int ghostIndeces[GHOSTS] = { 0 };
   int blorbColor = PELLET_COLOR;
 
-  Vector2 pacmanPosition = (Vector2) { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
+  Vector2 pacmanPosition = PACMAN_STARTING_POSITION;
   Vector2 pacmanTile = Tileify(pacmanPosition);
-  Vector2 ghostPositions[] = {
-    (Vector2) { (12 + BLINKY) * GRID_LENGTH, 17 * GRID_LENGTH },
-    (Vector2) { (12 + PINKY)  * GRID_LENGTH, 17 * GRID_LENGTH },
-    (Vector2) { (12 + INKY)   * GRID_LENGTH, 17 * GRID_LENGTH },
-    (Vector2) { (12 + CLYDE)  * GRID_LENGTH, 17 * GRID_LENGTH },
-  };
 
-  InitGhosts(ghostPositions);
+  InitGhosts();
 
   while (!WindowShouldClose()) {
     float dt = GetFrameTime();
@@ -33,7 +27,7 @@ void CoreLogic() {
     DrawCredits();
 
     // Score at top
-    DrawText(TextFormat("1UP  %04d", currentScore), GRID_LENGTH * 3, GRID_LENGTH * 1, FONT_SIZE - 3, WHITE);
+    DrawText(TextFormat("%dUP  %04d", level, currentScore), GRID_LENGTH * 3, GRID_LENGTH * 1, FONT_SIZE - 3, WHITE);
     DrawText(TextFormat("HIGH %04d", highScore), GRID_LENGTH * 19.5, GRID_LENGTH * 1, FONT_SIZE - 3, WHITE);
 
     // INFO: Hearts at bottom (ironic)
@@ -48,14 +42,19 @@ void CoreLogic() {
       DrawPacman(lifeX, lifeY, S_LEFT, 0);
     }
 
-    // TODO: fix gameover
     if (lives == 0) {
+      gameOver = true;
       gameStarted = false;
       gamePaused = true;
       beginning = true;
       int textWidth = MeasureText("GAME OVER", FONT_SIZE);
       DrawText("GAME OVER", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, FONT_SIZE, YELLOW);
-      return;
+    }
+
+    if (gameOver) {
+      if (PRESSED_RESTART) InitGameState();
+      EndDrawing();
+      continue;
     }
 
     // Draw orbs and blorbs
@@ -66,7 +65,9 @@ void CoreLogic() {
     // Ghosts are rendered for the first time here
     for (int i = 0; i < LENGTH(ghosts); i++) DrawGhost(*g(i), ghostIndeces[i]);
 
+    // INFO: THIS IS WHERE THE GAME STARTS
     if (lives >= 0 && GetKeyPressed() != 0) {
+      if (!gameStarted) InitTimers();
       gameStarted = true;
       if (!PRESSED_PAUSE) gamePaused = false;
     }
@@ -83,6 +84,7 @@ void CoreLogic() {
       beginning = true;
     }
     if (PRESSED_PAUSE) gamePaused = !gamePaused;
+    if (IsEveryPelletEaten(pelletsEaten)) NextLevel(&pacmanPosition);
 
     // TODO: Implement the maze and detect collision ghosts
     // PACMAN BARE COLLISION
@@ -156,12 +158,12 @@ void CoreLogic() {
       blorbColor = ((int) (GetTime() / 0.2) % 2) ? PELLET_COLOR : 0x00000000;
     } else pacmanIndex = 2;
 
-    if (gameOver && !gameStarted) {
-      pacmanPosition = (Vector2) { (float) GRID_LENGTH * 13.5, (float) GRID_LENGTH * 26.0 };
+    if (gotEaten && !gameStarted) {
+      MiniReset();
+      pacmanPosition = PACMAN_STARTING_POSITION;
       pacmanTile = Tileify(pacmanPosition);
-      for (int i = 0; i < LENGTH(ghosts); i++)
-        g(i)->position = (Vector2) { (12 + i) * GRID_LENGTH, 17 * GRID_LENGTH };
-      gameOver = false;
+      InitGhosts();
+      gotEaten = false;
       // gamePaused = false;
     }
 
