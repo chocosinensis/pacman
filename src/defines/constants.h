@@ -27,6 +27,7 @@
 #define PRESSED_RIGHT (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D) || IsKeyPressed(KEY_L))
 #define PRESSED_PAUSE (IsKeyPressed(KEY_SPACE))
 #define PRESSED_RESTART (PRESSED_PAUSE || IsKeyPressed(KEY_R))
+#define SUPERPOWER (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyDown(KEY_LEFT_SHIFT))
 
 #define LENGTH(arr) (sizeof((arr)) / sizeof((arr)[0]))
 
