@@ -5,6 +5,7 @@
 
 #define SPEED(base) ((base) * GRID_LENGTH / 25)
 #define PACMAN_SPEED      SPEED(375)
+#define SUPER_SPEED       SPEED(750)
 #define GHOST_SPEED       SPEED(275)
 #define EATEN_GHOST_SPEED SPEED(500)
 #define ANIMATION_SPEED 0.075
@@ -27,7 +28,8 @@
 #define PRESSED_RIGHT (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D) || IsKeyPressed(KEY_L))
 #define PRESSED_PAUSE (IsKeyPressed(KEY_SPACE))
 #define PRESSED_RESTART (PRESSED_PAUSE || IsKeyPressed(KEY_R))
-#define SUPERPOWER (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyDown(KEY_LEFT_SHIFT))
+#define SUPERPOWER_BASE  (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyDown(KEY_LEFT_SHIFT))
+#define SUPERPOWER_SPEED (IsKeyDown(KEY_LEFT_ALT))
 
 #define LENGTH(arr) (sizeof((arr)) / sizeof((arr)[0]))
 

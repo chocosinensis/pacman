@@ -11,6 +11,7 @@ void CoreLogic() {
   while (!WindowShouldClose()) {
     float delta = GetFrameTime();
     float playerDistance = PACMAN_SPEED * delta;
+    if (SUPERPOWER_SPEED) playerDistance = SUPER_SPEED * delta;
 
     BeginDrawing();
     ClearBackground(BLACK);

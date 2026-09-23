@@ -54,7 +54,6 @@ bool IsEveryPelletEaten(int pelletCount) {
 void OpenGhostHouse(int MAP[GRID_HEIGHT][GRID_WIDTH]) {
   MAP[15][13] = VOID;
   MAP[15][14] = VOID;
-  MAP[16][13] = VOID;
 }
 void CloseGhostHouse(int MAP[GRID_HEIGHT][GRID_WIDTH]) {
   MAP[15][13] = WALL;

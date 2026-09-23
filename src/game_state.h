@@ -39,6 +39,7 @@ void InitMaps() {
 
 void MiniReset() {
   gameStarted = false;
+  beginning = false;
   gamePaused = true;
   direction = S_LEFT;
   queuedDirection = S_LEFT;

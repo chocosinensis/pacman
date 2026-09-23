@@ -48,7 +48,7 @@ void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition) {
     }
     if (ghost->state == SCATTER || ghost->state == CHASE)
       // TODO: Uncomment for functionality to work
-      if (!SUPERPOWER) GetEaten();
+      if (!SUPERPOWER_BASE) GetEaten();
       printf("");
   }
 }
