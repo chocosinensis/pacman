@@ -59,6 +59,7 @@
 #define ORB        2
 #define BLORB      3
 #define ORB_EATEN  4
+#define TURNY      5
 
 #include "./map.h"
 
@@ -85,4 +86,4 @@
 
 // tiles
 #define GHOST_GATE ((Vector2) { 13, 14 })
-#define GHOST_HOME ((Vector2) { 13, 17 })
+#define GHOST_HOME ((Vector2) { 13, 16 })

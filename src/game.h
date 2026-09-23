@@ -124,14 +124,14 @@ void CoreLogic() {
           fabsf(pacmanPosition.x - snap.x) < GRID_LENGTH / 5 &&
           fabsf(pacmanPosition.y - snap.y) < GRID_LENGTH / 5;
 
-        if (isClose && CanTurn(snap, queuedDirection)) {
+        if (isClose && CanTurn(snap, queuedDirection, MAP)) {
           pacmanPosition = snap;
           direction = queuedDirection;
         }
       }
 
       Vector2 nextPos = MoveInDirection(pacmanPosition, direction, playerDistance);
-      if (!WillHitWall(nextPos)) pacmanPosition = nextPos;
+      if (!WillHitWall(nextPos, MAP)) pacmanPosition = nextPos;
 
       pacmanPosition.x = (int) round(pacmanPosition.x);
       pacmanPosition.y = (int) round(pacmanPosition.y);
@@ -142,15 +142,13 @@ void CoreLogic() {
 
       for (int i = 0; i < LENGTH(ghosts); i++) {
         Ghost *gh = g(i);
-        bool reachedGate = false;
         Vector2 blinkyTile = Tileify(g(BLINKY)->position);
-        Vector2 targetTile = reachedGate ? GHOST_HOME : GetTargetTile(*gh, pacmanTile, blinkyTile);
+        Vector2 targetTile = GetTargetTile(*gh, pacmanTile, blinkyTile);
         if (gh->state != EATEN) gh->state = GetGhostState(*gh, gh->state == FRIGHTENED);
         GoToTile(gh, targetTile, delta);
-        GhostToHome(gh, delta, &reachedGate);
+        GhostToHome(gh, delta);
         CollideWithGhost(gh, pacmanPosition);
-        bool blorbified = gh->state == FRIGHTENED || gh->state == EATEN; // CATCH FOR EYES-BUG
-        if (blorbified && GetCurrentTime(frightenedTimer) >= 8)
+        if (gh->state == FRIGHTENED && GetCurrentTime(frightenedTimer) >= 8)
           gh->state = GetGhostState(*gh, false);
         #if DEBUG
         printf("POSITION FOR %d : (%.2f, %.2f)\n", gh->name, gh->position.x, gh->position.y);

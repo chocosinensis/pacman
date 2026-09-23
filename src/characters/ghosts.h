@@ -85,7 +85,7 @@ Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile, Vector2 blinkyTile) {
   // TODO: Implement rng for FRIGHTENED state
   if (ghost.state == FRIGHTENED) return GHOST_GATE;
 
-  if (ghost.state == EATEN) return GHOST_GATE;
+  if (ghost.state == EATEN) return GHOST_HOME;
 
   return GHOST_GATE;
 }
@@ -96,8 +96,14 @@ bool IsGhostInHouse(Vector2 tile) {
     houseUp < tile.y && tile.y < houseDown;
 }
 
-bool SurroundedByWalls(Vector2 nextPositions[], int direction) {
-  bool hitWalls[] = HIT_WALLS;
+bool HitsWallNonetheless(Vector2 nextPositions[], int direction, int name) {
+  bool hitWalls[] = HIT_WALLS(name);
+  for (int i = 0; i < LENGTH(hitWalls); i++) if (hitWalls[i]) return true;
+  return false;
+}
+
+bool SurroundedByWalls(Vector2 nextPositions[], int direction, int name) {
+  bool hitWalls[] = HIT_WALLS(name);
   if (direction == S_LEFT)  return hitWalls[S_UP]   && hitWalls[S_DOWN];
   if (direction == S_DOWN)  return hitWalls[S_LEFT] && hitWalls[S_RIGHT];
   if (direction == S_UP)    return hitWalls[S_LEFT] && hitWalls[S_RIGHT];
@@ -105,8 +111,8 @@ bool SurroundedByWalls(Vector2 nextPositions[], int direction) {
   return false;
 }
 
-bool HitTwoWalls(Vector2 nextPositions[], int direction) {
-  bool hitWalls[] = HIT_WALLS;
+bool HitTwoWalls(Vector2 nextPositions[], int direction, int name) {
+  bool hitWalls[] = HIT_WALLS(name);
   HIT_TWO_WALLS(S_LEFT , S_UP  , S_DOWN )
   HIT_TWO_WALLS(S_DOWN , S_LEFT, S_RIGHT)
   HIT_TWO_WALLS(S_UP   , S_LEFT, S_RIGHT)
@@ -114,8 +120,8 @@ bool HitTwoWalls(Vector2 nextPositions[], int direction) {
   return false;
 }
 
-int DirectionWhenTwoWalls(Vector2 nextPositions[], int direction) {
-  bool hitWalls[] = HIT_WALLS;
+int DirectionWhenTwoWalls(Vector2 nextPositions[], int direction, int name) {
+  bool hitWalls[] = HIT_WALLS(name);
   TWO_WALLS(S_LEFT , S_UP  , S_DOWN )
   TWO_WALLS(S_DOWN , S_LEFT, S_RIGHT)
   TWO_WALLS(S_UP   , S_LEFT, S_RIGHT)
@@ -123,15 +129,15 @@ int DirectionWhenTwoWalls(Vector2 nextPositions[], int direction) {
 }
 
 // TODO: FINISH IT
-bool IsGoodToTurn(Vector2 nextPositions[], int direction, bool snap) {
-  bool hitWalls[] = HIT_WALLS;
+bool IsGoodToTurn(Vector2 nextPositions[], int direction, int name, bool snap) {
+  bool hitWalls[] = HIT_WALLS(name);
   // for (int i = 0; i < LENGTH(hitWalls); i++) printf("%d ", hitWalls[i]); printf("\n");
   return snap && (
     UNTURNABLE(S_LEFT , S_UP  , S_DOWN)  ||
     UNTURNABLE(S_DOWN , S_LEFT, S_RIGHT) ||
     UNTURNABLE(S_UP   , S_LEFT, S_RIGHT) ||
     UNTURNABLE(S_RIGHT, S_UP  , S_DOWN)
-  );/* && (
+  ) && !HitsWallNonetheless(nextPositions, direction, name);/* && (
     TURNABLE(S_LEFT , S_UP  , S_DOWN)  ||
     TURNABLE(S_DOWN , S_LEFT, S_RIGHT) ||
     TURNABLE(S_UP   , S_LEFT, S_RIGHT) ||
@@ -165,6 +171,7 @@ int TurnOrGoStraight(Vector2 nextTiles[], Vector2 targetTile, int direction) {
 // INFO: MORE WORK TO BE DONE
 int GetNextDirection(Ghost ghost, Vector2 targetTile) {
   int gDir = ghost.direction;
+  int n = ghost.name;
   Vector2 ghostTile = Tileify(ghost.position);
   int snapCount = 0;
 
@@ -185,8 +192,9 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
 
   if (IsGhostInHouse(ghostTile)) {
     int leftOrRight = ghostTile.x < 13 ? S_RIGHT : ghostTile.x > 14 ? S_LEFT : S_UP;
+    OpenGhostHouse(MAPS[n]);
     return ghostTile.y == 16 ? leftOrRight : S_UP;
-  }
+  } else if (ghost.state != EATEN) CloseGhostHouse(MAPS[n]);
 
   for (int i = 0; i < LENGTH(nextTiles); i++) {
     bool backwards =
@@ -200,8 +208,8 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
 
     bool snap = Snaps(ghost.position, &snapCount);
 
-    if (ghost.name == BLINKY && IsGoodToTurn(nextPositions, gDir, snap)) printf("GOOD TO TURN\n");
     #if DEBUG
+    if (ghost.name == BLINKY && IsGoodToTurn(nextPositions, gDir, n, snap)) printf("GOOD TO TURN\n");
     if (ghost.name == BLINKY)
     printf(
       "ghost = %d, state = %d, "
@@ -215,27 +223,23 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
       , targetTile.x, targetTile.y
       , pos.x, pos.y, currentPos.x, currentPos.y, backwards
       , nextTiles[i].x, nextTiles[i].y, nextTiles[dir].x, nextTiles[dir].y
-      , WillHitWall(pos), WillHitWall(currentPos), IsGoodToTurn(nextPositions, gDir)
+      , WillHitWall(pos, MAPS[n]), WillHitWall(currentPos, MAPS[n]), IsGoodToTurn(nextPositions, gDir)
       , HitTwoWalls(nextPositions, dir), DirectionWhenTwoWalls(nextPositions, dir)
       , SurroundedByWalls(nextPositions, dir)
     );
     #endif
 
-    if (ghost.name == CLYDE) printf("(%.2f, %.2f)\n", ghost.position.x, ghost.position.y);
-
     if (backwards) continue;
-    if (SurroundedByWalls(nextPositions, gDir)) { dir = gDir; break; }
-    if (HitTwoWalls(nextPositions, gDir)) {
-      dir = DirectionWhenTwoWalls(nextPositions, gDir); if (ghost.name == BLINKY) printf("dir = %d\n", dir);
+    if (SurroundedByWalls(nextPositions, gDir, n)) { dir = gDir; break; }
+    if (HitTwoWalls(nextPositions, gDir, n)) {
+      dir = DirectionWhenTwoWalls(nextPositions, gDir, n);
       break;
     }
-    if (WillHitWall(currentPos)/* || IsGoodToTurn(nextPositions, gDir)*/) {
-      dir = Turn(nextTiles, targetTile, gDir); if(ghost.name==BLINKY)printf("GAY2, dir = %d\n", dir);
+    if (WillHitWall(currentPos, MAPS[n])/* || IsGoodToTurn(nextPositions, gDir)*/) {
+      dir = Turn(nextTiles, targetTile, gDir);
       break;
     }
-    // if (IsGoodToTurn(nextPositions, gDir, snap)) {
-    //   dir = TurnOrGoStraight(nextTiles, targetTile, gDir);
-    // }
+    if (IsGoodToTurn(nextPositions, gDir, n, snap)) dir = TurnOrGoStraight(nextTiles, targetTile, gDir);
   }
 
   return dir;
@@ -246,7 +250,7 @@ void GoToTile(Ghost *ghost, Vector2 tile, float delta) {
   float distance = (ghost->state == EATEN ? EATEN_GHOST_SPEED : GHOST_SPEED) * delta;
 
   ghost->direction = GetNextDirection(*ghost, tile);
-  ghost->position = CanTurn(ghost->position, ghost->direction)
+  ghost->position = CanTurn(ghost->position, ghost->direction, MAPS[ghost->name])
     ? MoveInDirection(ghost->position, ghost->direction, distance)
     : GetCoordinates(ghost->position);
 
@@ -325,12 +329,22 @@ void MakeFrightened() {
   SetTimer(&frightenedTimer);
 }
 
-void GhostToHome(Ghost *ghost, float delta, bool *reachedGate) {
+void GhostToHome(Ghost *ghost, float delta) {
   if (ghost->state != EATEN) return;
+
   float distance = EATEN_GHOST_SPEED * delta;
-  if (ghost->position.x == GHOST_GATE.x && ghost->position.y == GHOST_GATE.y)
-    *reachedGate = true;
-    // GoToTile(ghost, GHOST_HOME, distance);
-  if (ghost->position.x == GHOST_HOME.x && ghost->position.y == GHOST_HOME.y)
+  Vector2 ghostTile = Tileify(ghost->position);
+  int n = ghost->name;
+
+  if (ghostTile.x == GHOST_GATE.x && GHOST_HOME.y >= ghostTile.y && ghostTile.y >= GHOST_GATE.y) {
+    OpenGhostHouse(MAPS[n]);
+    ghost->direction = S_DOWN;
+    ghost->position = MoveInDirection(ghost->position, ghost->direction, distance);
+    // INFO: BRUTE FORCE, THIS IS THE POINT WHERE I LOSE ALL SANITY AND BRUTE FORCE
+    // GOOD BRUTE FORCE ^-^
+    for (float i = 15; i <= 16; i += 0.2)
+      if (ghostTile.y == i) ghost->position.y = GetTilePosition((Vector2) { 0, i + 1 }).y;
+  }
+  if (ghostTile.x == GHOST_HOME.x && ghostTile.y == GHOST_HOME.y)
     ghost->state = SCATTER;
 }

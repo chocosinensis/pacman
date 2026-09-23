@@ -29,6 +29,7 @@ void Game();
 
 // game_state.h
 void InitGameState();
+void InitMaps();
 void MiniReset();
 void ResetGameState(Vector2 *pacmanPosition);
 void NextLevel(Vector2 *pacmanPosition);
@@ -46,13 +47,15 @@ void UnloadAudios();
 
 // gridwall.h
 void InitMap(int MAP[GRID_HEIGHT][GRID_WIDTH]);
-bool IsCollidable(float x, float y, int object);
-bool IsWall(float x, float y);
-bool WillHitWall(Vector2 pos);
-bool CanTurn(Vector2 pos, int dir);
+bool IsCollidable(float x, float y, int object, int MAP[GRID_HEIGHT][GRID_WIDTH]);
+bool IsWall(float x, float y, int MAP[GRID_HEIGHT][GRID_WIDTH]);
+bool WillHitWall(Vector2 pos, int MAP[GRID_HEIGHT][GRID_WIDTH]);
+bool CanTurn(Vector2 pos, int dir, int MAP[GRID_HEIGHT][GRID_WIDTH]);
 bool IsOrb(float x, float y);
 bool IsBlorb(float x, float y);
 bool IsEveryPelletEaten(int pelletCount);
+void OpenGhostHouse(int MAP[GRID_HEIGHT][GRID_WIDTH]);
+void CloseGhostHouse(int MAP[GRID_HEIGHT][GRID_WIDTH]);
 
 // timer.h
 void SetTimer(double *timer);
@@ -95,10 +98,10 @@ Vector2 AddToTile(Vector2 tile, int direction, int step);
 Vector2 GetSteppedTile(Vector2 pacmanTile, int step);
 Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile, Vector2 blinkyTile);
 bool IsGhostInHouse(Vector2 tile);
-bool SurroundedByWalls(Vector2 nextPositions[], int direction);
-bool HitTwoWalls(Vector2 nextPositions[], int direction);
-int DirectionWhenTwoWalls(Vector2 nextPositions[], int direction);
-bool IsGoodToTurn(Vector2 nextPositions[], int direction, bool snap);
+bool SurroundedByWalls(Vector2 nextPositions[], int direction, int name);
+bool HitTwoWalls(Vector2 nextPositions[], int direction, int name);
+int DirectionWhenTwoWalls(Vector2 nextPositions[], int direction, int name);
+bool IsGoodToTurn(Vector2 nextPositions[], int direction, int name, bool snap);
 int Turn(Vector2 nextTiles[], Vector2 targetTile, int direction);
 int GetNextDirection(Ghost ghost, Vector2 targetTile);
 void GoToTile(Ghost *ghost, Vector2 tile, float delta);
@@ -107,4 +110,4 @@ void ChangeState(Ghost *ghost, int state);
 bool BlinkyWillChase();
 int GetGhostState(Ghost gh, bool frightened);
 void MakeFrightened();
-void GhostToHome(Ghost *ghost, float delta, bool *reachedGate);
+void GhostToHome(Ghost *ghost, float delta);

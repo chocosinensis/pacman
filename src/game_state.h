@@ -18,6 +18,7 @@ int pelletsEaten = 0;
 int ghostsEaten = 0;
 
 int MAP[GRID_HEIGHT][GRID_WIDTH];
+int MAPS[GHOSTS][GRID_HEIGHT][GRID_WIDTH];
 
 void InitGameState() {
   gameOver = false;
@@ -28,7 +29,12 @@ void InitGameState() {
   lives = MAX_LIVES;
   pelletsEaten = 0;
   ghostsEaten = 0;
+  InitMaps();
+}
+
+void InitMaps() {
   InitMap(MAP);
+  for (int i = 0; i < GHOSTS; i++) InitMap(MAPS[i]);
 }
 
 void MiniReset() {
@@ -44,7 +50,7 @@ void ResetGameState(Vector2 *pacmanPosition) {
   ghostsEaten = 0;
   *pacmanPosition = PACMAN_STARTING_POSITION;
   InitGhosts();
-  InitMap(MAP);
+  InitMaps();
 }
 
 void NextLevel(Vector2 *pacmanPosition) {
