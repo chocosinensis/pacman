@@ -93,7 +93,10 @@ void CoreLogic() {
       Play(AUDIO_START);
       beginning = true;
     }
-    if (PRESSED_PAUSE) gamePaused = !gamePaused;
+    if (PRESSED_PAUSE) {
+      gamePaused = !gamePaused;
+      if (gamePaused) UpdatePlayerDetails();
+    }
     if (IsEveryPelletEaten(pelletsEaten)) NextLevel(&pacmanPosition);
 
     // TODO: Implement the maze and detect collision ghosts

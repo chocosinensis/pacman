@@ -72,6 +72,7 @@ void NextLevel(Vector2 *pacmanPosition) {
   level++;
   if (level > MAX_LEVEL) level = 1;
   ResetGameState(pacmanPosition);
+  UpdatePlayerDetails();
   if (!IsNameInList(playerName)) return;
   player.lastLevelScore = currentScore;
   player.elapsedTime = GetGameElapsed();
@@ -105,4 +106,5 @@ void QuitFromGame() {
 
   PauseGameTimer();
   currentScreen = MENU;
+  UpdatePlayerDetails();
 }
