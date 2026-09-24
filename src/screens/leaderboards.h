@@ -37,7 +37,7 @@ void RenderLeaderboard() {
     ReadPlayerDetails(namesList[i], &p);
 
     int s = i + 1;
-    char n[6];
+    char n[6] = { 0 };
     strncpy(n, p.name, 5);
     int l = p.level;
     int h = p.highScore;
