@@ -9,6 +9,17 @@ void FilePath(char *path, char *filename) {
   sprintf(path, "./%s/%s.log", dirname, filename);
 }
 
+bool LogFileExists(char *filename) {
+  char path[50] = { 0 };
+  FilePath(path, filename);
+
+  FILE *file = fopen(path, "r");
+  if (file == NULL) return false;
+
+  fclose(file);
+  return true;
+}
+
 bool ReadFile(char *filename, char *data) {
   char path[50] = { 0 };
   FilePath(path, filename);
@@ -54,6 +65,44 @@ bool GetNames(char namesList[MAX_NAMES][MAX_NAME_LENGTH]) {
   return true;
 }
 
+bool SortNames() {
+  char namesList[MAX_NAMES][MAX_NAME_LENGTH];
+  for (int i = 0; i < MAX_NAMES; i++) for (int j = 0; j < MAX_NAME_LENGTH; j++) namesList[i][j] = 0;
+  GetNames(namesList);
+
+  int n = 0;
+  for (int i = 0; i < MAX_NAMES; i++) {
+    if (*namesList[i] == '\0') break;
+    n++;
+  }
+
+  for (int i = 0; i < n - 1; i++) {
+    for (int j = 0; j < n - i - 1; j++) {
+      Player p, p1;
+      ReadPlayerDetails(namesList[j], &p);
+      ReadPlayerDetails(namesList[j + 1], &p1);
+
+      bool condition = p.level < p1.level
+        || (p.level == p1.level && p.highScore < p1.highScore)
+        || (p.level == p1.level && p.highScore == p1.highScore && p.elapsedTime > p1.elapsedTime);
+
+      if (condition) {
+        char tmp[MAX_NAME_LENGTH] = { 0 };
+        strcpy(tmp, namesList[j]);
+        strcpy(namesList[j], namesList[j + 1]);
+        strcpy(namesList[j + 1], tmp);
+      }
+    }
+  }
+
+  char data[MAX_CHARS] = { 0 };
+  for (int k = 0; k <= n; k++) {
+    strcat(data, namesList[k]);
+    if (k != n) strcat(data, "\n");
+  }
+  return WriteFile(NAMES_LIST, data);
+}
+
 bool IsNameInList(char *name) {
   char namesList[MAX_NAMES][MAX_NAME_LENGTH];
   for (int i = 0; i < MAX_NAMES; i++) for (int j = 0; j < MAX_NAME_LENGTH; j++) namesList[i][j] = 0;
@@ -75,16 +124,20 @@ bool AddName(char *name) {
   GetNames(namesList);
 
   int i = 0;
-  for (; i < MAX_NAMES; i++) {
+  for (; i < MAX_NAMES; i++)
     if (*namesList[i] == '\0') break;
+
+  if (i == MAX_NAMES) {
+    RemovePlayer(namesList[MAX_NAMES - 1]);
+    i--;
   }
-  if (i >= MAX_NAMES) return false;
+  if (i > MAX_NAMES) return false;
 
   for (int j = 0; j < strlen(name); j++) {
     namesList[i][j] = name[j];
   }
 
-  char data[MAX_CHARS];
+  char data[MAX_CHARS] = { 0 };
   for (int k = 0; k <= i; k++) {
     strcat(data, namesList[k]);
     if (k != i) strcat(data, "\n");
@@ -113,7 +166,7 @@ bool RemoveName(char *name) {
     idx++;
   }
 
-  char data[MAX_CHARS];
+  char data[MAX_CHARS] = { 0 };
   for (int k = 0; k <= idx; k++) {
     strcat(data, newList[k]);
     if (k != idx) strcat(data, "\n");
@@ -133,6 +186,10 @@ Player InitPlayer(char *name) {
 bool RemovePlayer(char *name) {
   bool removeName = RemoveName(name);
   if (!removeName) return removeName;
+
+  char path[50];
+  FilePath(path, name);
+  return remove(path) == 0;
 }
 
 bool ReadPlayerDetails(char *name, Player *player) {
@@ -161,6 +218,7 @@ bool ReadPlayerDetails(char *name, Player *player) {
 
 bool WritePlayerDetails(Player player) {
   if (!IsNameInList(player.name)) AddName(player.name);
+  SortNames();
 
   char details[MAX_CHARS];
   sprintf(

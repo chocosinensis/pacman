@@ -3,7 +3,7 @@ void RenderMainMenu() {
   RenderText("ENTER - NEW GAME OR CONTINUE", GRID_LENGTH * 16, 4, GetColor(0xDEADCAFE));
 
   if (SavedGame) RenderText("SPACE - CONTINUE SAVED GAME", GRID_LENGTH * 18.5, 4, YELLOW);
-  else RenderText("NO SAVED GAME - PRESS ENTER TO START NEW GAME", GRID_LENGTH * 18.5, 4, GRAY);
+  else RenderText("NO SAVED GAME - PRESS ENTER TO START NEW GAME", GRID_LENGTH * 18.5, 3, GRAY);
 
   RenderText("1 - SETTINGS"   , GRID_LENGTH * 21  , 3, WHITE);
   RenderText("2 - HELP"       , GRID_LENGTH * 23.5, 3, WHITE);
