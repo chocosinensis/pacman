@@ -28,6 +28,7 @@
 #define PRESSED_RIGHT (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D) || IsKeyPressed(KEY_L))
 #define PRESSED_PAUSE (IsKeyPressed(KEY_SPACE))
 #define PRESSED_RESTART (PRESSED_PAUSE || IsKeyPressed(KEY_R))
+#define PRESSED_QUIT  (IsKeyPressed(KEY_Q))
 #define SUPERPOWER_BASE  (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyDown(KEY_LEFT_SHIFT))
 #define SUPERPOWER_SPEED (IsKeyDown(KEY_LEFT_ALT))
 

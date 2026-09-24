@@ -46,6 +46,15 @@ void InitAudios() {
     audios[i] = InitAudio(i);
 }
 
+void DrawMap() {
+  DrawTexturePro(
+    emptyMaze,
+    (Rectangle) { 0, 0, emptyMaze.width, emptyMaze.height },
+    (Rectangle) { 0, GRID_LENGTH * 3, WIDTH, GRID_LENGTH * 31 },
+    Vector2Zero(), 0, WHITE
+  );
+}
+
 void DrawOrbs() {
   int l = GRID_LENGTH / 5;
   int offset = (GRID_LENGTH - l) / 2;

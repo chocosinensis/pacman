@@ -1,3 +1,5 @@
+bool playButtonPressed = false;
+
 bool gameStarted = false;
 bool beginning = false;
 bool gamePaused = true;
@@ -21,6 +23,7 @@ int MAP[GRID_HEIGHT][GRID_WIDTH];
 int MAPS[GHOSTS][GRID_HEIGHT][GRID_WIDTH];
 
 void InitGameState() {
+  playButtonPressed = false;
   gameOver = false;
   currentScore = 0;
   direction = S_LEFT;
@@ -69,4 +72,27 @@ void AddScore(int points) {
 void LoseLife() {
   if (lives > 0)
     lives--;
+}
+
+void QuitFromGame() {
+  playButtonPressed = false;
+
+  gameStarted = false;
+  beginning = false;
+  gamePaused = true;
+
+  gotEatenStart = false;
+  gotEatenEnd = true;
+  gameOver = false;
+
+  direction = S_LEFT;
+  queuedDirection = S_LEFT;
+
+  currentScore = 0;
+  highScore = 0;
+  lives = MAX_LIVES;
+  level = 0;
+
+  pelletsEaten = 0;
+  ghostsEaten = 0;
 }

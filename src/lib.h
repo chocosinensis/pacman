@@ -35,11 +35,13 @@ void ResetGameState(Vector2 *pacmanPosition);
 void NextLevel(Vector2 *pacmanPosition);
 void AddScore(int points);
 void LoseLife();
+void QuitFromGame();
 
 // assets.h
 void InitTextures();
 Sound InitAudio(int idx);
 void InitAudios();
+void DrawMap();
 void DrawOrbs();
 void DrawBlorbs(int blorbColor);
 void UnloadTextures();
@@ -65,7 +67,10 @@ double GetCurrentTime(double start);
 // util.h
 void QueueDirection(int *queued);
 void Play(int audioIndex);
+void RenderText(char *text, float verticalPosition, float fontSize, Color color);
+void RenderTextInGame(char *text);
 void DrawCredits();
+void DrawBaseElements(int blorbColor);
 Vector2 MakeSprite(int x, int y);
 Vector2 GetSpriteDirection(Character ch, int direction);
 Character InitCharacter(
@@ -111,3 +116,6 @@ bool BlinkyWillChase();
 int GetGhostState(Ghost gh, bool frightened);
 void MakeFrightened();
 void GhostToHome(Ghost *ghost, float delta);
+
+// menu.h
+void RenderMainMenu();

@@ -11,6 +11,16 @@ void Play(int audioIndex) {
   #endif
 }
 
+void RenderText(char *text, float verticalPosition, float fontLevel, Color color) {
+  float fontSize = FONT_SIZE * fontLevel / 5;
+  int textWidth = MeasureText(text, fontSize);
+  DrawText(text, (WIDTH - textWidth) / 2, verticalPosition, fontSize, color);
+}
+
+void RenderTextInGame(char *text) {
+  RenderText(text, GRID_LENGTH * 20, 5, YELLOW);
+}
+
 void DrawCredits() {
   // INFO: CREDITS
   // 2505091 : @chocosinensis
@@ -21,6 +31,21 @@ void DrawCredits() {
 
   DrawText("@chocosinensis", x, GRID_LENGTH * 34.5, fontSize, GetColor(color));
   DrawText("@DirayatSupro", x, GRID_LENGTH * 35, fontSize, GetColor(color));
+}
+
+void DrawBaseElements(int blorbColor) {
+  DrawMap();
+
+  // Credits
+  DrawCredits();
+
+  // Score at top
+  DrawText(TextFormat("%dUP  %04d", level, currentScore), GRID_LENGTH * 3, GRID_LENGTH * 1, FONT_SIZE - 3, WHITE);
+  DrawText(TextFormat("HIGH %04d", highScore), GRID_LENGTH * 19.5, GRID_LENGTH * 1, FONT_SIZE - 3, WHITE);
+
+  // Draw orbs and blorbs
+  DrawOrbs();
+  DrawBlorbs(blorbColor);
 }
 
 Vector2 MakeSprite(int x, int y) {

@@ -16,20 +16,16 @@ void CoreLogic() {
     BeginDrawing();
     ClearBackground(BLACK);
 
+    // if (playButtonPressed && PRESSED_QUIT) QuitFromGame();
+    // if (!playButtonPressed) {
+    //   beginning = false;
+    //   RenderMainMenu();
+    //   EndDrawing();
+    //   continue;
+    // }
+
     QueueDirection(&queuedDirection);
-    DrawTexturePro(
-      emptyMaze,
-      (Rectangle) { 0, 0, emptyMaze.width, emptyMaze.height },
-      (Rectangle) { 0, GRID_LENGTH * 3, WIDTH, GRID_LENGTH * 31 },
-      Vector2Zero(), 0, WHITE
-    );
-
-    // Credits
-    DrawCredits();
-
-    // Score at top
-    DrawText(TextFormat("%dUP  %04d", level, currentScore), GRID_LENGTH * 3, GRID_LENGTH * 1, FONT_SIZE - 3, WHITE);
-    DrawText(TextFormat("HIGH %04d", highScore), GRID_LENGTH * 19.5, GRID_LENGTH * 1, FONT_SIZE - 3, WHITE);
+    DrawBaseElements(blorbColor);
 
     // INFO: Hearts at bottom (ironic)
     // No heart is at bottom if you use i++ and not ++i
@@ -48,8 +44,7 @@ void CoreLogic() {
       gameStarted = false;
       gamePaused = true;
       beginning = true;
-      int textWidth = MeasureText("GAME OVER", FONT_SIZE);
-      DrawText("GAME OVER", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, FONT_SIZE, YELLOW);
+      RenderTextInGame("GAME OVER");
     }
 
     if (gameOver) {
@@ -58,11 +53,6 @@ void CoreLogic() {
       continue;
     }
 
-    // Draw orbs and blorbs
-    DrawOrbs();
-    DrawBlorbs(blorbColor);
-
-    // TODO: Implement ghost movement independent of each other
     // Ghosts are rendered for the first time here
     for (int i = 0; i < LENGTH(ghosts); i++) DrawGhost(*g(i), ghostIndeces[i]);
 
@@ -72,14 +62,8 @@ void CoreLogic() {
       gameStarted = true;
       if (!PRESSED_PAUSE) gamePaused = false;
     }
-    if (!gameStarted) {
-      int textWidth = MeasureText("READY!", FONT_SIZE);
-      DrawText("READY!", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, FONT_SIZE, YELLOW);
-    }
-    if (gameStarted && !PRESSED_PAUSE && gamePaused) {
-      int textWidth = MeasureText("PAUSE", FONT_SIZE);
-      DrawText("PAUSE", (WIDTH - textWidth) / 2, GRID_LENGTH * 20, FONT_SIZE, YELLOW);
-    }
+    if (!gameStarted) RenderTextInGame("READY!");
+    if (gameStarted && !PRESSED_PAUSE && gamePaused) RenderTextInGame("PAUSE");
     if (!gameStarted && !beginning && gamePaused) {
       Play(AUDIO_START);
       beginning = true;

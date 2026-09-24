@@ -74,6 +74,8 @@ void AnimateGameOver(Vector2 pacmanPosition) {
 
   double time = 1;
   while (GetCurrentTime(gotEatenTimer) < time && idx != DEAD_SPRITES + 1) {
+    ClearBackground(BLACK);
+    DrawBaseElements(PELLET_COLOR);
     DrawTexturePro(
       characters,
       (Rectangle) {
