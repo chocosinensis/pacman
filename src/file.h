@@ -10,7 +10,7 @@ void FilePath(char *path, char *filename) {
 }
 
 bool LogFileExists(char *filename) {
-  char path[50] = { 0 };
+  char path[MAX_PATH_LENGTH] = { 0 };
   FilePath(path, filename);
 
   FILE *file = fopen(path, "r");
@@ -21,13 +21,13 @@ bool LogFileExists(char *filename) {
 }
 
 bool ReadFile(char *filename, char *data) {
-  char path[50] = { 0 };
+  char path[MAX_PATH_LENGTH] = { 0 };
   FilePath(path, filename);
 
   FILE *file = fopen(path, "r");
   if (file == NULL) return false;
 
-  char buffer[1024] = { 0 };
+  char buffer[2048] = { 0 };
   while (fgets(buffer, sizeof(buffer), file) != NULL) strcat(data, buffer);
 
   fclose(file);
@@ -35,7 +35,7 @@ bool ReadFile(char *filename, char *data) {
 }
 
 bool WriteFile(char *filename, char *data) {
-  char path[50];
+  char path[MAX_PATH_LENGTH];
   FilePath(path, filename);
 
   FILE *file = fopen(path, "w");
@@ -95,7 +95,7 @@ bool SortNames() {
     }
   }
 
-  char data[MAX_CHARS] = { 0 };
+  char data[FILE_SIZE] = { 0 };
   for (int k = 0; k <= n; k++) {
     strcat(data, namesList[k]);
     if (k != n) strcat(data, "\n");
@@ -137,7 +137,7 @@ bool AddName(char *name) {
     namesList[i][j] = name[j];
   }
 
-  char data[MAX_CHARS] = { 0 };
+  char data[FILE_SIZE] = { 0 };
   for (int k = 0; k <= i; k++) {
     strcat(data, namesList[k]);
     if (k != i) strcat(data, "\n");
@@ -166,7 +166,7 @@ bool RemoveName(char *name) {
     idx++;
   }
 
-  char data[MAX_CHARS] = { 0 };
+  char data[FILE_SIZE] = { 0 };
   for (int k = 0; k <= idx; k++) {
     strcat(data, newList[k]);
     if (k != idx) strcat(data, "\n");
@@ -187,7 +187,7 @@ bool RemovePlayer(char *name) {
   bool removeName = RemoveName(name);
   if (!removeName) return removeName;
 
-  char path[50];
+  char path[MAX_PATH_LENGTH];
   FilePath(path, name);
   return remove(path) == 0;
 }
@@ -218,7 +218,7 @@ bool ReadPlayerDetails(char *name, Player *player) {
 
 bool WritePlayerDetails(Player player) {
   if (!IsNameInList(player.name)) AddName(player.name);
-  SortNames();
+  if (IsNameInList(player.name)) SortNames();
 
   char details[MAX_CHARS];
   sprintf(
