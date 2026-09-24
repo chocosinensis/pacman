@@ -23,9 +23,6 @@ void RenderTextInGame(char *text) {
   RenderText(text, GRID_LENGTH * 20, 5, YELLOW);
 }
 
-char playerName[MAX_NAME + 1] = "";
-int nameLength = 0;
-
 void NameInput() {
   int key = GetCharPressed();
   while (key > 0) {
@@ -37,7 +34,7 @@ void NameInput() {
     key = GetCharPressed();
   }
   if (IsKeyPressed(KEY_BACKSPACE) && nameLength > 0) {
-    playerName[--nameLength] = '\0';     //Nooo had to use pre-increment :')
+    playerName[--nameLength] = '\0'; // INFO: Nooo had to use pre-increment :')
   }
 }
 
@@ -46,7 +43,7 @@ void GameStopwatch() {
 }
 
 void RenderNameInGame() {
-    RenderText(playerName, GRID_LENGTH * 35, 3, GetColor(0xDEADCAFE));
+  RenderText(playerName, GRID_LENGTH * 34.75, 3, GetColor(0xDEADCAFE));
 }
 
 void DrawCredits() {
@@ -74,6 +71,24 @@ void DrawBaseElements(int blorbColor) {
   // Draw orbs and blorbs
   DrawOrbs();
   DrawBlorbs(blorbColor);
+
+  GameStopwatch();
+  RenderNameInGame();
+}
+
+void UpdateLocalDetails() {
+  level = player.level;
+  lives = player.lives;
+  currentScore = player.lastLevelScore;
+  highScore = player.highScore;
+}
+
+void UpdatePlayerDetails() {
+  if (!IsNameInList(playerName)) return;
+  player.level = level;
+  player.lives = lives;
+  player.highScore = highScore;
+  WritePlayerDetails(player);
 }
 
 Vector2 MakeSprite(int x, int y) {

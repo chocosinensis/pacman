@@ -1,20 +1,15 @@
 void RenderMainMenu() {
-
   RenderText("PAC-MAN", GRID_LENGTH * 7, 10, YELLOW);
-  RenderText("ENTER - NEW GAME", GRID_LENGTH * 16, 4, GetColor(0xDEADCAFE));
+  RenderText("ENTER - NEW GAME OR CONTINUE", GRID_LENGTH * 16, 4, GetColor(0xDEADCAFE));
 
-  if (SavedGame) {
-    RenderText("SPACE - CONTINUE SAVED GAME", GRID_LENGTH * 18.5, 4, YELLOW);
-  }
-  else {
-    RenderText("NO SAVED GAME - PRESS ENTER TO START NEW GAME", GRID_LENGTH * 18.5, 4, GRAY);
+  if (SavedGame) RenderText("SPACE - CONTINUE SAVED GAME", GRID_LENGTH * 18.5, 4, YELLOW);
+  else RenderText("NO SAVED GAME - PRESS ENTER TO START NEW GAME", GRID_LENGTH * 18.5, 4, GRAY);
 
-  }
-  RenderText("1 - SETTINGS", GRID_LENGTH * 21, 3, WHITE);
-  RenderText("2 - HELP", GRID_LENGTH * 23.5, 3, WHITE);
-  RenderText("3 - LEADERBOARD", GRID_LENGTH * 26, 3, WHITE);
+  RenderText("1 - SETTINGS"   , GRID_LENGTH * 21  , 3, WHITE);
+  RenderText("2 - HELP"       , GRID_LENGTH * 23.5, 3, WHITE);
+  RenderText("3 - LEADERBOARD", GRID_LENGTH * 26  , 3, WHITE);
 
-  if(IsKeyPressed(KEY_ENTER)) {
+  if (IsKeyPressed(KEY_ENTER)) {
     InitGameState();
     playerName[0] = '\0';
     nameLength = 0;
@@ -24,15 +19,15 @@ void RenderMainMenu() {
     playButtonPressed = true;
   }
 
-  if(IsKeyPressed(KEY_SPACE) && nameEntered) {
+  if (IsKeyPressed(KEY_SPACE) && nameEntered) {
     ResumeGameTimer();
     beginning = true;
     playButtonPressed = true;
   }
 
-  if(IsKeyPressed(KEY_ONE)) currentScreen = SETTINGS;
-  if(IsKeyPressed(KEY_TWO)) currentScreen = HELP;
-  if(IsKeyPressed(KEY_THREE)) currentScreen = LEADERBOARD;
+  if (IsKeyPressed(KEY_ONE)) currentScreen = SETTINGS;
+  if (IsKeyPressed(KEY_TWO)) currentScreen = HELP;
+  if (IsKeyPressed(KEY_THREE)) currentScreen = LEADERBOARD;
 }
 
 void RenderNameEntry() {
@@ -50,6 +45,8 @@ void RenderNameEntry() {
 
   if (IsKeyPressed(KEY_ENTER) && nameLength > 0) {
     nameEntered = true;
+    player = InitPlayer(playerName);
+    UpdateLocalDetails();
     StartGameTimer();
   }
 }

@@ -59,6 +59,7 @@ void GetEaten() {
   gamePaused = true;
   beginning = false;
   LoseLife();
+  UpdatePlayerDetails();
   SetTimer(&gotEatenTimer);
 
   Play(AUDIO_DEATH);

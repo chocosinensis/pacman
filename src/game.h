@@ -42,7 +42,7 @@ void CoreLogic() {
       continue;
     }
 
-    if(!nameEntered) {
+    if (!nameEntered) {
       RenderNameEntry();
       EndDrawing();
       continue;
@@ -50,8 +50,6 @@ void CoreLogic() {
 
     QueueDirection(&queuedDirection);
     DrawBaseElements(blorbColor);
-    GameStopwatch();
-    RenderNameInGame();
 
     // INFO: Hearts at bottom (ironic)
     // No heart is at bottom if you use i++ and not ++i
@@ -209,4 +207,5 @@ void Game() {
 
   CloseAudioDevice();
   CloseWindow();
+  UpdatePlayerDetails();
 }

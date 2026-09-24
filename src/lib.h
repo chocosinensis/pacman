@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include <math.h>
 #include <ctype.h>
+#include <string.h>
+#include <sys/stat.h>
 
 #include "raylib.h"
 #include "raymath.h"
@@ -23,6 +25,15 @@ typedef struct Ghost {
   Vector2 position;
   int direction;
 } Ghost;
+
+typedef struct Player {
+  char *name;
+  int level;
+  int highScore;
+  int lastLevelScore;
+  int lives;
+  double elapsedTime;
+} Player;
 
 // game.h
 void CoreLogic();
@@ -65,11 +76,25 @@ void StartGameTimer();
 void ResumeGameTimer();
 void PauseGameTimer();
 void ResetGameTimer();
-void GetgameElapsed();
+double GetGameElapsed();
 char *TimeFormat(double second);
 void SetTimer(double *timer);
 void InitTimers();
 double GetCurrentTime(double start);
+
+// file.h
+void FilePath(char *path, char *filename);
+bool ReadFile(char *filename, char *data);
+bool WriteFile(char *filename, char *data);
+bool GetNames(char namesList[MAX_NAMES][MAX_NAME_LENGTH]);
+bool IsNameInList(char *name);
+bool AddName(char *name);
+bool RemoveName(char *name);
+Player InitPlayer(char *name);
+bool RemovePlayer(char *name);
+bool ReadPlayerDetails(char *name, Player *player);
+bool WritePlayerDetails(Player player);
+bool NullifyPlayerDetails(Player *player);
 
 // util.h
 void QueueDirection(int *queued);
@@ -81,6 +106,8 @@ void NameInput();
 void RenderNameInGame();
 void DrawCredits();
 void DrawBaseElements(int blorbColor);
+void UpdateLocalDetails();
+void UpdatePlayerDetails();
 Vector2 MakeSprite(int x, int y);
 Vector2 GetSpriteDirection(Character ch, int direction);
 Character InitCharacter(

@@ -4,6 +4,7 @@
 #include "./gridwall.h"
 #include "./characters/imports.h"
 #include "./util.h"
+#include "./file.h"
 #include "./screens/imports.h"
 #include "./game.h"
 

@@ -4,6 +4,7 @@ build/app
 !build/.gitkeep
 main
 .DS_Store
+logs/
 
 # Prerequisites
 *.d

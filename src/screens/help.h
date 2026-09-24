@@ -11,5 +11,5 @@ void RenderHelp() {
   RenderText("1 - SETTINGS   2 - HELP   3 - LEADERBOARD", GRID_LENGTH * 28, 3, WHITE);
 
   RenderText("Q - BACK TO MENU", GRID_LENGTH * 32, 3, GetColor(0xDEADCAFE));
-  if(IsKeyPressed(KEY_Q)) currentScreen = MENU;
+  if (IsKeyPressed(KEY_Q)) currentScreen = MENU;
 }

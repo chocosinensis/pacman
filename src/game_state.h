@@ -10,13 +10,17 @@ bool gameOver = false;
 
 bool soundMuted = false;
 
-bool nameEntered = false; 
+bool nameEntered = false;
 bool SavedGame = false;
 
 int currentScreen = MENU;
 
 int direction = S_LEFT;
 int queuedDirection = S_LEFT;
+
+char playerName[MAX_NAME + 1] = "";
+int nameLength = 0;
+Player player = { 0 };
 
 int currentScore = 0;
 int highScore = 0;
@@ -68,6 +72,9 @@ void NextLevel(Vector2 *pacmanPosition) {
   level++;
   if (level > MAX_LEVEL) level = 1;
   ResetGameState(pacmanPosition);
+  if (!IsNameInList(playerName)) return;
+  player.lastLevelScore = currentScore;
+  player.elapsedTime = GetGameElapsed();
 }
 
 void AddScore(int points) {

@@ -57,7 +57,7 @@
 #define S_UP     2
 #define S_RIGHT  3
 
-//menu.h
+// menu.h
 #define MENU 0
 #define NAME_ENTRY 1
 #define PLAYING 2
@@ -76,6 +76,14 @@
 #define TURNY      5
 
 #include "./map.h"
+
+// file.h
+#define NAMES_LIST "names.list"
+#define MAX_NAMES       15
+#define MAX_NAME_LENGTH 18
+#define MAX_CHARS      125
+#define FILE_SIZE (MAX_NAMES * MAX_NAME_LENGTH)
+#define PLAYER_DETAILS_TEMPLATE "[name]: %s\n[level]: %d\n[highScore]: %d\n[lastLevelScore]: %d\n[lives]: %d\n[elapsedTime]: %lf\n"
 
 // player.h
 #define PACMAN 0xdead
