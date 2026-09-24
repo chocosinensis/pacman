@@ -16,13 +16,13 @@ void CoreLogic() {
     BeginDrawing();
     ClearBackground(BLACK);
 
-    // if (playButtonPressed && PRESSED_QUIT) QuitFromGame();
-    // if (!playButtonPressed) {
-    //   beginning = false;
-    //   RenderMainMenu();
-    //   EndDrawing();
-    //   continue;
-    // }
+    if (playButtonPressed && PRESSED_QUIT) QuitFromGame();
+    if (!playButtonPressed) {
+      beginning = false;
+      RenderMainMenu();
+      EndDrawing();
+      continue;
+    }
 
     QueueDirection(&queuedDirection);
     DrawBaseElements(blorbColor);
