@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
+#include <ctype.h>
 
 #include "raylib.h"
 #include "raymath.h"
@@ -60,6 +61,12 @@ void OpenGhostHouse(int MAP[GRID_HEIGHT][GRID_WIDTH]);
 void CloseGhostHouse(int MAP[GRID_HEIGHT][GRID_WIDTH]);
 
 // timer.h
+void StartGameTimer();
+void ResumeGameTimer();
+void PauseGameTimer();
+void ResetGameTimer();
+void GetgameElapsed();
+char *TimeFormat(double second);
 void SetTimer(double *timer);
 void InitTimers();
 double GetCurrentTime(double start);
@@ -69,6 +76,9 @@ void QueueDirection(int *queued);
 void Play(int audioIndex);
 void RenderText(char *text, float verticalPosition, float fontSize, Color color);
 void RenderTextInGame(char *text);
+void GameStopwatch();
+void NameInput();
+void RenderNameInGame();
 void DrawCredits();
 void DrawBaseElements(int blorbColor);
 Vector2 MakeSprite(int x, int y);
@@ -119,3 +129,15 @@ void GhostToHome(Ghost *ghost, float delta);
 
 // menu.h
 void RenderMainMenu();
+void RenderNameEntry();
+
+// settings.h
+void RenderSettings();
+void ToggleMute();
+void RestartGame();
+
+// help.h
+void RenderHelp();
+
+// leaderboards.h
+void RenderLeaderboard();

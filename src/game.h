@@ -16,6 +16,24 @@ void CoreLogic() {
     BeginDrawing();
     ClearBackground(BLACK);
 
+    if (currentScreen == SETTINGS) {
+      RenderSettings();
+      EndDrawing();
+      continue;
+    }
+
+    if (currentScreen == HELP) {
+      RenderHelp();
+      EndDrawing();
+      continue;
+    }
+
+    if (currentScreen == LEADERBOARD) {
+      RenderLeaderboard();
+      EndDrawing();
+      continue;
+    }
+
     if (playButtonPressed && PRESSED_QUIT) QuitFromGame();
     if (!playButtonPressed) {
       beginning = false;
@@ -24,8 +42,16 @@ void CoreLogic() {
       continue;
     }
 
+    if(!nameEntered) {
+      RenderNameEntry();
+      EndDrawing();
+      continue;
+    }
+
     QueueDirection(&queuedDirection);
     DrawBaseElements(blorbColor);
+    GameStopwatch();
+    RenderNameInGame();
 
     // INFO: Hearts at bottom (ironic)
     // No heart is at bottom if you use i++ and not ++i
@@ -44,6 +70,7 @@ void CoreLogic() {
       gameStarted = false;
       gamePaused = true;
       beginning = true;
+      SavedGame = false;
       RenderTextInGame("GAME OVER");
     }
 

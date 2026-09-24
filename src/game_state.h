@@ -8,6 +8,13 @@ bool gotEatenStart = false;
 bool gotEatenEnd = true;
 bool gameOver = false;
 
+bool soundMuted = false;
+
+bool nameEntered = false; 
+bool SavedGame = false;
+
+int currentScreen = MENU;
+
 int direction = S_LEFT;
 int queuedDirection = S_LEFT;
 
@@ -83,16 +90,12 @@ void QuitFromGame() {
 
   gotEatenStart = false;
   gotEatenEnd = true;
-  gameOver = false;
 
   direction = S_LEFT;
   queuedDirection = S_LEFT;
 
-  currentScore = 0;
-  highScore = 0;
-  lives = MAX_LIVES;
-  level = 0;
+  if (!gameOver) SavedGame = true;
 
-  pelletsEaten = 0;
-  ghostsEaten = 0;
+  PauseGameTimer();
+  currentScreen = MENU;
 }

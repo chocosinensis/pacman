@@ -57,6 +57,16 @@
 #define S_UP     2
 #define S_RIGHT  3
 
+//menu.h
+#define MENU 0
+#define NAME_ENTRY 1
+#define PLAYING 2
+#define SETTINGS 3
+#define HELP 4
+#define LEADERBOARD 5
+
+#define MAX_NAME 15
+
 // gridwall.h
 #define VOID       0
 #define WALL       1

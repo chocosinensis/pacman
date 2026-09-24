@@ -1,14 +1,56 @@
 void RenderMainMenu() {
-  if (GetKeyPressed() != 0) {
+
+  RenderText("PAC-MAN", GRID_LENGTH * 7, 10, YELLOW);
+  RenderText("ENTER - NEW GAME", GRID_LENGTH * 16, 4, GetColor(0xDEADCAFE));
+
+  if (SavedGame) {
+    RenderText("SPACE - CONTINUE SAVED GAME", GRID_LENGTH * 18.5, 4, YELLOW);
+  }
+  else {
+    RenderText("NO SAVED GAME - PRESS ENTER TO START NEW GAME", GRID_LENGTH * 18.5, 4, GRAY);
+
+  }
+  RenderText("1 - SETTINGS", GRID_LENGTH * 21, 3, WHITE);
+  RenderText("2 - HELP", GRID_LENGTH * 23.5, 3, WHITE);
+  RenderText("3 - LEADERBOARD", GRID_LENGTH * 26, 3, WHITE);
+
+  if(IsKeyPressed(KEY_ENTER)) {
+    InitGameState();
+    playerName[0] = '\0';
+    nameLength = 0;
+    nameEntered = false;
+    SavedGame = false;
     beginning = true;
     playButtonPressed = true;
   }
 
-  RenderText("PAC-MAN", GRID_LENGTH * 7, 10, YELLOW);
-  RenderText("PRESS ANY KEY TO PLAY", GRID_LENGTH * GRID_HEIGHT / 2, 5, GetColor(0xDEADCAFE));
-  RenderText("PRESS R TO RESTART AFTER GAME OVER", GRID_LENGTH * 24, 3, WHITE);
-  // TODO: QUITTING DOESN'T WORK FOR SOME REASON
-  RenderText("PRESS Q TO RETURN TO MAIN MENU", GRID_LENGTH * 26, 3, WHITE);
+  if(IsKeyPressed(KEY_SPACE) && nameEntered) {
+    ResumeGameTimer();
+    beginning = true;
+    playButtonPressed = true;
+  }
 
-  // DO YOUR MAGIC HERE AND OTHERS
+  if(IsKeyPressed(KEY_ONE)) currentScreen = SETTINGS;
+  if(IsKeyPressed(KEY_TWO)) currentScreen = HELP;
+  if(IsKeyPressed(KEY_THREE)) currentScreen = LEADERBOARD;
 }
+
+void RenderNameEntry() {
+  NameInput();
+
+  RenderText("PAC-MAN", GRID_LENGTH * 7, 10, YELLOW);
+  RenderText("ENTER YOUR NAME", GRID_LENGTH * 14, 5, WHITE);
+
+  char display[MAX_NAME + 2];
+  sprintf(display, "%s_", playerName);
+  RenderText(display, GRID_LENGTH * 17, 7, GetColor(0xDEADCAFE));
+
+  RenderText("BLOCK LETTERS ONLY (A-Z)", GRID_LENGTH * 22, 3, WHITE);
+  RenderText("PRESS ENTER TO CONFIRM", GRID_LENGTH * 26, 3, YELLOW);
+
+  if (IsKeyPressed(KEY_ENTER) && nameLength > 0) {
+    nameEntered = true;
+    StartGameTimer();
+  }
+}
+

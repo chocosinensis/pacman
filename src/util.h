@@ -1,4 +1,5 @@
 void QueueDirection(int *queued) {
+  if (!playButtonPressed || !nameEntered) return;
   if (PRESSED_LEFT)  *queued = S_LEFT;
   if (PRESSED_DOWN)  *queued = S_DOWN;
   if (PRESSED_UP)    *queued = S_UP;
@@ -7,6 +8,7 @@ void QueueDirection(int *queued) {
 
 void Play(int audioIndex) {
   #if SOUND_ALLOWED
+  if (soundMuted) return;
   if (!IsSoundPlaying(audios[audioIndex])) PlaySound(audios[audioIndex]);
   #endif
 }
@@ -19,6 +21,32 @@ void RenderText(char *text, float verticalPosition, float fontLevel, Color color
 
 void RenderTextInGame(char *text) {
   RenderText(text, GRID_LENGTH * 20, 5, YELLOW);
+}
+
+char playerName[MAX_NAME + 1] = "";
+int nameLength = 0;
+
+void NameInput() {
+  int key = GetCharPressed();
+  while (key > 0) {
+    bool isLetter = (key >= 'A' && key <= 'Z') || (key >= 'a' && key <= 'z');
+    if (isLetter && nameLength < MAX_NAME) {
+      playerName[nameLength++] = (char) toupper(key);
+      playerName[nameLength] = '\0';
+    }
+    key = GetCharPressed();
+  }
+  if (IsKeyPressed(KEY_BACKSPACE) && nameLength > 0) {
+    playerName[--nameLength] = '\0';     //Nooo had to use pre-increment :')
+  }
+}
+
+void GameStopwatch() {
+  RenderText(TimeFormat(GetGameElapsed()), GRID_LENGTH * 2, 3, WHITE);
+}
+
+void RenderNameInGame() {
+    RenderText(playerName, GRID_LENGTH * 35, 3, GetColor(0xDEADCAFE));
 }
 
 void DrawCredits() {
