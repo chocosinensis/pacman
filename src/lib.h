@@ -163,6 +163,7 @@ void RenderNameEntry();
 // settings.h
 void RenderSettings();
 void ToggleMute();
+void DeletePlayer();
 void RestartGame();
 
 // help.h
