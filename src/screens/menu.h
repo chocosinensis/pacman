@@ -1,11 +1,9 @@
 void RenderMainMenu(float pos, int pacmanIndex, int ghostIndex) {
-  if (!menuOpen && currentScreen == MENU)
-    SetTimer(&menuTimer);
+  if (!menuOpen && currentScreen == MENU) SetTimer(&menuTimer);
 
   double t = GetCurrentTime(menuTimer);
   if ((int) t % 4 == 2) movementInMenu = true;
-  if (movementInMenu)
-    AnimateMenuElements(savedGame, pacmanIndex, ghostIndex, pos);
+  if (movementInMenu) AnimateMenuElements(savedGame, pacmanIndex, ghostIndex, pos);
 
   RenderText("PAC-MAN", GRID_LENGTH * 7, 10, YELLOW);
 
