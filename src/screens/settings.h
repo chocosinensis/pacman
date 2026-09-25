@@ -25,12 +25,14 @@ void RenderSettings() {
   RenderText(soundMuted ? "SOUND: MUTED" : "SOUND: ON", GRID_LENGTH * 15.5, 5, soundMuted ? RED : LIME );
  
   RenderText("M - MUTE/UNMUTE"  , GRID_LENGTH * 19, 3, WHITE);
-  RenderText("R - RESET PLAYER" , GRID_LENGTH * 21, 3, WHITE);
-  RenderText("D - DELETE PLAYER", GRID_LENGTH * 23, 3, WHITE);
   RenderText("Q - BACK TO MENU" , GRID_LENGTH * 26, 3, GetColor(0xDEADCAFE));
 
   if (IsKeyPressed(KEY_M)) ToggleMute();
+  if (IsKeyPressed(KEY_Q)) currentScreen = MENU;
+  
+  if (!savedGame) return;
   if (IsKeyPressed(KEY_R)) ResetCache();
   if (IsKeyPressed(KEY_D)) DeletePlayer();
-  if (IsKeyPressed(KEY_Q)) currentScreen = MENU;
+  RenderText("R - RESET PLAYER" , GRID_LENGTH * 21, 3, WHITE);
+  RenderText("D - DELETE PLAYER", GRID_LENGTH * 23, 3, WHITE);
 }

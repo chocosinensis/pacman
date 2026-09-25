@@ -15,6 +15,9 @@ bool savedGame = false;
 
 int currentScreen = MENU;
 
+bool menuOpen = false;
+bool movementInMenu = false;
+
 int direction = S_LEFT;
 int queuedDirection = S_LEFT;
 

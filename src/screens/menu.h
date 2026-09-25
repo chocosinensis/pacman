@@ -1,5 +1,17 @@
-void RenderMainMenu() {
+void RenderMainMenu(float pos, int pacmanIndex, int ghostIndex) {
+  if (!menuOpen && currentScreen == MENU)
+    SetTimer(&menuTimer);
+
+  double t = GetCurrentTime(menuTimer);
+  if ((int) t % 4 == 2) movementInMenu = true;
+  if (movementInMenu)
+    AnimateMenuElements(savedGame, pacmanIndex, ghostIndex, pos);
+
   RenderText("PAC-MAN", GRID_LENGTH * 7, 10, YELLOW);
+
+  if (savedGame && nameEntered)
+    RenderText(playerName, GRID_LENGTH * 12, 5, GetColor(0xDEADCAFE));
+
   RenderText("ENTER - NEW GAME OR CONTINUE", GRID_LENGTH * 16, 4, GetColor(0xDEADCAFE));
 
   if (savedGame) RenderText("SPACE - CONTINUE SAVED GAME", GRID_LENGTH * 18.5, 4, YELLOW);

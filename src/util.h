@@ -76,6 +76,34 @@ void DrawBaseElements(int blorbColor) {
   RenderNameInGame();
 }
 
+void AnimateMenuElements(bool savedGame, int pacmanIndex, int ghostIndex, float pos) {
+  float posY1 = GRID_LENGTH * (savedGame ? 29 : 12);
+  Ghost ghosts1[GHOSTS] = {
+    (Ghost) { BLINKY, SCATTER, (Vector2) { pos, posY1 }, S_RIGHT },
+    (Ghost) { PINKY , SCATTER, (Vector2) { pos, posY1 }, S_RIGHT },
+    (Ghost) { INKY  , SCATTER, (Vector2) { pos, posY1 }, S_RIGHT },
+    (Ghost) { CLYDE , SCATTER, (Vector2) { pos, posY1 }, S_RIGHT },
+  };
+  for (int i = 0; i < GHOSTS; i++) {
+    ghosts1[i].position.x -= (i + 2) * GRID_LENGTH;
+    DrawGhost(ghosts1[i], ghostIndex);
+  }
+  DrawPacman(pos, posY1, S_RIGHT, pacmanIndex);
+
+  float posY2 = GRID_LENGTH * (savedGame ? 31 : 30);
+  Ghost ghosts2[GHOSTS] = {
+    (Ghost) { BLINKY, FRIGHTENED, (Vector2) { WIDTH - pos, posY2 }, S_LEFT },
+    (Ghost) { PINKY , FRIGHTENED, (Vector2) { WIDTH - pos, posY2 }, S_LEFT },
+    (Ghost) { INKY  , FRIGHTENED, (Vector2) { WIDTH - pos, posY2 }, S_LEFT },
+    (Ghost) { CLYDE , FRIGHTENED, (Vector2) { WIDTH - pos, posY2 }, S_LEFT },
+  };
+  for (int i = 0; i < GHOSTS; i++) {
+    ghosts2[i].position.x += i * GRID_LENGTH;
+    DrawGhost(ghosts2[i], ghostIndex);
+  }
+  DrawPacman(WIDTH - pos + 5 * GRID_LENGTH, posY2, S_LEFT, pacmanIndex);
+}
+
 void UpdateLocalDetails() {
   level = player.level;
   lives = player.lives;

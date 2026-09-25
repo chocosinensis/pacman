@@ -108,6 +108,7 @@ void NameInput();
 void RenderNameInGame();
 void DrawCredits();
 void DrawBaseElements(int blorbColor);
+void AnimateMenuElements(bool savedGame, int pacmanIndex, int ghostIndex, float pos);
 void UpdateLocalDetails();
 void ResetPlayerDetails();
 void UpdatePlayerDetails();
@@ -158,7 +159,7 @@ void MakeFrightened();
 void GhostToHome(Ghost *ghost, float delta);
 
 // menu.h
-void RenderMainMenu();
+void RenderMainMenu(float pos, int pacmanIndex, int ghostIndex);
 void RenderNameEntry();
 
 // settings.h

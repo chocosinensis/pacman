@@ -2,6 +2,8 @@ double levelTimer;
 double frightenedTimer;
 double gotEatenTimer;
 
+double menuTimer;
+
 double gameElapsed = 0;
 double gameNewStart = 0;
 bool gameTimerRun = false;

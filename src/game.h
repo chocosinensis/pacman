@@ -2,6 +2,8 @@ void CoreLogic() {
   int pacmanIndex = 2;
   int ghostIndeces[GHOSTS] = { 0 };
   int blorbColor = PELLET_COLOR;
+  float menuPacmanPos = -GRID_LENGTH;
+  int menuGhostIndex = 0;
 
   Vector2 pacmanPosition = PACMAN_STARTING_POSITION;
   Vector2 pacmanTile = Tileify(pacmanPosition);
@@ -24,6 +26,7 @@ void CoreLogic() {
 
     if (currentScreen == HELP) {
       RenderHelp();
+      DrawCredits();
       EndDrawing();
       continue;
     }
@@ -37,12 +40,24 @@ void CoreLogic() {
     bool quittable = playButtonPressed && !nameEntered && !gameStarted;
     bool quit = quittable ? IsKeyDown(KEY_LEFT_SHIFT) && PRESSED_QUIT : PRESSED_QUIT;
     if (playButtonPressed && quit) QuitFromGame();
-    if (!playButtonPressed) {
+    if (!playButtonPressed && currentScreen == MENU) {
       beginning = false;
-      RenderMainMenu();
+      RenderMainMenu(menuPacmanPos, pacmanIndex, menuGhostIndex);
+      menuOpen = true;
+      DrawCredits();
       EndDrawing();
+      if (movementInMenu) {
+        menuPacmanPos += PACMAN_SPEED * delta;
+        int maxWidth = WIDTH + 6 * GRID_LENGTH;
+        if (menuPacmanPos > maxWidth) {
+          menuPacmanPos = 0;
+          movementInMenu = false;
+        }
+      }
+      pacmanIndex = (int) (GetTime() / ANIMATION_SPEED) % pacman.sprites;
+      menuGhostIndex = (int) (GetTime() / ANIMATION_SPEED) % ghosts[BLINKY].sprites;
       continue;
-    }
+    } menuOpen = false;
 
     if (currentScreen == NAME_ENTRY && !nameEntered) {
       RenderNameEntry();
