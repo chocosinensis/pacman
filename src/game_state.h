@@ -11,7 +11,7 @@ bool gameOver = false;
 bool soundMuted = false;
 
 bool nameEntered = false;
-bool SavedGame = false;
+bool savedGame = false;
 
 int currentScreen = MENU;
 
@@ -102,9 +102,10 @@ void QuitFromGame() {
   direction = S_LEFT;
   queuedDirection = S_LEFT;
 
-  if (!gameOver) SavedGame = true;
+  if (!gameOver) savedGame = true;
 
   PauseGameTimer();
+  if (currentScreen == NAME_ENTRY) ResetCache();
   currentScreen = MENU;
   UpdatePlayerDetails();
 }

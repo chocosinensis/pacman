@@ -2,7 +2,7 @@ void RenderMainMenu() {
   RenderText("PAC-MAN", GRID_LENGTH * 7, 10, YELLOW);
   RenderText("ENTER - NEW GAME OR CONTINUE", GRID_LENGTH * 16, 4, GetColor(0xDEADCAFE));
 
-  if (SavedGame) RenderText("SPACE - CONTINUE SAVED GAME", GRID_LENGTH * 18.5, 4, YELLOW);
+  if (savedGame) RenderText("SPACE - CONTINUE SAVED GAME", GRID_LENGTH * 18.5, 4, YELLOW);
   else RenderText("NO SAVED GAME - PRESS ENTER TO START NEW GAME", GRID_LENGTH * 18.5, 3, GRAY);
 
   RenderText("1 - SETTINGS"   , GRID_LENGTH * 21  , 3, WHITE);
@@ -10,11 +10,12 @@ void RenderMainMenu() {
   RenderText("3 - LEADERBOARD", GRID_LENGTH * 26  , 3, WHITE);
 
   if (IsKeyPressed(KEY_ENTER)) {
+    currentScreen = NAME_ENTRY;
     InitGameState();
     playerName[0] = '\0';
     nameLength = 0;
     nameEntered = false;
-    SavedGame = false;
+    savedGame = false;
     beginning = true;
     playButtonPressed = true;
   }
@@ -45,6 +46,7 @@ void RenderNameEntry() {
 
   if (IsKeyPressed(KEY_ENTER) && nameLength > 0) {
     nameEntered = true;
+    currentScreen = PLAYING;
     player = InitPlayer(playerName);
     UpdateLocalDetails();
     StartGameTimer();

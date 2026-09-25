@@ -34,7 +34,9 @@ void CoreLogic() {
       continue;
     }
 
-    if (playButtonPressed && PRESSED_QUIT) QuitFromGame();
+    bool quittable = playButtonPressed && !nameEntered && !gameStarted;
+    bool quit = quittable ? IsKeyDown(KEY_LEFT_SHIFT) && PRESSED_QUIT : PRESSED_QUIT;
+    if (playButtonPressed && quit) QuitFromGame();
     if (!playButtonPressed) {
       beginning = false;
       RenderMainMenu();
@@ -42,8 +44,13 @@ void CoreLogic() {
       continue;
     }
 
-    if (!nameEntered) {
+    if (currentScreen == NAME_ENTRY && !nameEntered) {
       RenderNameEntry();
+      EndDrawing();
+      continue;
+    }
+
+    if (currentScreen != PLAYING) {
       EndDrawing();
       continue;
     }
@@ -68,7 +75,7 @@ void CoreLogic() {
       gameStarted = false;
       gamePaused = true;
       beginning = true;
-      SavedGame = false;
+      savedGame = false;
       RenderTextInGame("GAME OVER");
     }
 

@@ -6,7 +6,7 @@ void ResetCache() {
   playerName[0] = '\0';
   nameLength = 0;
   nameEntered = false;
-  SavedGame = false;
+  savedGame = false;
   InitGameState();
   ResetGameTimer();
   currentScreen = MENU;
