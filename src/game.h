@@ -81,7 +81,6 @@ void CoreLogic() {
     for (int i = 0; i < lives; i++) {
       float lifeX = (GRID_LENGTH * 2) + (i * GRID_LENGTH * 1.5f);
       float lifeY = GRID_LENGTH * 34.5;
-
       DrawPacman(lifeX, lifeY, S_LEFT, 0);
     }
 
@@ -98,6 +97,7 @@ void CoreLogic() {
       if (PRESSED_RESTART) {
         UpdatePlayerDetails();
         InitGameState();
+        currentScreen = MENU;
       }
       EndDrawing();
       continue;
