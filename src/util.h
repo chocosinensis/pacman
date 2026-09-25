@@ -83,11 +83,19 @@ void UpdateLocalDetails() {
   highScore = player.highScore;
 }
 
+void ResetPlayerDetails() {
+  player.level = 1;
+  player.lastLevelScore = 0;
+  player.lives = MAX_LIVES;
+  player.elapsedTime = 0;
+}
+
 void UpdatePlayerDetails() {
   if (!IsNameInList(playerName)) return;
   player.level = level;
   player.lives = lives;
   player.highScore = highScore;
+  if (gameOver) ResetPlayerDetails();
   WritePlayerDetails(player);
 }
 

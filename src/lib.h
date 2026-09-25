@@ -109,6 +109,7 @@ void RenderNameInGame();
 void DrawCredits();
 void DrawBaseElements(int blorbColor);
 void UpdateLocalDetails();
+void ResetPlayerDetails();
 void UpdatePlayerDetails();
 Vector2 MakeSprite(int x, int y);
 Vector2 GetSpriteDirection(Character ch, int direction);
