@@ -43,6 +43,7 @@ void RenderNameEntry() {
 
   RenderText("BLOCK LETTERS ONLY (A-Z)", GRID_LENGTH * 22, 3, WHITE);
   RenderText("PRESS ENTER TO CONFIRM", GRID_LENGTH * 26, 3, YELLOW);
+  RenderText("SHIFT + Q - BACK TO MENU", GRID_LENGTH * 28, 3, GetColor(0xDEADCAFE));
 
   if (IsKeyPressed(KEY_ENTER) && nameLength > 0) {
     nameEntered = true;
