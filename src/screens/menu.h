@@ -21,6 +21,7 @@ void RenderMainMenu() {
   }
 
   if (IsKeyPressed(KEY_SPACE) && nameEntered) {
+    currentScreen = PLAYING;
     ResumeGameTimer();
     beginning = true;
     playButtonPressed = true;
