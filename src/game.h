@@ -73,7 +73,10 @@ void CoreLogic() {
     }
 
     if (gameOver) {
-      if (PRESSED_RESTART) InitGameState();
+      if (PRESSED_RESTART) {
+        UpdatePlayerDetails();
+        InitGameState();
+      }
       EndDrawing();
       continue;
     }
