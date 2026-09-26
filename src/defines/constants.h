@@ -17,8 +17,10 @@
 
 #define MAX_LIVES           3
 #define MAX_LEVEL          40
+#define FRUIT_TIME         15
 #define SCORE_PELLET       10
 #define SCORE_POWER_PELLET 50
+#define SCORE_FRUIT       100
 #define SCORE_GHOST       200
 #define TOTAL_PELLETS     244
 
@@ -64,6 +66,7 @@
 #define SETTINGS    3
 #define HELP        4
 #define LEADERBOARD 5
+#define CREDITS     6
 
 #define MAX_NAME 15
 

@@ -15,9 +15,10 @@ void RenderMainMenu(float pos, int pacmanIndex, int ghostIndex) {
   if (savedGame) RenderText("SPACE - CONTINUE SAVED GAME", GRID_LENGTH * 18.5, 4, YELLOW);
   else RenderText("NO SAVED GAME - PRESS ENTER TO START NEW GAME", GRID_LENGTH * 18.5, 3, GRAY);
 
-  RenderText("1 - SETTINGS"   , GRID_LENGTH * 21  , 3, WHITE);
-  RenderText("2 - HELP"       , GRID_LENGTH * 23.5, 3, WHITE);
-  RenderText("3 - LEADERBOARD", GRID_LENGTH * 26  , 3, WHITE);
+  RenderText("1 - SETTINGS"   , GRID_LENGTH * 21, 3, WHITE);
+  RenderText("2 - HELP"       , GRID_LENGTH * 23, 3, WHITE);
+  RenderText("3 - LEADERBOARD", GRID_LENGTH * 25, 3, WHITE);
+  RenderText("4 - CREDITS"    , GRID_LENGTH * 27, 3, WHITE);
 
   if (IsKeyPressed(KEY_ENTER)) {
     currentScreen = NAME_ENTRY;
@@ -37,9 +38,10 @@ void RenderMainMenu(float pos, int pacmanIndex, int ghostIndex) {
     playButtonPressed = true;
   }
 
-  if (IsKeyPressed(KEY_ONE)) currentScreen = SETTINGS;
-  if (IsKeyPressed(KEY_TWO)) currentScreen = HELP;
+  if (IsKeyPressed(KEY_ONE))   currentScreen = SETTINGS;
+  if (IsKeyPressed(KEY_TWO))   currentScreen = HELP;
   if (IsKeyPressed(KEY_THREE)) currentScreen = LEADERBOARD;
+  if (IsKeyPressed(KEY_FOUR))  currentScreen = CREDITS;
 }
 
 void RenderNameEntry() {

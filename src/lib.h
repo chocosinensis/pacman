@@ -46,6 +46,7 @@ void MiniReset();
 void ResetGameState(Vector2 *pacmanPosition);
 void NextLevel(Vector2 *pacmanPosition);
 void AddScore(int points);
+void AddLife();
 void LoseLife();
 void QuitFromGame();
 
@@ -54,6 +55,7 @@ void InitTextures();
 Sound InitAudio(int idx);
 void InitAudios();
 void DrawMap();
+void DrawFruit();
 void DrawOrbs();
 void DrawBlorbs(int blorbColor);
 void UnloadTextures();
@@ -130,6 +132,7 @@ bool Snaps(Vector2 pos, int *snapCount);
 void DrawPacman(int x, int y, int direction, int index);
 Vector2 MoveInDirection(Vector2 pos, int dir, float distance);
 void EatPellet(float x, float y);
+void EatFruit(float x, float y);
 void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition);
 void GetEaten();
 void AnimateGameOver(Vector2 pacmanPosition);
@@ -164,6 +167,7 @@ void RenderNameEntry();
 
 // settings.h
 void ToggleMute();
+void ToggleSFX();
 void ResetCache();
 void DeletePlayer();
 void RenderSettings();
@@ -173,3 +177,6 @@ void RenderHelp();
 
 // leaderboards.h
 void RenderLeaderboard();
+
+// credits.h
+void RenderCredits();

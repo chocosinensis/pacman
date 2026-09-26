@@ -55,6 +55,15 @@ void DrawMap() {
   );
 }
 
+void DrawFruit() {
+  DrawTexturePro(
+    characters,
+    (Rectangle) { fruit.x, fruit.y, UNIT_SPRITE_LENGTH, UNIT_SPRITE_LENGTH },
+    (Rectangle) { GRID_LENGTH * 13.5, GRID_LENGTH * 20, GRID_LENGTH, GRID_LENGTH },
+    Vector2Zero(), 0, WHITE
+  );
+}
+
 void DrawOrbs() {
   int l = GRID_LENGTH / 5;
   int offset = (GRID_LENGTH - l) / 2;

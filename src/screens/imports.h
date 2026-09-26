@@ -2,3 +2,4 @@
 #include "./leaderboards.h"
 #include "./settings.h"
 #include "./help.h"
+#include "./credits.h"

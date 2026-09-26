@@ -37,6 +37,13 @@ void CoreLogic() {
       continue;
     }
 
+    if (currentScreen == CREDITS) {
+      RenderCredits();
+      DrawCredits();
+      EndDrawing();
+      continue;
+    }
+
     bool quittable = playButtonPressed && !nameEntered && !gameStarted;
     bool quit = quittable ? IsKeyDown(KEY_LEFT_SHIFT) && PRESSED_QUIT : PRESSED_QUIT;
     if (playButtonPressed && quit) QuitFromGame();
@@ -177,6 +184,9 @@ void CoreLogic() {
 
       // Eating
       EatPellet(pacmanPosition.x, pacmanPosition.y);
+
+      // Fruit
+      EatFruit(pacmanPosition.x, pacmanPosition.y);
 
       for (int i = 0; i < LENGTH(ghosts); i++) {
         Ghost *gh = g(i);

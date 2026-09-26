@@ -9,6 +9,7 @@ void QueueDirection(int *queued) {
 void Play(int audioIndex) {
   #if SOUND_ALLOWED
   if (soundMuted) return;
+  if (sfxMuted && audioIndex != AUDIO_START) return;
   if (!IsSoundPlaying(audios[audioIndex])) PlaySound(audios[audioIndex]);
   #endif
 }

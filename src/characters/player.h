@@ -35,6 +35,24 @@ void EatPellet(float x, float y) {
   if (blorb) Play(AUDIO_FRIGHT);
 }
 
+void EatFruit(float x, float y) {
+  double fruitT = GetCurrentTime(fruitTimer);
+  bool noFruit = lives == 0 || !gameStarted || gameStarted && !PRESSED_PAUSE && gamePaused;
+  fruitExists = !noFruit && fruitT > FRUIT_TIME && pelletsEaten > 70 && lives < MAX_LIVES;
+  if (!fruitExists) return;
+  DrawFruit();
+  if (fruitT > FRUIT_TIME + 10) {
+    SetTimer(&fruitTimer);
+    return;
+  }
+  if (x == GRID_LENGTH * 13.5 && y == GRID_LENGTH * 20) {
+    AddLife();
+    AddScore(SCORE_FRUIT);
+    Play(AUDIO_EATFRUIT);
+    SetTimer(&fruitTimer);
+  }
+}
+
 void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition) {
   Vector2 ghostTile = Tileify(ghost->position);
   Vector2 pacmanTile = Tileify(pacmanPosition);

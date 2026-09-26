@@ -1,4 +1,5 @@
 double levelTimer;
+double fruitTimer;
 double frightenedTimer;
 double gotEatenTimer;
 
@@ -14,6 +15,7 @@ void SetTimer(double *timer) {
 
 void InitTimers() {
   SetTimer(&levelTimer);
+  SetTimer(&fruitTimer);
 }
 
 void StartGameTimer() {

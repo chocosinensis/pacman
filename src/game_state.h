@@ -9,6 +9,7 @@ bool gotEatenEnd = true;
 bool gameOver = false;
 
 bool soundMuted = false;
+bool sfxMuted = false;
 
 bool nameEntered = false;
 bool savedGame = false;
@@ -32,6 +33,7 @@ int level = 0;
 
 int pelletsEaten = 0;
 int ghostsEaten = 0;
+bool fruitExists = false;
 
 int MAP[GRID_HEIGHT][GRID_WIDTH];
 int MAPS[GHOSTS][GRID_HEIGHT][GRID_WIDTH];
@@ -46,6 +48,7 @@ void InitGameState() {
   lives = MAX_LIVES;
   pelletsEaten = 0;
   ghostsEaten = 0;
+  fruitExists = false;
   InitMaps();
 }
 
@@ -60,6 +63,7 @@ void MiniReset() {
   gamePaused = true;
   direction = S_LEFT;
   queuedDirection = S_LEFT;
+  fruitExists = false;
 }
 
 void ResetGameState(Vector2 *pacmanPosition) {
@@ -85,6 +89,11 @@ void AddScore(int points) {
   currentScore += points;
   if (currentScore > highScore)
     highScore = currentScore;
+}
+
+void AddLife() {
+  if (lives < MAX_LIVES)
+    lives++;
 }
 
 void LoseLife() {
