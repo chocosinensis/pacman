@@ -35,7 +35,7 @@ bool ReadFile(char *filename, char *data) {
 }
 
 bool WriteFile(char *filename, char *data) {
-  char path[MAX_PATH_LENGTH];
+  char path[MAX_PATH_LENGTH] = { 0 };
   FilePath(path, filename);
 
   FILE *file = fopen(path, "w");
@@ -187,7 +187,7 @@ bool RemovePlayer(char *name) {
   bool removeName = RemoveName(name);
   if (!removeName) return removeName;
 
-  char path[MAX_PATH_LENGTH];
+  char path[MAX_PATH_LENGTH] = { 0 };
   FilePath(path, name);
   return remove(path) == 0;
 }
@@ -220,7 +220,7 @@ bool WritePlayerDetails(Player player) {
   if (!IsNameInList(player.name)) AddName(player.name);
   if (IsNameInList(player.name)) SortNames();
 
-  char details[MAX_CHARS];
+  char details[MAX_CHARS] = { 0 };
   sprintf(
     details, PLAYER_DETAILS_TEMPLATE,
     player.name, player.level, player.highScore, player.lastLevelScore, player.lives, player.elapsedTime

@@ -70,7 +70,6 @@ Vector2 GetTargetTile(Ghost ghost, Vector2 pacmanTile, Vector2 blinkyTile) {
   if (ghost.state == CHASE) {
     if (ghost.name == BLINKY) return pacmanTile;
     if (ghost.name == PINKY) return GetSteppedTile(pacmanTile, 4);
-    // TODO: Implement inky's target tile
     if (ghost.name == INKY) {
       Vector2 intermediate = GetSteppedTile(pacmanTile, 2);
       Vector2 inkyTarget = Vector2Add(Vector2Scale(intermediate, 2), Vector2Scale(blinkyTile, -1));
@@ -128,21 +127,14 @@ int DirectionWhenTwoWalls(Vector2 nextPositions[], int direction, int name) {
   TWO_WALLS(S_RIGHT, S_UP  , S_DOWN )
 }
 
-// TODO: FINISH IT
 bool IsGoodToTurn(Vector2 nextPositions[], int direction, int name, bool snap) {
   bool hitWalls[] = HIT_WALLS(name);
-  // for (int i = 0; i < LENGTH(hitWalls); i++) printf("%d ", hitWalls[i]); printf("\n");
   return snap && (
     UNTURNABLE(S_LEFT , S_UP  , S_DOWN)  ||
     UNTURNABLE(S_DOWN , S_LEFT, S_RIGHT) ||
     UNTURNABLE(S_UP   , S_LEFT, S_RIGHT) ||
     UNTURNABLE(S_RIGHT, S_UP  , S_DOWN)
-  ) && !HitsWallNonetheless(nextPositions, direction, name);/* && (
-    TURNABLE(S_LEFT , S_UP  , S_DOWN)  ||
-    TURNABLE(S_DOWN , S_LEFT, S_RIGHT) ||
-    TURNABLE(S_UP   , S_LEFT, S_RIGHT) ||
-    TURNABLE(S_RIGHT, S_UP  , S_DOWN)
-  );*/
+  ) && !HitsWallNonetheless(nextPositions, direction, name);
 }
 
 int Turn(Vector2 nextTiles[], Vector2 targetTile, int direction) {
@@ -167,8 +159,6 @@ int TurnOrGoStraight(Vector2 nextTiles[], Vector2 targetTile, int direction) {
   return d_straight > d_turn ? turnDir : direction;
 }
 
-// TODO: Implement GetNextDirection function
-// INFO: MORE WORK TO BE DONE
 int GetNextDirection(Ghost ghost, Vector2 targetTile) {
   int gDir = ghost.direction;
   int n = ghost.name;
@@ -235,7 +225,7 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
       dir = DirectionWhenTwoWalls(nextPositions, gDir, n);
       break;
     }
-    if (WillHitWall(currentPos, MAPS[n])/* || IsGoodToTurn(nextPositions, gDir)*/) {
+    if (WillHitWall(currentPos, MAPS[n])) {
       dir = Turn(nextTiles, targetTile, gDir);
       break;
     }
@@ -245,7 +235,6 @@ int GetNextDirection(Ghost ghost, Vector2 targetTile) {
   return dir;
 }
 
-// TODO: Implement GoToTile function
 void GoToTile(Ghost *ghost, Vector2 tile, float delta) {
   float distance = (ghost->state == EATEN ? EATEN_GHOST_SPEED : GHOST_SPEED) * delta;
 

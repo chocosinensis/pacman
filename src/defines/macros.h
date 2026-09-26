@@ -5,7 +5,7 @@
     SET_GHOST_HOME(PINKY), \
     SET_GHOST_HOME(INKY), \
     SET_GHOST_HOME(CLYDE), \
-  } \
+  }
 
 #define HIT_WALLS(name) { \
     WillHitWall(nextPositions[S_LEFT] , MAPS[(name)]), \
@@ -24,11 +24,8 @@
     if (hitWalls[(dir3)]) return (dir2); \
     return (dir1); \
   }
-// printf("%d, %d, %d, %d : ", direction, dir1, dir2, dir3); \
-// for (int i = 0; i < LENGTH(hitWalls); i++) printf("%d ", hitWalls[i]); printf("\n"); \
 
 #define UNTURNABLE(dir1, dir2, dir3) (direction == (dir1) && (!hitWalls[(dir2)] || !hitWalls[(dir3)]))
-// #define TURNABLE(dir1, dir2, dir3) (direction == (dir1) && !(hitWalls[(dir2)] && hitWalls[(dir3)]))
 
 #define BLINKY_CHASE(lvl1, lvl2, orbs) ( \
     (lvl1) <= level && level <= (lvl2) && \

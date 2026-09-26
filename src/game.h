@@ -8,8 +8,6 @@ void CoreLogic() {
   Vector2 pacmanPosition = PACMAN_STARTING_POSITION;
   Vector2 pacmanTile = Tileify(pacmanPosition);
 
-  InitGhosts();
-
   while (!WindowShouldClose()) {
     float delta = GetFrameTime();
     float playerDistance = PACMAN_SPEED * delta;
@@ -188,6 +186,7 @@ void CoreLogic() {
       // Fruit
       EatFruit(pacmanPosition.x, pacmanPosition.y);
 
+      // ghosts
       for (int i = 0; i < LENGTH(ghosts); i++) {
         Ghost *gh = g(i);
         Vector2 blinkyTile = Tileify(g(BLINKY)->position);
@@ -238,6 +237,7 @@ void Game() {
   InitAudios();
 
   InitGameState();
+  InitGhosts();
   CoreLogic();
 
   UnloadTextures();

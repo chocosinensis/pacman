@@ -1,6 +1,5 @@
 Texture2D characters;
 Texture2D emptyMaze;
-Texture2D filledMaze;
 
 Character pacman;
 Character ghosts[GHOSTS];
@@ -20,8 +19,7 @@ Sound audios[AUDIO_LENGTH];
 
 void InitTextures() {
   characters = LoadTexture("assets/sprites/characters.png");
-  emptyMaze = LoadTexture("assets/sprites/maze.png");
-  filledMaze = LoadTexture("assets/sprites/filled-maze.png");
+  emptyMaze  = LoadTexture("assets/sprites/maze.png");
 
   pacman = InitCharacter(0, 0, 0, 1, 0, 2, 0, 3, 3, PACMAN);
 
@@ -96,9 +94,7 @@ void DrawBlorbs(int blorbColor) {
 void UnloadTextures() {
   UnloadTexture(characters);
   UnloadTexture(emptyMaze);
-  UnloadTexture(filledMaze);
 }
 void UnloadAudios() {
   for (int i = 0; i < LENGTH(audios); i++) UnloadSound(audios[i]);
 }
-

@@ -24,13 +24,14 @@
 #define SCORE_GHOST       200
 #define TOTAL_PELLETS     244
 
-#define PRESSED_LEFT  (IsKeyPressed(KEY_LEFT)  || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_H))
-#define PRESSED_DOWN  (IsKeyPressed(KEY_DOWN)  || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_J))
-#define PRESSED_UP    (IsKeyPressed(KEY_UP)    || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_K))
-#define PRESSED_RIGHT (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D) || IsKeyPressed(KEY_L))
-#define PRESSED_PAUSE (IsKeyPressed(KEY_SPACE))
+#define PRESSED_LEFT    (IsKeyPressed(KEY_LEFT)  || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_H))
+#define PRESSED_DOWN    (IsKeyPressed(KEY_DOWN)  || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_J))
+#define PRESSED_UP      (IsKeyPressed(KEY_UP)    || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_K))
+#define PRESSED_RIGHT   (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D) || IsKeyPressed(KEY_L))
+#define PRESSED_PAUSE   (IsKeyPressed(KEY_SPACE))
+#define PRESSED_QUIT    (IsKeyPressed(KEY_Q))
 #define PRESSED_RESTART (PRESSED_PAUSE || IsKeyPressed(KEY_R))
-#define PRESSED_QUIT  (IsKeyPressed(KEY_Q))
+
 #define SUPERPOWER_BASE  (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyDown(KEY_LEFT_SHIFT))
 #define SUPERPOWER_SPEED (IsKeyDown(KEY_LEFT_ALT))
 
@@ -52,6 +53,8 @@
 #define SPRITE_Y 13
 #define UNIT_SPRITE_LENGTH 56
 
+// Colors
+#define DEADCAFE     0xdeadcafe
 #define PELLET_COLOR 0xffb6adff
 
 #define S_LEFT   0
