@@ -88,9 +88,18 @@
 #define MAX_PATH_LENGTH 100
 #define MAX_NAMES        15
 #define MAX_NAME_LENGTH  18
-#define MAX_CHARS       125
+#define MAX_CHARS       175
 #define FILE_SIZE (MAX_NAMES * MAX_NAME_LENGTH)
-#define PLAYER_DETAILS_TEMPLATE "[name]: %s\n[level]: %d\n[highScore]: %d\n[lastLevelScore]: %d\n[lives]: %d\n[elapsedTime]: %lf\n"
+#define PLAYER_DETAILS_TEMPLATE "[name]: %s\n[level]: %d\n[maxLevel]: %d\n[highScore]: %d\n[lastLevelScore]: %d\n[lives]: %d\n[elapsedTime]: %lf\n"
+/**
+ * [name]: _______________
+ * [level]: __
+ * [maxLevel]: __
+ * [highScore]: ______
+ * [lastLevelScore]: ______
+ * [lives]: _
+ * [elapsedTime]: ___.___
+ */
 
 // player.h
 #define PACMAN 0xdead

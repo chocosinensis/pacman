@@ -39,7 +39,7 @@ void RenderLeaderboard() {
     int s = i + 1;
     char n[6] = { 0 };
     strncpy(n, p.name, 5);
-    int l = p.level;
+    int l = p.maxLevel;
     int h = p.highScore;
     char *t = TimeFormat(p.elapsedTime);
 

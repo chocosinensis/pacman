@@ -29,6 +29,7 @@ typedef struct Ghost {
 typedef struct Player {
   char *name;
   int level;
+  int maxLevel;
   int highScore;
   int lastLevelScore;
   int lives;

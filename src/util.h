@@ -122,6 +122,7 @@ void ResetPlayerDetails() {
 void UpdatePlayerDetails() {
   if (!IsNameInList(playerName)) return;
   player.level = level;
+  if (level > player.maxLevel) player.maxLevel = level;
   player.lives = lives;
   player.highScore = highScore;
   if (gameOver) ResetPlayerDetails();

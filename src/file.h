@@ -199,15 +199,20 @@ bool ReadPlayerDetails(char *name, Player *player) {
 
   char playerName[MAX_NAME_LENGTH] = { 0 };
   int level = 0;
+  int maxLevel = 0;
   int highScore = 0;
   int lastLevelScore = 0;
   double elapsedTime = 0;
   int lives = 0;
 
-  sscanf(data, PLAYER_DETAILS_TEMPLATE, playerName, &level, &highScore, &lastLevelScore, &lives, &elapsedTime);
+  sscanf(
+    data, PLAYER_DETAILS_TEMPLATE,
+    playerName, &level, &maxLevel, &highScore, &lastLevelScore, &lives, &elapsedTime
+  );
 
   player->name = name;
   player->level = level;
+  player->maxLevel = maxLevel;
   player->highScore = highScore;
   player->lastLevelScore = lastLevelScore;
   player->elapsedTime = elapsedTime;
@@ -223,13 +228,14 @@ bool WritePlayerDetails(Player player) {
   char details[MAX_CHARS] = { 0 };
   sprintf(
     details, PLAYER_DETAILS_TEMPLATE,
-    player.name, player.level, player.highScore, player.lastLevelScore, player.lives, player.elapsedTime
+    player.name, player.level, player.maxLevel, player.highScore, player.lastLevelScore, player.lives, player.elapsedTime
   );
   return WriteFile(player.name, details);
 }
 
 bool NullifyPlayerDetails(Player *player) {
   player->level = 1;
+  player->maxLevel = 1;
   player->highScore = 0;
   player->lastLevelScore = 0;
   player->elapsedTime = 0;
