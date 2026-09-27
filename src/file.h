@@ -82,9 +82,9 @@ bool SortNames() {
       ReadPlayerDetails(namesList[j], &p);
       ReadPlayerDetails(namesList[j + 1], &p1);
 
-      bool condition = p.level < p1.level
-        || (p.level == p1.level && p.highScore < p1.highScore)
-        || (p.level == p1.level && p.highScore == p1.highScore && p.elapsedTime > p1.elapsedTime);
+      bool condition = p.maxLevel < p1.maxLevel
+        || (p.maxLevel == p1.maxLevel && p.highScore < p1.highScore)
+        || (p.maxLevel == p1.maxLevel && p.highScore == p1.highScore && p.elapsedTime > p1.elapsedTime);
 
       if (condition) {
         char tmp[MAX_NAME_LENGTH] = { 0 };
