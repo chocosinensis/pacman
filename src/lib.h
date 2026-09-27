@@ -56,7 +56,10 @@ void InitTextures();
 Sound InitAudio(int idx);
 void InitAudios();
 void DrawMap();
+void DrawFruitAnywhere(float x, float y);
 void DrawFruit();
+void DrawSingleOrb(float x, float y);
+void DrawSingleBlorb(float x, float y, int blorbColor);
 void DrawOrbs();
 void DrawBlorbs(int blorbColor);
 void UnloadTextures();
@@ -104,6 +107,8 @@ bool NullifyPlayerDetails(Player *player);
 // util.h
 void QueueDirection(int *queued);
 void Play(int audioIndex);
+void StopPlaying(int audioIndex);
+void StopAllAudios();
 void RenderText(char *text, float verticalPosition, float fontSize, Color color);
 void RenderTextInGame(char *text);
 void GameStopwatch();
@@ -174,7 +179,8 @@ void DeletePlayer();
 void RenderSettings();
 
 // help.h
-void RenderHelp();
+void RenderHowToPlay(int pacmanIndex, int blorbColor, int ghostIndex);
+void RenderHelp(int pacmanIndex, int blorbColor, int ghostIndex);
 
 // leaderboards.h
 void RenderLeaderboard();

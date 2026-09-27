@@ -53,26 +53,40 @@ void DrawMap() {
   );
 }
 
-void DrawFruit() {
+void DrawFruitAnywhere(float x, float y) {
   DrawTexturePro(
     characters,
     (Rectangle) { fruit.x, fruit.y, UNIT_SPRITE_LENGTH, UNIT_SPRITE_LENGTH },
-    (Rectangle) { GRID_LENGTH * 13.5, GRID_LENGTH * 20, GRID_LENGTH, GRID_LENGTH },
+    (Rectangle) { GRID_LENGTH * x, GRID_LENGTH * y, GRID_LENGTH, GRID_LENGTH },
     Vector2Zero(), 0, WHITE
+  );
+}
+void DrawFruit() {
+  DrawFruitAnywhere(13.5, 20);
+}
+
+void DrawSingleOrb(float x, float y) {
+  int l = GRID_LENGTH / 5;
+  int offset = (GRID_LENGTH - l) / 2;
+  DrawRectangle(
+    x * GRID_LENGTH + offset, y * GRID_LENGTH + offset,
+    l, l, GetColor(PELLET_COLOR)
+  );
+}
+void DrawSingleBlorb(float x, float y, int blorbColor) {
+  int r = GRID_LENGTH / 3;
+  int offset = GRID_LENGTH / 2;
+  DrawCircle(
+    x * GRID_LENGTH + offset, y * GRID_LENGTH + offset,
+    r, GetColor(blorbColor)
   );
 }
 
 void DrawOrbs() {
-  int l = GRID_LENGTH / 5;
-  int offset = (GRID_LENGTH - l) / 2;
   for (int i = 0; i < GRID_HEIGHT; i++) {
     for (int j = 0; j < GRID_WIDTH; j++) {
       if (MAP[i][j] != ORB) continue;
-
-      DrawRectangle(
-        j * GRID_LENGTH + offset, i * GRID_LENGTH + offset,
-        l, l, GetColor(PELLET_COLOR)
-      );
+      DrawSingleOrb(j, i);
     }
   }
 }
@@ -82,11 +96,7 @@ void DrawBlorbs(int blorbColor) {
   for (int i = 0; i < GRID_HEIGHT; i++) {
     for (int j = 0; j < GRID_WIDTH; j++) {
       if (MAP[i][j] != BLORB) continue;
-
-      DrawCircle(
-        j * GRID_LENGTH + offset, i * GRID_LENGTH + offset,
-        r, GetColor(blorbColor)
-      );
+      DrawSingleBlorb(j, i, blorbColor);
     }
   }
 }

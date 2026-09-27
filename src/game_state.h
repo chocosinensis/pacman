@@ -16,6 +16,7 @@ bool savedGame = false;
 
 int currentScreen = MENU;
 
+bool menuPlayedOnce = false;
 bool menuOpen = false;
 bool movementInMenu = false;
 
@@ -115,6 +116,9 @@ void QuitFromGame() {
   queuedDirection = S_LEFT;
 
   if (!gameOver) savedGame = true;
+
+  StopAllAudios();
+  menuPlayedOnce = false;
 
   PauseGameTimer();
   if (currentScreen == NAME_ENTRY) ResetCache();

@@ -1,5 +1,6 @@
 void ToggleMute() {
   soundMuted = !soundMuted;
+  if (soundMuted) StopAllAudios();
 }
 
 void ToggleSFX() {

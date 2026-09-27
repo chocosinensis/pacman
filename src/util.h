@@ -13,6 +13,16 @@ void Play(int audioIndex) {
   if (!IsSoundPlaying(audios[audioIndex])) PlaySound(audios[audioIndex]);
   #endif
 }
+void StopPlaying(int audioIndex) {
+  #if SOUND_ALLOWED
+  if (IsSoundPlaying(audios[audioIndex])) StopSound(audios[audioIndex]);
+  #endif
+}
+void StopAllAudios() {
+  #if SOUND_ALLOWED
+  for (int i = 0; i < LENGTH(audios); i++) StopPlaying(i);
+  #endif
+}
 
 void RenderText(char *text, float verticalPosition, float fontLevel, Color color) {
   float fontSize = FONT_SIZE * fontLevel / 5;

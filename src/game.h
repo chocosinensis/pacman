@@ -23,9 +23,12 @@ void CoreLogic() {
     }
 
     if (currentScreen == HELP) {
-      RenderHelp();
+      RenderHelp(pacmanIndex, blorbColor, menuGhostIndex);
       DrawCredits();
       EndDrawing();
+      pacmanIndex = (int) (GetTime() / ANIMATION_SPEED) % pacman.sprites;
+      menuGhostIndex = (int) (GetTime() / ANIMATION_SPEED) % ghosts[BLINKY].sprites;
+      blorbColor = ((int) (GetTime() / 0.2) % 2) ? PELLET_COLOR : 0x00000000;
       continue;
     }
 

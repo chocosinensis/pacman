@@ -20,6 +20,11 @@ void RenderMainMenu(float pos, int pacmanIndex, int ghostIndex) {
   RenderText("3 - LEADERBOARD", GRID_LENGTH * 25, 3, WHITE);
   RenderText("4 - CREDITS"    , GRID_LENGTH * 27, 3, WHITE);
 
+  if (!menuPlayedOnce) {
+    Play(AUDIO_START);
+    menuPlayedOnce = true;
+  }
+
   if (IsKeyPressed(KEY_ENTER)) {
     currentScreen = NAME_ENTRY;
     InitGameState();
@@ -36,6 +41,7 @@ void RenderMainMenu(float pos, int pacmanIndex, int ghostIndex) {
     ResumeGameTimer();
     beginning = true;
     playButtonPressed = true;
+    StopAllAudios();
   }
 
   if (IsKeyPressed(KEY_ONE))   currentScreen = SETTINGS;
