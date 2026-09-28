@@ -3,40 +3,34 @@
 Implementation of Pacman using raylib for level 1 term 1.
 
 Authors: Alvee - 2505091, Supro - 2505098
-POOKIEEEEE~ 😭😭😭
 
-ALWAYS SAY `pull nga` ~ supro
+## To compile and run the project:
 
-### Code instructions
+For windows:
+- Open the `pacman.code-workspace` file with **Visual Studio Code**
+- **[Optional]:** If a custom raylib configuration is set-up for the windows system,
+  then copy the system's custom configured `.vscode/` and `raylib/` folders
+- Open `main.c` and then press `F5` to compile and run the game
 
-**Only write code within the `src/` directory.**
+---
 
-```
-Constants : src/constants.h
-Core game logic : src/game.h
-```
-
-All the other directories are for maintenance.
-
-### Git instructions
-
-Using github, pull (download) the repository
+For mac:
+Open a terminal and run
 ```sh
-git pull origin main
+make run
 ```
 
-Write your code
+---
 
-Then save the repository
+For linux:
+Open a terminal and run
 ```sh
-git add .
-git commit -m "COMMIT_MESSAGE"
+make
 ```
 
-Then push (upload) the repository
-```sh
-git push origin main
-```
+---
 
-### DETAILED [INSTRUCTIONS](docs/Instructions.md)
+N.B.: The developers are mac and linux users, so some issues with
+windows systems may persist, although compilation issues were fixed
+before deployment of the codebase.
 
