@@ -139,7 +139,7 @@ void UpdatePlayerDetails() {
   WritePlayerDetails(player);
 }
 
-void UpdatePlayerDetailsBeforeExit() {
+void UpdatePlayerDetailsBeforeExitting() {
   if (!IsNameInList(playerName)) return;
   double t = GetGameElapsed();
   player.elapsedTime = t > 0 ? t : player.elapsedTime;

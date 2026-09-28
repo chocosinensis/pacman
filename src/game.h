@@ -247,6 +247,6 @@ void Game() {
   UnloadAudios();
 
   CloseAudioDevice();
-  UpdatePlayerDetailsBeforeExit();
+  UpdatePlayerDetailsBeforeExitting();
   CloseWindow();
 }
