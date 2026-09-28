@@ -139,6 +139,13 @@ void UpdatePlayerDetails() {
   WritePlayerDetails(player);
 }
 
+void UpdatePlayerDetailsBeforeExit() {
+  if (!IsNameInList(playerName)) return;
+  double t = GetGameElapsed();
+  player.elapsedTime = t > 0 ? t : player.elapsedTime;
+  UpdatePlayerDetails();
+}
+
 Vector2 MakeSprite(int x, int y) {
   return (Vector2) { x * UNIT_SPRITE_LENGTH, y * UNIT_SPRITE_LENGTH };
 }

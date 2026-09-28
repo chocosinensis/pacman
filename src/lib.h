@@ -120,6 +120,7 @@ void AnimateMenuElements(bool savedGame, int pacmanIndex, int ghostIndex, float 
 void UpdateLocalDetails();
 void ResetPlayerDetails();
 void UpdatePlayerDetails();
+void UpdatePlayerDetailsBeforeExit();
 Vector2 MakeSprite(int x, int y);
 Vector2 GetSpriteDirection(Character ch, int direction);
 Character InitCharacter(
