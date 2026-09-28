@@ -126,7 +126,7 @@ void ResetPlayerDetails() {
   player.level = 1;
   player.lastLevelScore = 0;
   player.lives = MAX_LIVES;
-  player.elapsedTime = 0;
+  player.elapsedTime = GetGameElapsed();
 }
 
 void UpdatePlayerDetails() {
