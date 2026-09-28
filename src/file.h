@@ -4,7 +4,11 @@ void FilePath(char *path, char *filename) {
   // INFO: CHECKING IF THE `./logs` DIRECTORY EXISTS, OTHERWISE mkdir
   struct stat statbuf;
   if (stat(dirname, &statbuf) != 0)
+    #if defined(_WIN32) || defined(_WIN64)
+    if (mkdir(dirname) != 0) return;
+    #else
     if (mkdir(dirname, 0755) != 0) return;
+    #endif
 
   sprintf(path, "./%s/%s.log", dirname, filename);
 }
@@ -20,7 +24,7 @@ bool LogFileExists(char *filename) {
   return true;
 }
 
-bool ReadFile(char *filename, char *data) {
+bool ReadLogFile(char *filename, char *data) {
   char path[MAX_PATH_LENGTH] = { 0 };
   FilePath(path, filename);
 
@@ -34,7 +38,7 @@ bool ReadFile(char *filename, char *data) {
   return true;
 }
 
-bool WriteFile(char *filename, char *data) {
+bool WriteLogFile(char *filename, char *data) {
   char path[MAX_PATH_LENGTH] = { 0 };
   FilePath(path, filename);
 
@@ -49,7 +53,7 @@ bool WriteFile(char *filename, char *data) {
 
 bool GetNames(char namesList[MAX_NAMES][MAX_NAME_LENGTH]) {
   char names[FILE_SIZE] = { 0 };
-  bool fileExists = ReadFile(NAMES_LIST, names);
+  bool fileExists = ReadLogFile(NAMES_LIST, names);
   if (!fileExists) return fileExists;
 
   int i = 0;
@@ -100,7 +104,7 @@ bool SortNames() {
     strcat(data, namesList[k]);
     if (k != n) strcat(data, "\n");
   }
-  return WriteFile(NAMES_LIST, data);
+  return WriteLogFile(NAMES_LIST, data);
 }
 
 bool IsNameInList(char *name) {
@@ -142,7 +146,7 @@ bool AddName(char *name) {
     strcat(data, namesList[k]);
     if (k != i) strcat(data, "\n");
   }
-  return WriteFile(NAMES_LIST, data);
+  return WriteLogFile(NAMES_LIST, data);
 }
 
 bool RemoveName(char *name) {
@@ -171,7 +175,7 @@ bool RemoveName(char *name) {
     strcat(data, newList[k]);
     if (k != idx) strcat(data, "\n");
   }
-  return WriteFile(NAMES_LIST, data);
+  return WriteLogFile(NAMES_LIST, data);
 }
 
 Player InitPlayer(char *name) {
@@ -194,7 +198,7 @@ bool RemovePlayer(char *name) {
 
 bool ReadPlayerDetails(char *name, Player *player) {
   char data[MAX_CHARS] = { 0 };
-  bool fileExists = ReadFile(name, data);
+  bool fileExists = ReadLogFile(name, data);
   if (!IsNameInList(name) || !fileExists) return false;
 
   char playerName[MAX_NAME_LENGTH] = { 0 };
@@ -230,7 +234,7 @@ bool WritePlayerDetails(Player player) {
     details, PLAYER_DETAILS_TEMPLATE,
     player.name, player.level, player.maxLevel, player.highScore, player.lastLevelScore, player.lives, player.elapsedTime
   );
-  return WriteFile(player.name, details);
+  return WriteLogFile(player.name, details);
 }
 
 bool NullifyPlayerDetails(Player *player) {

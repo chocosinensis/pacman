@@ -91,8 +91,8 @@ double GetCurrentTime(double start);
 // file.h
 void FilePath(char *path, char *filename);
 bool LogFileExists(char *filename);
-bool ReadFile(char *filename, char *data);
-bool WriteFile(char *filename, char *data);
+bool ReadLogFile(char *filename, char *data);
+bool WriteLogFile(char *filename, char *data);
 bool GetNames(char namesList[MAX_NAMES][MAX_NAME_LENGTH]);
 bool SortNames();
 bool IsNameInList(char *name);
