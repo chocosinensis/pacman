@@ -56,7 +56,13 @@ void EatFruit(float x, float y) {
 void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition) {
   Vector2 ghostTile = Tileify(ghost->position);
   Vector2 pacmanTile = Tileify(pacmanPosition);
-  bool hasCollided = ghostTile.x == pacmanTile.x && ghostTile.y == pacmanTile.y;
+
+  int offset = 10;
+  bool hasTileCollided = ghostTile.x == pacmanTile.x && ghostTile.y == pacmanTile.y;
+  bool hasPositionCollided = fabsf(ghost->position.x - pacmanPosition.x) <= offset
+    && fabsf(ghost->position.y - pacmanPosition.y) <= offset;
+  bool hasCollided = hasTileCollided || hasPositionCollided;
+
   if (hasCollided) {
     if (ghost->state == FRIGHTENED) {
       ghostsEaten++;
@@ -65,9 +71,7 @@ void CollideWithGhost(Ghost *ghost, Vector2 pacmanPosition) {
       Play(AUDIO_EATGHOST);
     }
     if (ghost->state == SCATTER || ghost->state == CHASE)
-      // TODO: Uncomment for functionality to work
       if (!SUPERPOWER_BASE) GetEaten();
-      printf("");
   }
 }
 
