@@ -102,11 +102,7 @@ void CoreLogic() {
     }
 
     if (gameOver) {
-      if (PRESSED_RESTART) {
-        UpdatePlayerDetails();
-        InitGameState();
-        currentScreen = MENU;
-      }
+      currentScreen = LEADERBOARD;
       EndDrawing();
       continue;
     }
