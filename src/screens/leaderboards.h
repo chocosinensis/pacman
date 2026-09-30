@@ -28,10 +28,10 @@ void RenderLeaderboard() {
 
     int rowPosition = GRID_LENGTH * (12 + 1.5 * i);
     int LESSERBRONZE = 0xCEBA97CC;
-    int hex = i == 0 ? 0xD4AF37FF    // GOLDEN
-      :       i == 1 ? 0xC0C0C0FF    // SILVER
-      :       i == 2 ? 0xC79B56FF    // BRONZE
-      :                LESSERBRONZE; // LESSER-BRONZE
+    int hex = i == 0 ? 0xD4AF37FF  // GOLDEN
+      :       i == 1 ? 0xC0C0C0FF  // SILVER
+      :       i == 2 ? 0xC79B56FF  // BRONZE
+      :                0xCEBA97CC; // LESSER-BRONZE
     Color color = GetColor(hex);
 
     Player p;
@@ -44,15 +44,8 @@ void RenderLeaderboard() {
     int h = p.highScore;
     char *t = TimeFormat(p.elapsedTime);
 
-    if (strcmp(playerName, p.name) == 0) {
-      DrawRectangleLines(
-        namePosition - 12,
-        rowPosition - 4,
-        GRID_LENGTH * 21,
-        GRID_LENGTH + 6,
-        GetColor(LESSERBRONZE)
-      );
-    }
+    if (strcmp(playerName, p.name) == 0)
+      DrawRectangleLines(namePosition - 12, rowPosition - 4, GRID_LENGTH * 21, GRID_LENGTH + 6, color);
 
     DrawText(TextFormat("%d", s), sernPosition , rowPosition + 5, FONT_SIZE * 1 / 5, color);
     DrawText(TextFormat("%s", n), namePosition , rowPosition, fontSize, color);
