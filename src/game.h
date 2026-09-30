@@ -102,6 +102,7 @@ void CoreLogic() {
     }
 
     if (gameOver) {
+      UpdatePlayerDetails();
       currentScreen = LEADERBOARD;
       EndDrawing();
       continue;

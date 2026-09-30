@@ -63,10 +63,7 @@ void RenderLeaderboard() {
 
   RenderText("Q - BACK TO MENU", GRID_LENGTH * 30, 3, GetColor(0xDEADCAFE));
   if (IsKeyPressed(KEY_Q)) {
-    if (gameOver) {
-      UpdatePlayerDetails();
-      InitGameState();
-    }
+    if (gameOver) InitGameState();
     currentScreen = MENU;
   }
 }
