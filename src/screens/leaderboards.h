@@ -44,7 +44,7 @@ void RenderLeaderboard() {
     int h = p.highScore;
     char *t = TimeFormat(p.elapsedTime);
 
-    if (strcmp(playerName, p.name) == 0)
+    if (gameOver && strcmp(playerName, p.name) == 0)
       DrawRectangleLines(namePosition - 12, rowPosition - 4, GRID_LENGTH * 21, GRID_LENGTH + 6, color);
 
     DrawText(TextFormat("%d", s), sernPosition , rowPosition + 5, FONT_SIZE * 1 / 5, color);
